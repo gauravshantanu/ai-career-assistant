@@ -469,48 +469,57 @@ if "api_key" not in st.session_state:
     st.session_state["api_key"] = load_saved_key()
 if "admin_logged_in" not in st.session_state:
     st.session_state["admin_logged_in"] = False
+if "show_admin" not in st.session_state:
+    st.session_state["show_admin"] = False
+if "active_tool" not in st.session_state:
+    st.session_state["active_tool"] = "📄 Resume Review"
 
-# ── Sidebar ───────────────────────────────────────────────────────────────────
-with st.sidebar:
-    st.markdown("""
-<div style="padding: 0.5rem 0 1rem;">
-    <div style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #c9a84c; font-weight: 700; letter-spacing: 0.02em;">💼 Career Assistant</div>
-    <div style="font-size: 11px; color: #9990a0; margin-top: 2px; letter-spacing: 0.05em;">AI-Powered · Free to Use</div>
+# ── Hide sidebar completely ───────────────────────────────────────────────────
+st.markdown("""
+<style>
+    section[data-testid="stSidebar"] { display: none !important; }
+    [data-testid="collapsedControl"] { display: none !important; }
+    .block-container { padding-left: 2rem !important; padding-right: 2rem !important; }
+</style>
+""", unsafe_allow_html=True)
+
+# ── Language (hidden in session, defaulted to English) ───────────────────────
+if "selected_lang" not in st.session_state:
+    st.session_state["selected_lang"] = "English"
+selected_lang = st.session_state["selected_lang"]
+
+# ── Hero + Top Bar ────────────────────────────────────────────────────────────
+tool_keys = ["📄 Resume Review", "🎤 Mock Interview", "✉️ Cover Letter", "💼 LinkedIn Post", "🔍 Job Decoder", "🚀 Apply in One Click"]
+tool_labels = ["📄 Resume", "🎤 Interview", "✉️ Cover", "💼 LinkedIn", "🔍 Decoder", "🚀 Apply"]
+
+active = st.session_state["active_tool"]
+
+# Build nav HTML
+nav_items = ""
+for i, label in enumerate(tool_labels):
+    is_active = active == tool_keys[i]
+    active_style = "background:rgba(201,168,76,0.18);color:#c9a84c;border-color:rgba(201,168,76,0.5);" if is_active else ""
+    nav_items += f'''<button onclick="window.parent.document.querySelectorAll('[data-testid=stButton] button')[{i}].click()"
+        style="background:rgba(255,255,255,0.04);{active_style}color:#9990a0;border:1px solid rgba(255,255,255,0.08);
+        border-radius:10px;padding:10px 20px;font-size:13px;font-weight:500;cursor:pointer;
+        font-family:Inter,sans-serif;transition:all 0.2s;white-space:nowrap;">
+        {label}
+    </button>'''
+
+st.markdown(f"""
+<div style="background:rgba(17,17,24,0.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.06);
+     padding:1rem 2rem;margin:-2rem -2rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+    <div style="font-family:'Playfair Display',serif;font-size:1.2rem;color:#c9a84c;font-weight:700;white-space:nowrap;">💼 Career AI</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        {nav_items}
+    </div>
+    <button onclick="window.parent.document.querySelectorAll('[data-testid=stButton] button')[6].click()"
+        style="background:transparent;border:none;cursor:pointer;font-size:18px;opacity:0.4;transition:opacity 0.2s;"
+        title="Admin Settings">⚙️</button>
 </div>
 """, unsafe_allow_html=True)
-    st.markdown("---")
 
-    # ── Admin section ─────────────────────────────────────────────────────────
-    with st.expander("🔐 Admin", expanded=False):
-        if not st.session_state["admin_logged_in"]:
-            admin_pw = st.text_input("Admin password", type="password", placeholder="Enter password...", key="admin_pw_input")
-            if st.button("Login", key="admin_login_btn"):
-                if admin_pw == ADMIN_PASSWORD:
-                    st.session_state["admin_logged_in"] = True
-                    st.rerun()
-                else:
-                    st.error("Wrong password")
-        else:
-            st.success("✅ Admin logged in")
-            api_key = st.text_input("Groq API Key", type="password", placeholder="gsk_...",
-                                    value=st.session_state["api_key"], key="api_key_input")
-            if api_key:
-                st.session_state["api_key"] = api_key
-                save_key(api_key)
-                st.success("✅ Key saved for all users!")
-            if st.button("Logout", key="admin_logout_btn"):
-                st.session_state["admin_logged_in"] = False
-                st.rerun()
-
-    st.markdown("---")
-    st.markdown("### 🌍 Language")
-    selected_lang_label = st.selectbox("Output language", list(LANGUAGES.keys()), index=0)
-    selected_lang = LANGUAGES[selected_lang_label]
-
-    st.markdown("---")
-    st.markdown('<span style="font-size:11px;opacity:0.5;letter-spacing:0.05em;">© 2024 AI Career Assistant</span>', unsafe_allow_html=True)
-
-# ── Hero ──────────────────────────────────────────────────────────────────────
+# Hero
 st.markdown("""
 <div class="hero-wrap">
     <div class="hero-badge">✦ AI-Powered &nbsp;·&nbsp; 12 Languages &nbsp;·&nbsp; All-in-one</div>
@@ -520,65 +529,69 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# ── Top Navigation ────────────────────────────────────────────────────────────
-if "active_tool" not in st.session_state:
-    st.session_state["active_tool"] = "📄 Resume Review"
-
-tools = [
-    ("📄", "Resume"),
-    ("🎤", "Interview"),
-    ("✉️", "Cover"),
-    ("💼", "LinkedIn"),
-    ("🔍", "Decoder"),
-    ("🚀", "Apply"),
-]
-tool_keys = ["📄 Resume Review", "🎤 Mock Interview", "✉️ Cover Letter", "💼 LinkedIn Post", "🔍 Job Decoder", "🚀 Apply in One Click"]
-
-cols = st.columns(len(tools))
-for i, (icon, label) in enumerate(tools):
+# ── Hidden nav buttons (triggered by HTML navbar) ────────────────────────────
+cols = st.columns(len(tool_keys) + 1)
+for i, key in enumerate(tool_keys):
     with cols[i]:
-        is_active = st.session_state["active_tool"] == tool_keys[i]
-        btn_style = "active-tab" if is_active else "inactive-tab"
-        if st.button(f"{icon} {label}", key=f"nav_{i}", use_container_width=True):
-            st.session_state["active_tool"] = tool_keys[i]
+        if st.button(f"nav{i}", key=f"nav_{i}", label_visibility="collapsed"):
+            st.session_state["active_tool"] = key
             st.rerun()
+# Admin toggle button (index 6)
+with cols[6]:
+    if st.button("adm", key="nav_admin", label_visibility="collapsed"):
+        st.session_state["show_admin"] = not st.session_state["show_admin"]
+        st.rerun()
 
 tool = st.session_state["active_tool"]
 
-st.markdown("""
-<style>
-    /* Nav buttons */
-    div[data-testid="column"] .stButton > button {
-        background: var(--bg-card) !important;
-        color: var(--text-secondary) !important;
-        border: 1px solid var(--border-subtle) !important;
-        border-radius: 10px !important;
-        font-size: 13px !important;
-        font-weight: 500 !important;
-        padding: 0.6rem 0.3rem !important;
-        box-shadow: none !important;
-        transition: all 0.2s !important;
-        white-space: nowrap !important;
-        overflow: hidden !important;
-        text-overflow: ellipsis !important;
-        min-height: 48px !important;
-        line-height: 1.2 !important;
-    }
-    div[data-testid="column"] .stButton > button:hover {
-        background: var(--gold-dim) !important;
-        color: var(--gold) !important;
-        border-color: var(--border) !important;
-        transform: translateY(-2px) !important;
-        box-shadow: 0 6px 20px rgba(201,168,76,0.2) !important;
-    }
-    div[data-testid="column"] .stButton > button:focus {
-        background: var(--gold-dim) !important;
-        color: var(--gold) !important;
-        border-color: var(--gold) !important;
-        box-shadow: 0 0 0 2px var(--gold-dim) !important;
-    }
-</style>
+# ── Admin Modal ───────────────────────────────────────────────────────────────
+if st.session_state["show_admin"]:
+    st.markdown("""
+<div style="background:rgba(17,17,24,0.98);border:1px solid rgba(201,168,76,0.3);border-radius:16px;
+     padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 20px 60px rgba(0,0,0,0.6);">
+    <div style="font-family:'Playfair Display',serif;color:#c9a84c;font-size:1.1rem;font-weight:700;margin-bottom:1rem;">⚙️ Admin Panel</div>
 """, unsafe_allow_html=True)
+
+    if not st.session_state["admin_logged_in"]:
+        col1, col2 = st.columns([3, 1])
+        with col1:
+            admin_pw = st.text_input("Admin password", type="password", placeholder="Enter admin password...", key="admin_pw_input", label_visibility="collapsed")
+        with col2:
+            if st.button("🔐 Login", key="admin_login_btn", use_container_width=True):
+                if admin_pw == ADMIN_PASSWORD:
+                    st.session_state["admin_logged_in"] = True
+                    st.rerun()
+                else:
+                    st.error("❌ Wrong password")
+    else:
+        st.success("✅ Admin logged in")
+        col1, col2, col3 = st.columns([3, 1, 1])
+        with col1:
+            api_key_input = st.text_input("Groq API Key", type="password", placeholder="gsk_...",
+                                value=st.session_state["api_key"], key="api_key_input", label_visibility="collapsed")
+        with col2:
+            if st.button("💾 Save Key", key="save_key_btn", use_container_width=True):
+                if api_key_input:
+                    st.session_state["api_key"] = api_key_input
+                    save_key(api_key_input)
+                    st.success("✅ Saved!")
+        with col3:
+            if st.button("Logout", key="admin_logout_btn", use_container_width=True):
+                st.session_state["admin_logged_in"] = False
+                st.session_state["show_admin"] = False
+                st.rerun()
+
+        st.markdown("---")
+        lang_col1, lang_col2 = st.columns([1, 3])
+        with lang_col1:
+            st.markdown('<p style="color:#9990a0;font-size:12px;margin-top:8px;">🌍 Language</p>', unsafe_allow_html=True)
+        with lang_col2:
+            lang_choice = st.selectbox("", list(LANGUAGES.keys()), index=0, key="lang_select", label_visibility="collapsed")
+            st.session_state["selected_lang"] = LANGUAGES[lang_choice]
+            selected_lang = st.session_state["selected_lang"]
+
+    st.markdown("</div>", unsafe_allow_html=True)
+
 st.markdown("---")
 
 # ─────────────────────────────────────────────────────────────────────────────

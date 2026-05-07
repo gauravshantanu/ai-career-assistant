@@ -120,6 +120,8 @@ _d("active_tool", "📄 Resume Review")
 _d("selected_lang", "English")
 _d("interview_history", [])
 _d("interview_started", False)
+_d("nav_idx", 0)
+_d("last_nav", TOOL_LABELS[0])
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 def get_client():
@@ -164,66 +166,93 @@ def abar(key, text, title, gmail="", linkedin=False):
             lu=f"https://www.linkedin.com/feed/?shareActive=true&text={urllib.parse.quote(text[:700])}"
             st.markdown(f'<a href="{lu}" target="_blank" style="display:inline-block;background:rgba(201,168,76,.12);color:#c9a84c;border:1px solid rgba(201,168,76,.3);padding:8px 14px;border-radius:8px;font-size:13px;text-decoration:none;font-weight:500;">🔗 LinkedIn</a>',unsafe_allow_html=True)
 
-# ── Navbar (pure Streamlit) ───────────────────────────────────────────────────
-active = st.session_state["active_tool"]
-
-# Navbar CSS - only affects the nav row
+# ── Navbar ────────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-/* Override gold button style for ALL buttons in nav row */
-div.nav-container .stButton > button {
+/* Radio as navbar */
+div[data-testid="stHorizontalBlock"]:has(div.nav-radio) { display: none; }
+.nav-bar {
+    background: rgba(17,17,24,.97);
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    padding: .75rem 1.5rem;
+    margin: 0 -2rem 1.5rem;
+    display: flex; align-items: center; gap: 8px;
+}
+.nav-brand { font-family: serif; color: #c9a84c; font-size: 1.1rem; font-weight: 700; margin-right: 1rem; white-space: nowrap; }
+.nav-links { display: flex; gap: 6px; flex: 1; flex-wrap: nowrap; }
+.nav-item {
+    color: #9990a0; border: 1px solid rgba(255,255,255,.07);
+    border-radius: 8px; padding: 6px 14px; font-size: 13px;
+    font-weight: 500; cursor: pointer; white-space: nowrap;
+    background: rgba(255,255,255,.04); font-family: Inter, sans-serif;
+    text-decoration: none; transition: all .18s;
+}
+.nav-item:hover { background: rgba(201,168,76,.15); color: #c9a84c; border-color: rgba(201,168,76,.4); }
+.nav-item.active { background: rgba(201,168,76,.18); color: #c9a84c; border-color: rgba(201,168,76,.5); font-weight: 600; }
+</style>
+""", unsafe_allow_html=True)
+
+active = st.session_state["active_tool"]
+nav_items_html = ""
+for i in range(len(TOOL_KEYS)):
+    cls = "nav-item active" if active == TOOL_KEYS[i] else "nav-item"
+    nav_items_html += f'<span class="{cls}">{TOOL_LABELS[i]}</span>'
+gear_cls = "nav-item active" if st.session_state["show_admin"] else "nav-item"
+gear_html = f'<span class="{gear_cls}" style="margin-left:auto;">⚙️</span>'
+st.markdown(f'<div class="nav-bar"><span class="nav-brand">💼 Career AI</span><div class="nav-links">{nav_items_html}</div>{gear_html}</div>', unsafe_allow_html=True)
+
+# Actual clickable radio (hidden, synced by value)
+selected_idx = st.session_state.get("nav_idx", 0)
+nav_choice = st.radio("nav", TOOL_LABELS + ["⚙️"], index=selected_idx, horizontal=True, label_visibility="collapsed", key="nav_radio")
+if nav_choice == "⚙️":
+    st.session_state["show_admin"] = not st.session_state["show_admin"]
+    st.session_state["nav_idx"] = TOOL_LABELS.index(st.session_state.get("last_nav", TOOL_LABELS[0])) if st.session_state.get("last_nav") in TOOL_LABELS else 0
+    st.rerun()
+else:
+    idx = TOOL_LABELS.index(nav_choice)
+    if TOOL_KEYS[idx] != st.session_state["active_tool"]:
+        st.session_state["active_tool"] = TOOL_KEYS[idx]
+        st.session_state["nav_idx"] = idx
+        st.session_state["last_nav"] = nav_choice
+        st.rerun()
+
+# Style the radio to match navbar style
+st.markdown("""
+<style>
+div[data-testid="stRadio"] { margin: -1.2rem 0 1rem 0 !important; }
+div[data-testid="stRadio"] > div { gap: 6px !important; flex-wrap: nowrap !important; }
+div[data-testid="stRadio"] label {
     background: rgba(255,255,255,0.04) !important;
     color: #9990a0 !important;
     border: 1px solid rgba(255,255,255,0.07) !important;
     border-radius: 8px !important;
-    font-size: 12px !important;
+    padding: 6px 14px !important;
+    font-size: 13px !important;
     font-weight: 500 !important;
-    padding: 6px 2px !important;
-    box-shadow: none !important;
-    transition: all 0.18s !important;
+    cursor: pointer !important;
     white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    width: 100% !important;
-    min-height: 36px !important;
-    line-height: 1.1 !important;
-    transform: none !important;
+    transition: all .18s !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
 }
-div.nav-container .stButton > button:hover {
+div[data-testid="stRadio"] label:hover {
     background: rgba(201,168,76,0.15) !important;
     color: #c9a84c !important;
     border-color: rgba(201,168,76,0.4) !important;
-    transform: none !important;
-    box-shadow: none !important;
 }
+div[data-testid="stRadio"] label[data-baseweb="radio"] input:checked + div,
+div[data-testid="stRadio"] [aria-checked="true"] {
+    background: rgba(201,168,76,0.18) !important;
+    color: #c9a84c !important;
+    border-color: rgba(201,168,76,0.5) !important;
+}
+/* Hide the radio circle dots */
+div[data-testid="stRadio"] [data-testid="stMarkdownContainer"] p { display: none !important; }
+div[data-testid="stRadio"] svg { display: none !important; }
+div[data-testid="stRadio"] div[data-baseweb="radio"] > div:first-child { display: none !important; }
 </style>
 """, unsafe_allow_html=True)
 
-# Draw navbar background
-st.markdown('<div style="background:rgba(17,17,24,.97);border-bottom:1px solid rgba(255,255,255,.06);padding:.7rem 0;margin-bottom:0;">', unsafe_allow_html=True)
-st.markdown('<div class="nav-container">', unsafe_allow_html=True)
-
-nav_cols = st.columns([1.5, 1.1, 1.1, 1.1, 1.1, 1.1, 1.1, 0.6])
-with nav_cols[0]:
-    st.markdown('<p style="color:#c9a84c;font-family:serif;font-weight:700;font-size:1.1rem;margin:6px 0 0 8px;white-space:nowrap;">💼 Career AI</p>', unsafe_allow_html=True)
-
-for i, lbl in enumerate(TOOL_LABELS):
-    with nav_cols[i + 1]:
-        is_active = (active == TOOL_KEYS[i])
-        if is_active:
-            # Active tab — gold highlight
-            st.markdown(f'<div style="background:rgba(201,168,76,.18);color:#c9a84c;border:1px solid rgba(201,168,76,.5);border-radius:8px;padding:8px 4px;font-size:13px;font-weight:600;text-align:center;cursor:default;">{lbl}</div>', unsafe_allow_html=True)
-        else:
-            if st.button(lbl, key=f"nb_{i}", use_container_width=True):
-                st.session_state["active_tool"] = TOOL_KEYS[i]
-                st.rerun()
-
-with nav_cols[7]:
-    if st.button("⚙️", key="nb_admin", use_container_width=True):
-        st.session_state["show_admin"] = not st.session_state["show_admin"]
-        st.rerun()
-
-st.markdown('</div></div>', unsafe_allow_html=True)
 tool = st.session_state["active_tool"]
 
 # ── Hero ──────────────────────────────────────────────────────────────────────

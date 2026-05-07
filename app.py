@@ -533,12 +533,12 @@ st.markdown("""
 cols = st.columns(len(tool_keys) + 1)
 for i, key in enumerate(tool_keys):
     with cols[i]:
-        if st.button(f"nav{i}", key=f"nav_{i}", label_visibility="collapsed"):
+        if st.button(f"nav{i}", key=f"nav_{i}", label_visibility="hidden"):
             st.session_state["active_tool"] = key
             st.rerun()
 # Admin toggle button (index 6)
 with cols[6]:
-    if st.button("adm", key="nav_admin", label_visibility="collapsed"):
+    if st.button("adm", key="nav_admin", label_visibility="hidden"):
         st.session_state["show_admin"] = not st.session_state["show_admin"]
         st.rerun()
 
@@ -555,7 +555,7 @@ if st.session_state["show_admin"]:
     if not st.session_state["admin_logged_in"]:
         col1, col2 = st.columns([3, 1])
         with col1:
-            admin_pw = st.text_input("Admin password", type="password", placeholder="Enter admin password...", key="admin_pw_input", label_visibility="collapsed")
+            admin_pw = st.text_input("Admin password", type="password", placeholder="Enter admin password...", key="admin_pw_input", label_visibility="hidden")
         with col2:
             if st.button("🔐 Login", key="admin_login_btn", use_container_width=True):
                 if admin_pw == ADMIN_PASSWORD:
@@ -568,7 +568,7 @@ if st.session_state["show_admin"]:
         col1, col2, col3 = st.columns([3, 1, 1])
         with col1:
             api_key_input = st.text_input("Groq API Key", type="password", placeholder="gsk_...",
-                                value=st.session_state["api_key"], key="api_key_input", label_visibility="collapsed")
+                                value=st.session_state["api_key"], key="api_key_input", label_visibility="hidden")
         with col2:
             if st.button("💾 Save Key", key="save_key_btn", use_container_width=True):
                 if api_key_input:
@@ -586,7 +586,7 @@ if st.session_state["show_admin"]:
         with lang_col1:
             st.markdown('<p style="color:#9990a0;font-size:12px;margin-top:8px;">🌍 Language</p>', unsafe_allow_html=True)
         with lang_col2:
-            lang_choice = st.selectbox("", list(LANGUAGES.keys()), index=0, key="lang_select", label_visibility="collapsed")
+            lang_choice = st.selectbox("", list(LANGUAGES.keys()), index=0, key="lang_select", label_visibility="hidden")
             st.session_state["selected_lang"] = LANGUAGES[lang_choice]
             selected_lang = st.session_state["selected_lang"]
 

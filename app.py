@@ -527,10 +527,10 @@ if "active_tool" not in st.session_state:
 tools = [
     ("📄", "Resume"),
     ("🎤", "Interview"),
-    ("✉️", "Cover Letter"),
+    ("✉️", "Cover"),
     ("💼", "LinkedIn"),
-    ("🔍", "Job Decoder"),
-    ("🚀", "Apply Now"),
+    ("🔍", "Decoder"),
+    ("🚀", "Apply"),
 ]
 tool_keys = ["📄 Resume Review", "🎤 Mock Interview", "✉️ Cover Letter", "💼 LinkedIn Post", "🔍 Job Decoder", "🚀 Apply in One Click"]
 
@@ -555,17 +555,27 @@ st.markdown("""
         border-radius: 10px !important;
         font-size: 13px !important;
         font-weight: 500 !important;
-        padding: 0.55rem 0.5rem !important;
+        padding: 0.6rem 0.3rem !important;
         box-shadow: none !important;
         transition: all 0.2s !important;
-        letter-spacing: 0.01em !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        min-height: 48px !important;
+        line-height: 1.2 !important;
     }
     div[data-testid="column"] .stButton > button:hover {
         background: var(--gold-dim) !important;
         color: var(--gold) !important;
         border-color: var(--border) !important;
-        transform: translateY(-1px) !important;
-        box-shadow: 0 4px 15px rgba(201,168,76,0.15) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 20px rgba(201,168,76,0.2) !important;
+    }
+    div[data-testid="column"] .stButton > button:focus {
+        background: var(--gold-dim) !important;
+        color: var(--gold) !important;
+        border-color: var(--gold) !important;
+        box-shadow: 0 0 0 2px var(--gold-dim) !important;
     }
 </style>
 """, unsafe_allow_html=True)

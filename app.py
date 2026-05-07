@@ -285,7 +285,7 @@ def save_key(key):
         f.write(key)
 
 if "api_key" not in st.session_state:
-    st.session_state["api_key"] = load_saved_key()
+    st.session_state["api_key"] = st.secrets.get("GROQ_API_KEY", load_saved_key())
 
 # ── Sidebar ───────────────────────────────────────────────────────────────────
 with st.sidebar:

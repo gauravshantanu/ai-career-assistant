@@ -170,24 +170,31 @@ active = st.session_state["active_tool"]
 # Navbar CSS - only affects the nav row
 st.markdown("""
 <style>
-/* Target the nav container specifically */
-div.nav-container div[data-testid="column"] .stButton > button {
+/* Override gold button style for ALL buttons in nav row */
+div.nav-container .stButton > button {
     background: rgba(255,255,255,0.04) !important;
     color: #9990a0 !important;
     border: 1px solid rgba(255,255,255,0.07) !important;
     border-radius: 8px !important;
-    font-size: 13px !important;
+    font-size: 12px !important;
     font-weight: 500 !important;
-    padding: 8px 4px !important;
+    padding: 6px 2px !important;
     box-shadow: none !important;
     transition: all 0.18s !important;
     white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
     width: 100% !important;
+    min-height: 36px !important;
+    line-height: 1.1 !important;
+    transform: none !important;
 }
-div.nav-container div[data-testid="column"] .stButton > button:hover {
+div.nav-container .stButton > button:hover {
     background: rgba(201,168,76,0.15) !important;
     color: #c9a84c !important;
     border-color: rgba(201,168,76,0.4) !important;
+    transform: none !important;
+    box-shadow: none !important;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -196,7 +203,7 @@ div.nav-container div[data-testid="column"] .stButton > button:hover {
 st.markdown('<div style="background:rgba(17,17,24,.97);border-bottom:1px solid rgba(255,255,255,.06);padding:.7rem 0;margin-bottom:0;">', unsafe_allow_html=True)
 st.markdown('<div class="nav-container">', unsafe_allow_html=True)
 
-nav_cols = st.columns([1.8, 1, 1, 1, 1, 1, 1, 0.6])
+nav_cols = st.columns([1.5, 1.1, 1.1, 1.1, 1.1, 1.1, 1.1, 0.6])
 with nav_cols[0]:
     st.markdown('<p style="color:#c9a84c;font-family:serif;font-weight:700;font-size:1.1rem;margin:6px 0 0 8px;white-space:nowrap;">💼 Career AI</p>', unsafe_allow_html=True)
 

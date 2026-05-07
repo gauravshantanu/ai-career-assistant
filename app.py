@@ -20,144 +20,324 @@ st.set_page_config(
 # ── Custom CSS ────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Serif+Display&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
 
-    html, body, [class*="css"] { font-family: 'DM Sans', sans-serif; }
-    h1, h2, h3 { font-family: 'DM Serif Display', serif; }
+    :root {
+        --bg-primary: #0a0a0f;
+        --bg-secondary: #111118;
+        --bg-card: #16161f;
+        --bg-card-hover: #1c1c28;
+        --gold: #c9a84c;
+        --gold-light: #e8c97e;
+        --gold-dim: rgba(201,168,76,0.15);
+        --text-primary: #f0ede8;
+        --text-secondary: #9990a0;
+        --border: rgba(201,168,76,0.2);
+        --border-subtle: rgba(255,255,255,0.06);
+    }
 
-    .main { background: #fafaf8; }
-    .block-container { padding-top: 2rem; max-width: 900px; }
+    html, body, [class*="css"] {
+        font-family: 'Inter', sans-serif !important;
+        background-color: var(--bg-primary) !important;
+        color: var(--text-primary) !important;
+    }
 
+    /* Main background */
+    .main, .block-container, [data-testid="stAppViewContainer"] {
+        background-color: var(--bg-primary) !important;
+    }
+    .block-container { padding-top: 1.5rem !important; max-width: 960px !important; }
+
+    /* Hide default streamlit elements */
+    #MainMenu, footer, header { visibility: hidden; }
+    [data-testid="stDecoration"] { display: none; }
+
+    /* Hero section */
+    .hero-wrap {
+        text-align: center;
+        padding: 2.5rem 1rem 1.5rem;
+        position: relative;
+    }
     .hero-badge {
         display: inline-block;
-        background: #1a1a2e;
-        color: #e8d5b7;
-        padding: 4px 14px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: 500;
-        letter-spacing: 0.05em;
-        margin-bottom: 0.5rem;
-    }
-    .hero-title {
-        font-family: 'DM Serif Display', serif;
-        font-size: 2.4rem;
-        color: #1a1a2e;
-        line-height: 1.2;
-        margin-bottom: 0.3rem;
-    }
-    .hero-sub {
-        color: #6b6b7b;
-        font-size: 1rem;
-        margin-bottom: 2rem;
-    }
-
-    .feature-card {
-        background: white;
-        border: 1px solid #e8e8e0;
-        border-radius: 12px;
-        padding: 1.2rem 1.4rem;
-        margin-bottom: 1rem;
-    }
-
-    .stTextArea textarea {
-        border-radius: 10px !important;
-        border: 1px solid #ddd !important;
-        font-family: 'DM Sans', sans-serif !important;
-        font-size: 14px !important;
-    }
-    .stTextInput input {
-        border-radius: 10px !important;
-        font-family: 'DM Sans', sans-serif !important;
-    }
-    .stSelectbox > div > div {
-        border-radius: 10px !important;
-    }
-
-    .stButton > button {
-        border-radius: 10px !important;
-        font-family: 'DM Sans', sans-serif !important;
-        font-weight: 500 !important;
-        border: 1.5px solid #1a1a2e !important;
-        background: #1a1a2e !important;
-        color: white !important;
-        padding: 0.5rem 1.5rem !important;
-        transition: all 0.2s !important;
-    }
-    .stButton > button:hover {
-        background: #2d2d4e !important;
-        transform: translateY(-1px);
-    }
-
-    .output-section {
-        background: #f5f4f0;
-        border-left: 4px solid #1a1a2e;
-        border-radius: 0 10px 10px 0;
-        padding: 1.2rem 1.4rem;
-        margin-top: 1rem;
-        font-size: 15px;
-        line-height: 1.8;
-        white-space: pre-wrap;
-        color: #1a1a2e;
-    }
-
-    .lang-pill {
-        display: inline-block;
-        background: #e8d5b7;
-        color: #1a1a2e;
-        padding: 3px 10px;
+        background: var(--gold-dim);
+        color: var(--gold);
+        border: 1px solid var(--border);
+        padding: 5px 16px;
         border-radius: 20px;
         font-size: 11px;
         font-weight: 600;
-        margin: 2px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+    }
+    .hero-title {
+        font-family: 'Playfair Display', serif !important;
+        font-size: clamp(2rem, 5vw, 3.2rem);
+        font-weight: 700;
+        background: linear-gradient(135deg, #f0ede8 0%, var(--gold-light) 50%, #f0ede8 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        line-height: 1.2;
+        margin-bottom: 0.6rem;
+    }
+    .hero-sub {
+        color: var(--text-secondary);
+        font-size: 1rem;
+        font-weight: 300;
+        margin-bottom: 1.5rem;
+        letter-spacing: 0.02em;
+    }
+    .hero-divider {
+        width: 60px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        margin: 0 auto 1.5rem;
     }
 
-    .chat-user {
-        background: #1a1a2e;
-        color: white;
-        border-radius: 18px 18px 4px 18px;
-        padding: 10px 16px;
-        margin: 6px 0 6px 20%;
-        font-size: 14px;
-        line-height: 1.6;
+    /* Language pills */
+    .lang-pill {
+        display: inline-block;
+        background: var(--bg-card);
+        color: var(--gold);
+        border: 1px solid var(--border);
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 500;
+        margin: 3px;
+        letter-spacing: 0.03em;
     }
+
+    /* Tool section headers */
+    .tool-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 0.4rem;
+    }
+    .tool-icon {
+        width: 40px; height: 40px;
+        background: var(--gold-dim);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 18px;
+    }
+    .tool-title {
+        font-family: 'Playfair Display', serif !important;
+        font-size: 1.6rem !important;
+        font-weight: 700 !important;
+        color: var(--text-primary) !important;
+    }
+    .tool-desc {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+        font-weight: 300;
+    }
+
+    /* Input fields */
+    .stTextArea textarea {
+        background: var(--bg-card) !important;
+        border: 1px solid var(--border-subtle) !important;
+        border-radius: 12px !important;
+        color: var(--text-primary) !important;
+        font-family: 'Inter', sans-serif !important;
+        font-size: 14px !important;
+        transition: border-color 0.2s !important;
+    }
+    .stTextArea textarea:focus {
+        border-color: var(--gold) !important;
+        box-shadow: 0 0 0 2px var(--gold-dim) !important;
+    }
+    .stTextInput input {
+        background: var(--bg-card) !important;
+        border: 1px solid var(--border-subtle) !important;
+        border-radius: 10px !important;
+        color: var(--text-primary) !important;
+        font-family: 'Inter', sans-serif !important;
+    }
+    .stTextInput input:focus {
+        border-color: var(--gold) !important;
+        box-shadow: 0 0 0 2px var(--gold-dim) !important;
+    }
+    .stSelectbox > div > div {
+        background: var(--bg-card) !important;
+        border: 1px solid var(--border-subtle) !important;
+        border-radius: 10px !important;
+        color: var(--text-primary) !important;
+    }
+    label, .stTextArea label, .stTextInput label, .stSelectbox label {
+        color: var(--text-secondary) !important;
+        font-size: 12px !important;
+        font-weight: 500 !important;
+        letter-spacing: 0.06em !important;
+        text-transform: uppercase !important;
+    }
+
+    /* Buttons */
+    .stButton > button {
+        background: linear-gradient(135deg, var(--gold) 0%, #a87d30 100%) !important;
+        color: #0a0a0f !important;
+        border: none !important;
+        border-radius: 10px !important;
+        font-family: 'Inter', sans-serif !important;
+        font-weight: 600 !important;
+        font-size: 14px !important;
+        padding: 0.65rem 1.8rem !important;
+        letter-spacing: 0.03em !important;
+        transition: all 0.25s ease !important;
+        box-shadow: 0 4px 20px rgba(201,168,76,0.25) !important;
+    }
+    .stButton > button:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 30px rgba(201,168,76,0.4) !important;
+    }
+    .stButton > button:active { transform: translateY(0) !important; }
+
+    /* Download buttons */
+    .stDownloadButton > button {
+        background: var(--bg-card) !important;
+        color: var(--gold) !important;
+        border: 1px solid var(--border) !important;
+        border-radius: 8px !important;
+        font-size: 12px !important;
+        font-weight: 500 !important;
+        padding: 0.4rem 1rem !important;
+        transition: all 0.2s !important;
+    }
+    .stDownloadButton > button:hover {
+        background: var(--gold-dim) !important;
+        transform: translateY(-1px) !important;
+    }
+
+    /* Output section */
+    .output-section {
+        background: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        border-left: 3px solid var(--gold);
+        border-radius: 0 14px 14px 0;
+        padding: 1.4rem 1.6rem;
+        margin-top: 1.2rem;
+        font-size: 15px;
+        line-height: 1.85;
+        white-space: pre-wrap;
+        color: var(--text-primary);
+        box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+    }
+
+    /* Chat bubbles */
     .chat-ai {
-        background: white;
-        border: 1px solid #e8e8e0;
-        color: #1a1a2e;
+        background: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        color: var(--text-primary);
         border-radius: 18px 18px 18px 4px;
-        padding: 10px 16px;
-        margin: 6px 20% 6px 0;
+        padding: 12px 18px;
+        margin: 8px 15% 8px 0;
         font-size: 14px;
-        line-height: 1.6;
+        line-height: 1.7;
+    }
+    .chat-user {
+        background: linear-gradient(135deg, var(--gold) 0%, #a87d30 100%);
+        color: #0a0a0f;
+        border-radius: 18px 18px 4px 18px;
+        padding: 12px 18px;
+        margin: 8px 0 8px 15%;
+        font-size: 14px;
+        line-height: 1.7;
+        font-weight: 500;
     }
 
+    /* Apply box */
     .apply-box {
-        background: linear-gradient(135deg, #1a1a2e 0%, #2d2d4e 100%);
-        border-radius: 12px;
-        padding: 1.5rem;
-        color: white;
-        margin-top: 1rem;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 1.6rem;
+        margin-top: 1.2rem;
+        box-shadow: 0 8px 40px rgba(0,0,0,0.4);
     }
-    .apply-box h4 { color: #e8d5b7; margin-bottom: 0.5rem; }
+    .apply-box h4 {
+        color: var(--gold) !important;
+        font-family: 'Playfair Display', serif !important;
+        font-size: 1.1rem !important;
+        margin-bottom: 1rem !important;
+    }
     .apply-link {
         display: inline-block;
-        background: #e8d5b7;
-        color: #1a1a2e;
-        padding: 8px 20px;
+        background: var(--gold-dim);
+        color: var(--gold);
+        border: 1px solid var(--border);
+        padding: 8px 18px;
         border-radius: 8px;
         font-weight: 600;
         text-decoration: none;
-        margin: 6px 4px;
-        font-size: 14px;
+        margin: 5px 4px;
+        font-size: 13px;
+        transition: all 0.2s;
+    }
+    .apply-link:hover { background: var(--gold); color: #0a0a0f; }
+
+    /* Divider */
+    hr { border-color: var(--border-subtle) !important; }
+
+    /* Sidebar */
+    section[data-testid="stSidebar"] {
+        background: var(--bg-secondary) !important;
+        border-right: 1px solid var(--border-subtle) !important;
+    }
+    section[data-testid="stSidebar"] * { color: var(--text-primary) !important; }
+    section[data-testid="stSidebar"] .stTextInput input {
+        background: var(--bg-card) !important;
+        border-color: var(--border-subtle) !important;
+        color: var(--text-primary) !important;
+    }
+    section[data-testid="stSidebar"] .stSelectbox > div > div {
+        background: var(--bg-card) !important;
+        border-color: var(--border-subtle) !important;
+    }
+    section[data-testid="stSidebar"] .stRadio > div {
+        gap: 4px !important;
+    }
+    section[data-testid="stSidebar"] .stRadio label {
+        background: var(--bg-card) !important;
+        border: 1px solid var(--border-subtle) !important;
+        border-radius: 8px !important;
+        padding: 8px 12px !important;
+        margin: 2px 0 !important;
+        cursor: pointer !important;
+        transition: all 0.2s !important;
+        text-transform: none !important;
+        font-size: 13px !important;
+        letter-spacing: 0 !important;
+    }
+    section[data-testid="stSidebar"] .stRadio label:hover {
+        border-color: var(--gold) !important;
+        background: var(--gold-dim) !important;
     }
 
-    .sidebar .sidebar-content { background: #1a1a2e; }
-    section[data-testid="stSidebar"] { background: #1a1a2e; }
-    section[data-testid="stSidebar"] * { color: #e8d5b7 !important; }
-    section[data-testid="stSidebar"] .stSelectbox > div > div { background: #2d2d4e !important; border-color: #3d3d5e !important; }
-    section[data-testid="stSidebar"] .stTextInput input { background: #2d2d4e !important; border-color: #3d3d5e !important; }
-    section[data-testid="stSidebar"] h1,h2,h3 { color: #e8d5b7 !important; }
+    /* Success/Error messages */
+    .stSuccess { background: rgba(201,168,76,0.1) !important; border-color: var(--gold) !important; }
+    .stError { background: rgba(220,50,50,0.1) !important; }
+    .stWarning { background: rgba(255,165,0,0.1) !important; }
+
+    /* Expander */
+    .streamlit-expanderHeader {
+        background: var(--bg-card) !important;
+        border-radius: 10px !important;
+        color: var(--text-primary) !important;
+    }
+
+    /* Spinner */
+    .stSpinner > div { border-top-color: var(--gold) !important; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-primary); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
 </style>
 """, unsafe_allow_html=True)
 
@@ -260,19 +440,20 @@ def output_actions(key, content, title, show_gmail=False, gmail_subject="", show
     # Open in Google Docs
     with cols[2]:
         gdocs_url = get_gdocs_url(content, title)
-        st.markdown(f'<a href="{gdocs_url}" target="_blank" style="display:inline-block;background:#1a1a2e;color:white;padding:8px 14px;border-radius:8px;font-size:13px;text-decoration:none;font-weight:500;">📄 Open Google Docs</a>', unsafe_allow_html=True)
+        st.markdown(f'<a href="{gdocs_url}" target="_blank" style="display:inline-block;background:rgba(201,168,76,0.12);color:#c9a84c;border:1px solid rgba(201,168,76,0.3);padding:8px 14px;border-radius:8px;font-size:13px;text-decoration:none;font-weight:500;transition:all 0.2s;">📄 Open Google Docs</a>', unsafe_allow_html=True)
 
     # Gmail / LinkedIn share
     with cols[3]:
         if show_gmail:
             gmail_url = get_gmail_url(gmail_subject, content)
-            st.markdown(f'<a href="{gmail_url}" target="_blank" style="display:inline-block;background:#1a1a2e;color:white;padding:8px 14px;border-radius:8px;font-size:13px;text-decoration:none;font-weight:500;">✉️ Send via Gmail</a>', unsafe_allow_html=True)
+            st.markdown(f'<a href="{gmail_url}" target="_blank" style="display:inline-block;background:rgba(201,168,76,0.12);color:#c9a84c;border:1px solid rgba(201,168,76,0.3);padding:8px 14px;border-radius:8px;font-size:13px;text-decoration:none;font-weight:500;transition:all 0.2s;">✉️ Send via Gmail</a>', unsafe_allow_html=True)
         elif show_linkedin:
             li_url = get_linkedin_share_url(content)
-            st.markdown(f'<a href="{li_url}" target="_blank" style="display:inline-block;background:#1a1a2e;color:white;padding:8px 14px;border-radius:8px;font-size:13px;text-decoration:none;font-weight:500;">🔗 Post to LinkedIn</a>', unsafe_allow_html=True)
+            st.markdown(f'<a href="{li_url}" target="_blank" style="display:inline-block;background:rgba(201,168,76,0.12);color:#c9a84c;border:1px solid rgba(201,168,76,0.3);padding:8px 14px;border-radius:8px;font-size:13px;text-decoration:none;font-weight:500;transition:all 0.2s;">🔗 Post to LinkedIn</a>', unsafe_allow_html=True)
 
 # ── Persist API key ──────────────────────────────────────────────────────────
 KEY_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".groq_key")
+ADMIN_PASSWORD = "admin@career2024"  # Change this to your own password
 
 def load_saved_key():
     if os.path.exists(KEY_FILE):
@@ -285,19 +466,41 @@ def save_key(key):
         f.write(key)
 
 if "api_key" not in st.session_state:
-    st.session_state["api_key"] = st.secrets.get("GROQ_API_KEY", load_saved_key())
+    st.session_state["api_key"] = load_saved_key()
+if "admin_logged_in" not in st.session_state:
+    st.session_state["admin_logged_in"] = False
 
 # ── Sidebar ───────────────────────────────────────────────────────────────────
 with st.sidebar:
-    st.markdown("## 💼 Career Assistant")
+    st.markdown("""
+<div style="padding: 0.5rem 0 1rem;">
+    <div style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #c9a84c; font-weight: 700; letter-spacing: 0.02em;">💼 Career Assistant</div>
+    <div style="font-size: 11px; color: #9990a0; margin-top: 2px; letter-spacing: 0.05em;">AI-Powered · Free to Use</div>
+</div>
+""", unsafe_allow_html=True)
     st.markdown("---")
 
-    api_key = st.text_input("Groq API Key (free)", type="password", placeholder="gsk_...",
-                            value=st.session_state["api_key"], key="api_key_input")
-    if api_key:
-        st.session_state["api_key"] = api_key
-        save_key(api_key)
-        st.success("✅ Key saved permanently")
+    # ── Admin section ─────────────────────────────────────────────────────────
+    with st.expander("🔐 Admin", expanded=False):
+        if not st.session_state["admin_logged_in"]:
+            admin_pw = st.text_input("Admin password", type="password", placeholder="Enter password...", key="admin_pw_input")
+            if st.button("Login", key="admin_login_btn"):
+                if admin_pw == ADMIN_PASSWORD:
+                    st.session_state["admin_logged_in"] = True
+                    st.rerun()
+                else:
+                    st.error("Wrong password")
+        else:
+            st.success("✅ Admin logged in")
+            api_key = st.text_input("Groq API Key", type="password", placeholder="gsk_...",
+                                    value=st.session_state["api_key"], key="api_key_input")
+            if api_key:
+                st.session_state["api_key"] = api_key
+                save_key(api_key)
+                st.success("✅ Key saved for all users!")
+            if st.button("Logout", key="admin_logout_btn"):
+                st.session_state["admin_logged_in"] = False
+                st.rerun()
 
     st.markdown("---")
     st.markdown("### 🌍 Language")
@@ -319,9 +522,14 @@ with st.sidebar:
     st.markdown('<span style="font-size:11px;opacity:0.6;">Built with Claude · Streamlit</span>', unsafe_allow_html=True)
 
 # ── Hero ──────────────────────────────────────────────────────────────────────
-st.markdown('<div class="hero-badge">AI-Powered · 12 Languages · All-in-one</div>', unsafe_allow_html=True)
-st.markdown('<h1 class="hero-title">AI Career Assistant</h1>', unsafe_allow_html=True)
-st.markdown('<p class="hero-sub">Your personal job search toolkit — powered by Claude AI</p>', unsafe_allow_html=True)
+st.markdown("""
+<div class="hero-wrap">
+    <div class="hero-badge">✦ AI-Powered &nbsp;·&nbsp; 12 Languages &nbsp;·&nbsp; All-in-one</div>
+    <h1 class="hero-title">AI Career Assistant</h1>
+    <p class="hero-sub">Your personal job search toolkit — powered by cutting-edge AI</p>
+    <div class="hero-divider"></div>
+</div>
+""", unsafe_allow_html=True)
 
 # Show active language pills
 lang_pills = " ".join([f'<span class="lang-pill">{l.split("(")[0].strip()}</span>' for l in list(LANGUAGES.keys())[:6]])
@@ -332,18 +540,46 @@ st.markdown("---")
 # TOOL: Resume Review
 # ─────────────────────────────────────────────────────────────────────────────
 if tool == "📄 Resume Review":
-    st.markdown("## 📄 Resume Builder & Reviewer")
-    st.caption("Paste your resume and job description. Get a score, improved bullet points, and skill gap analysis.")
+    st.markdown('<div class="tool-header"><div class="tool-icon">📄</div><div class="tool-title">Resume Builder</div></div>', unsafe_allow_html=True)
+    st.caption("Upload or paste your resume and job description. Get a score, improved bullet points, and skill gap analysis.")
 
     col1, col2 = st.columns(2)
     with col1:
-        resume_text = st.text_area("Your resume", height=250, placeholder="Paste your current resume here...")
+        st.markdown("**Your Resume**")
+        resume_upload = st.file_uploader("Upload resume (PDF or Word)", type=["pdf", "docx"], key="resume_uploader",
+            help="Upload your resume as PDF or Word document")
+        resume_text = ""
+        if resume_upload is not None:
+            if resume_upload.type == "application/pdf":
+                try:
+                    import pdfplumber
+                    with pdfplumber.open(resume_upload) as pdf:
+                        resume_text = "\n".join([p.extract_text() or "" for p in pdf.pages])
+                    st.success(f"✅ Uploaded: {resume_upload.name}")
+                except ImportError:
+                    st.warning("PDF reading needs pdfplumber. Add it to requirements.txt")
+                    resume_text = ""
+            elif resume_upload.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+                try:
+                    from docx import Document as DocxDoc
+                    doc = DocxDoc(resume_upload)
+                    resume_text = "\n".join([p.text for p in doc.paragraphs if p.text.strip()])
+                    st.success(f"✅ Uploaded: {resume_upload.name}")
+                except Exception as e:
+                    st.error(f"Could not read Word file: {e}")
+                    resume_text = ""
+        resume_paste = st.text_area("Or paste resume text", height=180, placeholder="Paste your resume here if not uploading...")
+        if not resume_text and resume_paste:
+            resume_text = resume_paste
+        if resume_text:
+            st.markdown('<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:8px 12px;font-size:12px;color:#c9a84c;margin-top:4px;">✓ Resume ready — {} characters</div>'.format(len(resume_text)), unsafe_allow_html=True)
+
     with col2:
-        resume_jd = st.text_area("Job description", height=250, placeholder="Paste the job posting here...")
+        resume_jd = st.text_area("Job description", height=280, placeholder="Paste the job posting here...")
 
     if st.button("✨ Review & Improve My Resume"):
         if not resume_text or not resume_jd:
-            st.warning("Please fill in both fields.")
+            st.warning("Please add your resume (upload or paste) and the job description.")
         else:
             lang_note = lang_instruction(selected_lang)
             result = call_claude(
@@ -361,7 +597,7 @@ if tool == "📄 Resume Review":
 # TOOL: Mock Interview
 # ─────────────────────────────────────────────────────────────────────────────
 elif tool == "🎤 Mock Interview":
-    st.markdown("## 🎤 Mock Interview Coach")
+    st.markdown('<div class="tool-header"><div class="tool-icon">🎤</div><div class="tool-title">Mock Interview</div></div>', unsafe_allow_html=True)
     st.caption("Practice real interview questions with AI feedback after every answer.")
 
     if "interview_history" not in st.session_state:
@@ -430,7 +666,7 @@ elif tool == "🎤 Mock Interview":
 # TOOL: Cover Letter
 # ─────────────────────────────────────────────────────────────────────────────
 elif tool == "✉️ Cover Letter":
-    st.markdown("## ✉️ Cover Letter Generator")
+    st.markdown('<div class="tool-header"><div class="tool-icon">✉️</div><div class="tool-title">Cover Letter</div></div>', unsafe_allow_html=True)
     st.caption("Paste the job description and your key details. Get a personalized, human-sounding cover letter.")
 
     col1, col2 = st.columns(2)
@@ -464,7 +700,7 @@ elif tool == "✉️ Cover Letter":
 # TOOL: LinkedIn Post
 # ─────────────────────────────────────────────────────────────────────────────
 elif tool == "💼 LinkedIn Post":
-    st.markdown("## 💼 LinkedIn Post Writer")
+    st.markdown('<div class="tool-header"><div class="tool-icon">💼</div><div class="tool-title">LinkedIn Post</div></div>', unsafe_allow_html=True)
     st.caption("Describe your achievement in rough words — get a polished post that sounds like you.")
 
     linkedin_input = st.text_area("What do you want to post about?", height=150, placeholder="e.g. Got promoted to senior engineer after 2 years. Learned a lot about leadership and handling pressure. Want to share lessons...")
@@ -494,7 +730,7 @@ elif tool == "💼 LinkedIn Post":
 # TOOL: Job Decoder
 # ─────────────────────────────────────────────────────────────────────────────
 elif tool == "🔍 Job Decoder":
-    st.markdown("## 🔍 Job Description Decoder")
+    st.markdown('<div class="tool-header"><div class="tool-icon">🔍</div><div class="tool-title">Job Decoder</div></div>', unsafe_allow_html=True)
     st.caption("Paste any job posting. Understand what they really want, spot red flags, and know exactly how to apply.")
 
     decoder_jd = st.text_area("Paste the full job description", height=300, placeholder="Paste any job posting here...")
@@ -518,7 +754,7 @@ elif tool == "🔍 Job Decoder":
 # TOOL: Apply in One Click
 # ─────────────────────────────────────────────────────────────────────────────
 elif tool == "🚀 Apply in One Click":
-    st.markdown("## 🚀 Apply in One Click")
+    st.markdown('<div class="tool-header"><div class="tool-icon">🚀</div><div class="tool-title">Apply in One Click</div></div>', unsafe_allow_html=True)
     st.caption("Paste the job posting + your details. Get a complete application package — cover letter, email, and direct apply links — in one go.")
 
     col1, col2 = st.columns(2)

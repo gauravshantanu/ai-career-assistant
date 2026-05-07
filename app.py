@@ -508,18 +508,7 @@ with st.sidebar:
     selected_lang = LANGUAGES[selected_lang_label]
 
     st.markdown("---")
-    st.markdown("### 🗂 Tools")
-    tool = st.radio("", [
-        "📄 Resume Review",
-        "🎤 Mock Interview",
-        "✉️ Cover Letter",
-        "💼 LinkedIn Post",
-        "🔍 Job Decoder",
-        "🚀 Apply in One Click",
-    ], label_visibility="collapsed")
-
-    st.markdown("---")
-
+    st.markdown('<span style="font-size:11px;opacity:0.5;letter-spacing:0.05em;">© 2024 AI Career Assistant</span>', unsafe_allow_html=True)
 
 # ── Hero ──────────────────────────────────────────────────────────────────────
 st.markdown("""
@@ -531,9 +520,55 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Show active language pills
-lang_pills = " ".join([f'<span class="lang-pill">{l.split("(")[0].strip()}</span>' for l in list(LANGUAGES.keys())[:6]])
-st.markdown(f"Supports: {lang_pills} <span class='lang-pill'>+6 more</span>", unsafe_allow_html=True)
+# ── Top Navigation ────────────────────────────────────────────────────────────
+if "active_tool" not in st.session_state:
+    st.session_state["active_tool"] = "📄 Resume Review"
+
+tools = [
+    ("📄", "Resume"),
+    ("🎤", "Interview"),
+    ("✉️", "Cover Letter"),
+    ("💼", "LinkedIn"),
+    ("🔍", "Job Decoder"),
+    ("🚀", "Apply Now"),
+]
+tool_keys = ["📄 Resume Review", "🎤 Mock Interview", "✉️ Cover Letter", "💼 LinkedIn Post", "🔍 Job Decoder", "🚀 Apply in One Click"]
+
+cols = st.columns(len(tools))
+for i, (icon, label) in enumerate(tools):
+    with cols[i]:
+        is_active = st.session_state["active_tool"] == tool_keys[i]
+        btn_style = "active-tab" if is_active else "inactive-tab"
+        if st.button(f"{icon} {label}", key=f"nav_{i}", use_container_width=True):
+            st.session_state["active_tool"] = tool_keys[i]
+            st.rerun()
+
+tool = st.session_state["active_tool"]
+
+st.markdown("""
+<style>
+    /* Nav buttons */
+    div[data-testid="column"] .stButton > button {
+        background: var(--bg-card) !important;
+        color: var(--text-secondary) !important;
+        border: 1px solid var(--border-subtle) !important;
+        border-radius: 10px !important;
+        font-size: 13px !important;
+        font-weight: 500 !important;
+        padding: 0.55rem 0.5rem !important;
+        box-shadow: none !important;
+        transition: all 0.2s !important;
+        letter-spacing: 0.01em !important;
+    }
+    div[data-testid="column"] .stButton > button:hover {
+        background: var(--gold-dim) !important;
+        color: var(--gold) !important;
+        border-color: var(--border) !important;
+        transform: translateY(-1px) !important;
+        box-shadow: 0 4px 15px rgba(201,168,76,0.15) !important;
+    }
+</style>
+""", unsafe_allow_html=True)
 st.markdown("---")
 
 # ─────────────────────────────────────────────────────────────────────────────

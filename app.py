@@ -519,7 +519,7 @@ with st.sidebar:
     ], label_visibility="collapsed")
 
     st.markdown("---")
-    st.markdown('<span style="font-size:11px;opacity:0.6;">Built with Claude · Streamlit</span>', unsafe_allow_html=True)
+
 
 # ── Hero ──────────────────────────────────────────────────────────────────────
 st.markdown("""

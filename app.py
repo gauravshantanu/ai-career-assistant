@@ -164,32 +164,59 @@ def abar(key, text, title, gmail="", linkedin=False):
             lu=f"https://www.linkedin.com/feed/?shareActive=true&text={urllib.parse.quote(text[:700])}"
             st.markdown(f'<a href="{lu}" target="_blank" style="display:inline-block;background:rgba(201,168,76,.12);color:#c9a84c;border:1px solid rgba(201,168,76,.3);padding:8px 14px;border-radius:8px;font-size:13px;text-decoration:none;font-weight:500;">🔗 LinkedIn</a>',unsafe_allow_html=True)
 
-# ── Navbar (HTML display) ─────────────────────────────────────────────────────
+# ── Navbar (pure Streamlit) ───────────────────────────────────────────────────
 active = st.session_state["active_tool"]
-btns = "".join([f'<span class="nb-btn {"on" if active==TOOL_KEYS[i] else ""}">{TOOL_LABELS[i]}</span>' for i in range(len(TOOL_KEYS))])
-st.markdown(f'<div class="navbar"><div class="nb-brand">💼 Career AI</div><div class="nb-tools">{btns}</div><span style="font-size:18px;cursor:pointer;opacity:.5;">⚙️</span></div>', unsafe_allow_html=True)
 
-# Streamlit clickable buttons (invisible but functional)
-st.markdown("""<style>
-div[data-testid="stHorizontalBlock"]:nth-of-type(1) .stButton>button{
-    opacity:0!important;height:1px!important;min-height:0!important;padding:0!important;
-    margin:0!important;border:none!important;box-shadow:none!important;font-size:1px!important;
-    position:absolute!important;width:1px!important;overflow:hidden!important;
+# Navbar CSS - only affects the nav row
+st.markdown("""
+<style>
+/* Target the nav container specifically */
+div.nav-container div[data-testid="column"] .stButton > button {
+    background: rgba(255,255,255,0.04) !important;
+    color: #9990a0 !important;
+    border: 1px solid rgba(255,255,255,0.07) !important;
+    border-radius: 8px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    padding: 8px 4px !important;
+    box-shadow: none !important;
+    transition: all 0.18s !important;
+    white-space: nowrap !important;
+    width: 100% !important;
 }
-div[data-testid="stHorizontalBlock"]:nth-of-type(1){height:0!important;overflow:hidden!important;margin:0!important;padding:0!important;}
-</style>""", unsafe_allow_html=True)
+div.nav-container div[data-testid="column"] .stButton > button:hover {
+    background: rgba(201,168,76,0.15) !important;
+    color: #c9a84c !important;
+    border-color: rgba(201,168,76,0.4) !important;
+}
+</style>
+""", unsafe_allow_html=True)
 
-nb = st.columns(len(TOOL_KEYS)+1)
-for i,lbl in enumerate(TOOL_LABELS):
-    with nb[i]:
-        if st.button(lbl, key=f"nb_{i}"):
-            st.session_state["active_tool"] = TOOL_KEYS[i]
-            st.rerun()
-with nb[len(TOOL_KEYS)]:
-    if st.button("⚙", key="nb_admin"):
+# Draw navbar background
+st.markdown('<div style="background:rgba(17,17,24,.97);border-bottom:1px solid rgba(255,255,255,.06);padding:.7rem 0;margin-bottom:0;">', unsafe_allow_html=True)
+st.markdown('<div class="nav-container">', unsafe_allow_html=True)
+
+nav_cols = st.columns([1.8, 1, 1, 1, 1, 1, 1, 0.6])
+with nav_cols[0]:
+    st.markdown('<p style="color:#c9a84c;font-family:serif;font-weight:700;font-size:1.1rem;margin:6px 0 0 8px;white-space:nowrap;">💼 Career AI</p>', unsafe_allow_html=True)
+
+for i, lbl in enumerate(TOOL_LABELS):
+    with nav_cols[i + 1]:
+        is_active = (active == TOOL_KEYS[i])
+        if is_active:
+            # Active tab — gold highlight
+            st.markdown(f'<div style="background:rgba(201,168,76,.18);color:#c9a84c;border:1px solid rgba(201,168,76,.5);border-radius:8px;padding:8px 4px;font-size:13px;font-weight:600;text-align:center;cursor:default;">{lbl}</div>', unsafe_allow_html=True)
+        else:
+            if st.button(lbl, key=f"nb_{i}", use_container_width=True):
+                st.session_state["active_tool"] = TOOL_KEYS[i]
+                st.rerun()
+
+with nav_cols[7]:
+    if st.button("⚙️", key="nb_admin", use_container_width=True):
         st.session_state["show_admin"] = not st.session_state["show_admin"]
         st.rerun()
 
+st.markdown('</div></div>', unsafe_allow_html=True)
 tool = st.session_state["active_tool"]
 
 # ── Hero ──────────────────────────────────────────────────────────────────────

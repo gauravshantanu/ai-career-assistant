@@ -2,4 +2,3 @@ flask
 groq
 python-docx
 pdfplumber
-gunicorn

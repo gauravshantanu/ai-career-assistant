@@ -10,131 +10,361 @@ import urllib.parse
 # ── Page config ───────────────────────────────────────────────────────────────
 st.set_page_config(page_title="AI Career Assistant", page_icon="💼", layout="wide", initial_sidebar_state="collapsed")
 
-# ── CSS ── Apple Design System ────────────────────────────────────────────────
+# ── CSS ── Stitch Pro Digital Interface ───────────────────────────────────────
 st.markdown("""
 <style>
-:root{
-  --apple-gray:#f5f5f7;--apple-near-black:#1d1d1f;
-  --apple-blue:#0071e3;--apple-link:#0066cc;
-  --apple-white:#ffffff;--apple-muted:rgba(0,0,0,0.56);
-  --apple-nav-bg:rgba(22,22,23,0.92);
-  --font-sf:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",sans-serif;
-  --font-sf-display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap');
+
+:root {
+  --surface:#f9f9ff;
+  --surface-dim:#d8d9e3;
+  --surface-container-lowest:#ffffff;
+  --surface-container-low:#f2f3fd;
+  --surface-container:#ecedf7;
+  --surface-container-high:#e6e8f2;
+  --surface-container-highest:#e0e2ec;
+  --on-surface:#181c23;
+  --on-surface-variant:#414753;
+  --outline:#717785;
+  --outline-variant:#c1c6d6;
+  --primary:#0059b5;
+  --on-primary:#ffffff;
+  --primary-container:#0071e3;
+  --on-primary-container:#fcfbff;
+  --secondary:#5e5e63;
+  --on-secondary:#ffffff;
+  --secondary-container:#e0dfe4;
+  --on-secondary-container:#626267;
+  --tertiary:#9b3f00;
+  --tertiary-container:#c25100;
+  --on-tertiary-container:#fffaf9;
+  --tertiary-fixed:#ffdbcb;
+  --error:#ba1a1a;
+  --background:#f5f5f7;
+  --on-background:#181c23;
+  --nav-height:52px;
+  --sidebar-width:256px;
+  --font:Inter,-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;
 }
-*{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
-html,body,[class*="css"]{font-family:var(--font-sf)!important;background:var(--apple-gray)!important;color:var(--apple-near-black)!important;}
-.main,.block-container,[data-testid="stAppViewContainer"],[data-testid="stMain"]{background:var(--apple-gray)!important;}
-.block-container{padding:0 5vw 4rem!important;max-width:100%!important;}
-#MainMenu,footer,header,[data-testid="stToolbar"]{visibility:hidden!important;height:0!important;}
+
+/* ── Reset & Base ── */
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body,[class*="css"]{
+  font-family:var(--font)!important;
+  background:var(--background)!important;
+  color:var(--on-background)!important;
+  -webkit-font-smoothing:antialiased!important;
+}
+.main,[data-testid="stAppViewContainer"],[data-testid="stMain"]{background:var(--background)!important;}
+.block-container{
+  padding:calc(var(--nav-height) + 32px) 2rem 4rem calc(var(--sidebar-width) + 2rem)!important;
+  max-width:100%!important;
+}
+#MainMenu,footer,[data-testid="stToolbar"]{visibility:hidden!important;height:0!important;}
 [data-testid="stDecoration"],[data-testid="collapsedControl"]{display:none!important;}
 section[data-testid="stSidebar"]{display:none!important;}
 
-/* ── Apple glass nav bar ── */
-.apple-nav-bar{
-  position:sticky;top:0;z-index:9999;
+/* ── Glass Nav Bar ── */
+.stitch-nav{
+  position:fixed;top:0;left:0;right:0;z-index:9999;
+  height:var(--nav-height);
+  background:rgba(249,249,255,0.8);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:0.5px solid var(--outline-variant);
   display:flex;align-items:center;
-  height:52px;
-  background:var(--apple-nav-bg);
-  backdrop-filter:saturate(180%) blur(20px);
-  -webkit-backdrop-filter:saturate(180%) blur(20px);
-  margin:-1px -5vw 0;
-  padding:0 2.5vw;
-  width:calc(100% + 10vw);
-  border-bottom:0.5px solid rgba(255,255,255,0.1);
+  justify-content:space-between;
+  padding:0 24px;
 }
-.apple-nav-brand{
-  color:#f5f5f7;font-size:17px;font-weight:600;
-  letter-spacing:-.03em;font-family:var(--font-sf-display);
-  white-space:nowrap;margin-right:1.5rem;flex-shrink:0;
-  opacity:0;animation:navIn .5s ease .05s forwards;
+.stitch-nav-brand{
+  font-size:24px;font-weight:600;color:var(--on-surface);
+  letter-spacing:-0.011em;line-height:1.3;
+  font-family:var(--font);white-space:nowrap;
 }
-.apple-nav-links{display:flex;align-items:center;flex:1;overflow-x:auto;scrollbar-width:none;}
-.apple-nav-links::-webkit-scrollbar{display:none;}
+.stitch-nav-links{display:flex;align-items:center;gap:24px;margin-left:32px;}
+.stitch-nav-link{
+  color:var(--secondary);font-size:15px;font-weight:500;
+  text-decoration:none;letter-spacing:-0.015em;
+  transition:color .2s;
+}
+.stitch-nav-link:hover{color:var(--primary);}
+.stitch-nav-link.on{color:var(--primary);font-weight:600;border-bottom:2px solid var(--primary);padding-bottom:2px;}
+.stitch-nav-right{display:flex;align-items:center;gap:12px;margin-left:auto;}
+.stitch-upgrade-btn{
+  background:var(--primary-container);color:var(--on-primary-container);
+  padding:4px 16px;border-radius:8px;font-size:13px;font-weight:600;
+  border:none;cursor:pointer;letter-spacing:0.01em;
+  transition:opacity .15s;
+}
+.stitch-upgrade-btn:hover{opacity:.9;}
+.stitch-icon-btn{
+  background:transparent;border:none;cursor:pointer;
+  color:var(--on-surface-variant);font-size:22px;
+  display:flex;align-items:center;transition:color .15s;
+}
+.stitch-icon-btn:hover{color:var(--primary);}
+.stitch-avatar{
+  width:32px;height:32px;border-radius:50%;
+  background:var(--surface-container);
+  border:1px solid var(--outline-variant);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:600;color:var(--primary);
+}
 
-/* Each nav link — <a> tag */
-.anl{
-  position:relative;display:inline-flex;align-items:center;
-  color:rgba(255,255,255,.6);text-decoration:none;
-  padding:0 11px;height:52px;
-  font-size:12px;font-weight:400;font-family:var(--font-sf);
-  letter-spacing:.01em;white-space:nowrap;
-  transition:color .18s ease;
-  opacity:0;animation:navIn .35s ease forwards;
+/* ── Left Sidebar ── */
+.stitch-sidebar{
+  position:fixed;left:0;top:var(--nav-height);bottom:0;
+  width:var(--sidebar-width);
+  background:var(--surface-container-low);
+  border-right:0.5px solid var(--outline-variant);
+  overflow-y:auto;padding:16px;z-index:100;
+  display:flex;flex-direction:column;gap:4px;
 }
-.anl::after{
-  content:'';position:absolute;bottom:0;left:11px;right:11px;
-  height:2px;border-radius:2px 2px 0 0;
-  background:transparent;transition:background .18s ease;
+.stitch-sidebar-header{
+  margin-bottom:16px;padding:0 4px;
 }
-.anl:hover{color:rgba(255,255,255,.95);}
-.anl:hover::after{background:rgba(255,255,255,.25);}
-.anl.on{color:#fff;font-weight:600;}
-.anl.on::after{background:#fff;}
-.anl:nth-child(1){animation-delay:.04s;} .anl:nth-child(2){animation-delay:.07s;}
-.anl:nth-child(3){animation-delay:.10s;} .anl:nth-child(4){animation-delay:.13s;}
-.anl:nth-child(5){animation-delay:.16s;} .anl:nth-child(6){animation-delay:.19s;}
-.anl:nth-child(7){animation-delay:.22s;} .anl:nth-child(8){animation-delay:.25s;}
-.anl:nth-child(9){animation-delay:.28s;} .anl:nth-child(10){animation-delay:.31s;}
-@keyframes navIn{from{opacity:0;transform:translateY(-5px);}to{opacity:1;transform:translateY(0);}}
-
-/* ── Hero ── */
-.apple-hero{
-  background:var(--apple-gray);padding:5rem 2rem 3.5rem;
-  text-align:center;margin:0 -5vw;
-  animation:heroUp .65s ease .15s both;
+.stitch-sidebar-title{
+  font-size:20px;font-weight:600;color:var(--primary);
+  letter-spacing:-0.007em;line-height:1.4;
 }
-@keyframes heroUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
-.apple-hero-eyebrow{font-size:17px;font-weight:400;color:var(--apple-muted);letter-spacing:-.374px;line-height:1.47;margin-bottom:.9rem;}
-.apple-hero h1{font-family:var(--font-sf-display);font-size:clamp(38px,5vw,56px);font-weight:600;color:var(--apple-near-black);line-height:1.07;letter-spacing:-.28px;margin:0 auto .7rem;max-width:820px;}
-.apple-hero-sub{font-size:21px;font-weight:400;color:var(--apple-near-black);line-height:1.19;letter-spacing:.2px;margin-bottom:1.5rem;}
-.apple-hero-ctas{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:1.3rem;}
-.apple-pill{display:inline-block;color:var(--apple-link);border:1px solid var(--apple-link);padding:7px 20px;border-radius:980px;font-size:17px;font-weight:400;text-decoration:none;transition:all .15s;}
-.apple-pill:hover{background:var(--apple-link);color:#fff;}
-.lang-pill{display:inline-block;background:var(--apple-white);color:var(--apple-muted);border:1px solid rgba(0,0,0,.12);padding:4px 12px;border-radius:980px;font-size:12px;margin:3px;letter-spacing:-.12px;}
+.stitch-sidebar-sub{
+  font-size:13px;font-weight:500;color:var(--secondary);
+  letter-spacing:0.01em;margin-top:2px;
+}
+.stitch-nav-item{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 12px;border-radius:8px;
+  text-decoration:none;color:var(--on-surface-variant);
+  font-size:13px;font-weight:500;letter-spacing:0.01em;
+  transition:all .15s;cursor:pointer;
+}
+.stitch-nav-item:hover{background:var(--surface-container-highest);color:var(--on-surface);}
+.stitch-nav-item.active{
+  background:var(--secondary-container);
+  color:var(--on-secondary-container);font-weight:700;
+}
+.stitch-nav-item .ms{font-size:20px;}
 
-/* ── Settings expander ── */
-[data-testid="stExpander"]{border:1px solid rgba(0,0,0,.1)!important;border-radius:8px!important;background:var(--apple-white)!important;margin:0.5rem 0!important;}
-.streamlit-expanderHeader{background:var(--apple-white)!important;color:var(--apple-near-black)!important;border-radius:8px!important;font-size:13px!important;}
+/* ── Page header ── */
+.stitch-page-header{margin-bottom:32px;}
+.stitch-page-title{
+  font-size:48px;font-weight:700;color:var(--on-surface);
+  letter-spacing:-0.022em;line-height:1.1;margin-bottom:8px;
+}
+.stitch-page-sub{
+  font-size:17px;font-weight:400;color:var(--secondary);
+  letter-spacing:-0.022em;line-height:1.5;
+}
 
-/* ── Tool area ── */
-.tool-content{animation:toolIn .35s ease both;}
-@keyframes toolIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
-.tool-header{display:flex;align-items:center;gap:12px;padding:2rem 0 .4rem;}
-.tool-icon{width:42px;height:42px;background:rgba(0,113,227,.1);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
-.tool-title{font-family:var(--font-sf-display)!important;font-size:clamp(26px,3vw,38px)!important;font-weight:600!important;color:var(--apple-near-black)!important;line-height:1.1!important;letter-spacing:-.02em!important;margin:0!important;}
+/* ── Cards ── */
+.stitch-card{
+  background:var(--surface-container-lowest);
+  border-radius:16px;
+  border:1px solid rgba(193,198,214,0.2);
+  box-shadow:0 4px 24px rgba(0,0,0,0.04);
+  padding:24px;margin-bottom:16px;
+}
+.stitch-card-title{
+  font-size:20px;font-weight:600;color:var(--on-surface);
+  letter-spacing:-0.007em;line-height:1.4;margin-bottom:16px;
+}
+
+/* ── Output card ── */
+.output-section{
+  background:var(--surface-container-lowest);
+  border-radius:16px;
+  border:1px solid rgba(193,198,214,0.2);
+  box-shadow:0 4px 24px rgba(0,0,0,0.04);
+  padding:24px;margin-top:16px;
+  font-size:15px;line-height:1.5;
+  letter-spacing:-0.015em;
+  white-space:pre-wrap;color:var(--on-surface);
+}
 
 /* ── Inputs ── */
-.stTextArea textarea,.stTextInput input{background:var(--apple-white)!important;border:1px solid rgba(0,0,0,.16)!important;border-radius:8px!important;color:var(--apple-near-black)!important;font-family:var(--font-sf)!important;font-size:17px!important;letter-spacing:-.374px!important;line-height:1.47!important;transition:border .15s,box-shadow .15s!important;}
-.stTextArea textarea:focus,.stTextInput input:focus{border-color:var(--apple-blue)!important;box-shadow:0 0 0 3px rgba(0,113,227,.18)!important;}
-.stSelectbox>div>div{background:var(--apple-white)!important;border:1px solid rgba(0,0,0,.16)!important;border-radius:8px!important;font-family:var(--font-sf)!important;}
-label{color:var(--apple-muted)!important;font-size:12px!important;font-weight:400!important;letter-spacing:-.12px!important;}
+.stTextArea textarea{
+  background:var(--surface-container-lowest)!important;
+  border:1px solid var(--outline-variant)!important;
+  border-radius:8px!important;
+  color:var(--on-surface)!important;
+  font-family:var(--font)!important;
+  font-size:15px!important;letter-spacing:-0.015em!important;
+  line-height:1.5!important;
+  transition:border .15s,box-shadow .15s!important;
+}
+.stTextArea textarea:focus{
+  border-color:var(--primary-container)!important;
+  box-shadow:0 0 0 2px rgba(0,113,227,0.15)!important;
+}
+.stTextInput input{
+  background:var(--surface-container-lowest)!important;
+  border:1px solid var(--outline-variant)!important;
+  border-radius:8px!important;color:var(--on-surface)!important;
+  font-family:var(--font)!important;font-size:15px!important;
+  letter-spacing:-0.015em!important;
+  transition:border .15s,box-shadow .15s!important;
+}
+.stTextInput input:focus{
+  border-color:var(--primary-container)!important;
+  box-shadow:0 0 0 2px rgba(0,113,227,0.15)!important;
+}
+.stSelectbox>div>div{
+  background:var(--surface-container-lowest)!important;
+  border:1px solid var(--outline-variant)!important;
+  border-radius:8px!important;
+  color:var(--on-surface)!important;
+  font-family:var(--font)!important;font-size:15px!important;
+}
+label{
+  color:var(--secondary)!important;font-family:var(--font)!important;
+  font-size:13px!important;font-weight:500!important;letter-spacing:0.01em!important;
+}
 
 /* ── Buttons ── */
-.stButton>button{background:var(--apple-blue)!important;color:#fff!important;border:none!important;border-radius:8px!important;font-family:var(--font-sf)!important;font-weight:400!important;font-size:17px!important;padding:8px 20px!important;letter-spacing:-.374px!important;transition:background .15s!important;box-shadow:none!important;}
-.stButton>button:hover{background:#0077ed!important;}
-.stDownloadButton>button{background:transparent!important;color:var(--apple-link)!important;border:1px solid var(--apple-link)!important;border-radius:980px!important;font-size:14px!important;padding:6px 16px!important;transition:all .15s!important;}
-.stDownloadButton>button:hover{background:var(--apple-link)!important;color:#fff!important;}
+.stButton>button{
+  background:var(--primary-container)!important;
+  color:var(--on-primary-container)!important;
+  border:none!important;border-radius:8px!important;
+  font-family:var(--font)!important;font-weight:600!important;
+  font-size:15px!important;padding:10px 20px!important;
+  letter-spacing:-0.015em!important;
+  transition:opacity .15s,transform .1s!important;
+  box-shadow:0 4px 24px rgba(0,0,0,0.04)!important;
+}
+.stButton>button:hover{opacity:.9!important;}
+.stButton>button:active{transform:scale(0.98)!important;}
+.stDownloadButton>button{
+  background:var(--secondary-container)!important;
+  color:var(--on-secondary-container)!important;
+  border:none!important;border-radius:8px!important;
+  font-size:13px!important;font-weight:500!important;
+  padding:6px 16px!important;letter-spacing:0.01em!important;
+  transition:all .15s!important;
+}
+.stDownloadButton>button:hover{background:var(--surface-container-highest)!important;}
 
-/* ── Output ── */
-.output-section{background:var(--apple-white);border-radius:8px;box-shadow:rgba(0,0,0,.18) 0 4px 24px;padding:1.6rem 1.8rem;margin-top:1.2rem;font-size:17px;line-height:1.47;letter-spacing:-.374px;white-space:pre-wrap;color:var(--apple-near-black);}
+/* ── Tabs ── */
+[data-testid="stTabs"] [data-baseweb="tab-list"]{
+  background:var(--surface-container)!important;
+  border-radius:8px!important;padding:4px!important;
+  gap:2px!important;border:none!important;
+}
+[data-testid="stTabs"] [data-baseweb="tab"]{
+  background:transparent!important;border:none!important;
+  border-radius:6px!important;color:var(--secondary)!important;
+  font-family:var(--font)!important;font-size:13px!important;
+  font-weight:500!important;letter-spacing:0.01em!important;
+  padding:6px 16px!important;
+}
+[data-testid="stTabs"] [aria-selected="true"]{
+  background:var(--primary-container)!important;
+  color:var(--on-primary-container)!important;font-weight:600!important;
+  box-shadow:0 2px 8px rgba(0,0,0,0.08)!important;
+}
 
-/* ── Chat ── */
-.chat-ai{background:var(--apple-white);box-shadow:rgba(0,0,0,.1) 0 2px 10px;color:var(--apple-near-black);border-radius:12px 12px 12px 4px;padding:14px 18px;margin:8px 14% 8px 0;font-size:17px;line-height:1.47;}
-.chat-user{background:var(--apple-blue);color:#fff;border-radius:12px 12px 4px 12px;padding:14px 18px;margin:8px 0 8px 14%;font-size:17px;line-height:1.47;}
+/* ── Chat bubbles ── */
+.chat-ai{
+  background:var(--surface-container-lowest);
+  border:0.5px solid var(--outline-variant);
+  border-radius:12px 12px 12px 4px;
+  box-shadow:0 4px 24px rgba(0,0,0,0.04);
+  color:var(--on-surface);padding:14px 18px;
+  margin:8px 15% 8px 0;font-size:15px;line-height:1.5;
+  letter-spacing:-0.015em;
+}
+.chat-user{
+  background:var(--primary-container);color:var(--on-primary-container);
+  border-radius:12px 12px 4px 12px;
+  padding:14px 18px;margin:8px 0 8px 15%;
+  font-size:15px;line-height:1.5;letter-spacing:-0.015em;
+  font-weight:500;
+}
 
-/* ── Apply links ── */
-.apply-box{background:var(--apple-white);border-radius:8px;box-shadow:rgba(0,0,0,.18) 0 4px 24px;padding:1.6rem;margin-top:1.2rem;}
-.apply-box h4{color:var(--apple-near-black)!important;font-size:21px!important;font-weight:400!important;margin-bottom:.9rem!important;}
-.apply-link{display:inline-block;color:var(--apple-link);border:1px solid var(--apple-link);padding:7px 15px;border-radius:980px;font-size:13px;text-decoration:none;margin:4px 3px;transition:all .15s;}
-.apply-link:hover{background:var(--apple-link);color:#fff;}
+/* ── Apply/links box ── */
+.apply-box{
+  background:var(--surface-container-lowest);
+  border-radius:16px;border:1px solid rgba(193,198,214,0.2);
+  box-shadow:0 4px 24px rgba(0,0,0,0.04);
+  padding:24px;margin-top:16px;
+}
+.apply-box h4{
+  color:var(--on-surface)!important;font-family:var(--font)!important;
+  font-size:20px!important;font-weight:600!important;
+  letter-spacing:-0.007em!important;margin-bottom:12px!important;
+}
+.apply-link{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--secondary-container);
+  color:var(--on-secondary-container);
+  border:none;padding:8px 16px;border-radius:8px;
+  font-size:13px;font-weight:500;text-decoration:none;
+  margin:4px 3px;letter-spacing:0.01em;
+  transition:all .15s;
+}
+.apply-link:hover{background:var(--surface-container-highest);color:var(--on-surface);}
 
-/* ── Misc ── */
-hr{border-color:rgba(0,0,0,.08)!important;}
-.stSuccess{background:rgba(0,113,227,.06)!important;border-radius:8px!important;}
-.stError{background:rgba(255,59,48,.06)!important;border-radius:8px!important;}
-.stWarning{background:rgba(255,149,0,.07)!important;border-radius:8px!important;}
-.stSpinner>div{border-top-color:var(--apple-blue)!important;}
-::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-thumb{background:rgba(0,0,0,.18);border-radius:3px;}
+/* ── Language pills ── */
+.lang-pill{
+  display:inline-block;background:var(--secondary-container);
+  color:var(--on-secondary-container);
+  padding:4px 12px;border-radius:9999px;
+  font-size:12px;font-weight:500;margin:3px;letter-spacing:0.01em;
+}
+
+/* ── Settings expander ── */
+[data-testid="stExpander"]{
+  background:var(--surface-container-lowest)!important;
+  border:0.5px solid var(--outline-variant)!important;
+  border-radius:8px!important;margin-bottom:16px!important;
+}
+.streamlit-expanderHeader{
+  background:var(--surface-container-lowest)!important;
+  color:var(--on-surface)!important;border-radius:8px!important;
+  font-family:var(--font)!important;font-size:13px!important;
+  font-weight:500!important;
+}
+
+/* ── Status messages ── */
+.stSuccess{background:rgba(0,89,181,0.06)!important;border-radius:8px!important;}
+.stError{background:rgba(186,26,26,0.06)!important;border-radius:8px!important;}
+.stWarning{background:rgba(155,63,0,0.06)!important;border-radius:8px!important;}
+.stSpinner>div{border-top-color:var(--primary-container)!important;}
+hr{border-color:var(--outline-variant)!important;}
+
+/* ── File uploader ── */
+[data-testid="stFileUploadDropzone"]{
+  background:var(--surface-container-low)!important;
+  border:2px dashed var(--outline-variant)!important;
+  border-radius:12px!important;
+  transition:border-color .15s!important;
+}
+[data-testid="stFileUploadDropzone"]:hover{border-color:var(--primary-container)!important;}
+
+/* ── Tool header ── */
+.tool-header{display:flex;align-items:center;gap:12px;margin-bottom:4px;}
+.tool-icon{
+  width:40px;height:40px;background:rgba(0,113,227,0.1);
+  border-radius:10px;display:flex;align-items:center;
+  justify-content:center;font-size:20px;flex-shrink:0;
+}
+.tool-title{
+  font-size:48px!important;font-weight:700!important;
+  color:var(--on-surface)!important;letter-spacing:-0.022em!important;
+  line-height:1.1!important;margin:0!important;
+  font-family:var(--font)!important;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--surface-container-low);}
+::-webkit-scrollbar-thumb{background:var(--outline-variant);border-radius:3px;}
+
+/* ── Hero ── */
+.stitch-hero{
+  padding:3rem 0 2rem;
+  animation:fadeUp .5s ease both;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
 </style>
 """, unsafe_allow_html=True)
 
@@ -226,30 +456,67 @@ def abar(key, text, title, gmail="", linkedin=False):
             lu=f"https://www.linkedin.com/feed/?shareActive=true&text={urllib.parse.quote(text[:700])}"
             st.markdown(f'<a href="{lu}" target="_blank" style="display:inline-block;background:transparent;color:#0066cc;border:1px solid #0066cc;border-radius:980px;padding:8px 14px;border-radius:8px;font-size:13px;text-decoration:none;font-weight:500;">🔗 LinkedIn</a>',unsafe_allow_html=True)
 
-# ── Navigation — HTML anchor links + query param routing ────────────────────
-_LABELS = ["Resume","Interview","Cover Letter","LinkedIn","Decoder","Apply","Jobs","Career","Salary","History"]
+# ── Navigation ── Stitch Pro Digital Interface ───────────────────────────────
+_TOOL_DATA = [
+    ("📄 Resume Review",      "description", "Resume Review"),
+    ("🎤 Mock Interview",     "forum",       "Mock Interview"),
+    ("✉️ Cover Letter",       "mail",        "Cover Letter"),
+    ("💼 LinkedIn Post",      "share",       "LinkedIn Post"),
+    ("🔍 Job Decoder",        "analytics",   "Job Decoder"),
+    ("🚀 Apply in One Click", "touch_app",   "Apply One-Click"),
+    ("🔎 Job Finder",         "search",      "Job Finder"),
+    ("📈 Career Path",        "map",         "Career Path"),
+    ("💰 Salary Coach",       "payments",    "Salary Coach"),
+    ("📋 My History",         "history",     "My History"),
+]
 
-# Read query param FIRST (before rendering nav)
+# Read query param first
 _qp = st.query_params
 if "tool" in _qp:
     try:
         _ti = int(_qp["tool"])
-        if 0 <= _ti < len(TOOL_KEYS):
-            st.session_state["active_tool"] = TOOL_KEYS[_ti]
+        if 0 <= _ti < len(_TOOL_DATA):
+            st.session_state["active_tool"] = _TOOL_DATA[_ti][0]
     except: pass
     st.query_params.clear()
 
-_tidx = TOOL_KEYS.index(st.session_state["active_tool"])
+tool_key = st.session_state["active_tool"]
+_tidx = next(i for i,(tk,_,_l) in enumerate(_TOOL_DATA) if tk==tool_key)
 
-# Build animated glass nav with anchor links
-_links = "".join([
-    f'<a class="anl{" on" if i==_tidx else ""}" href="?tool={i}">{_LABELS[i]}</a>'
-    for i in range(len(TOOL_KEYS))
+# ── Glass Nav Bar ─────────────────────────────────────────────────────────────
+st.markdown(f"""
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet"/>
+<div class="stitch-nav">
+  <div style="display:flex;align-items:center;">
+    <div class="stitch-nav-brand">CareerAI</div>
+    <div class="stitch-nav-links">
+      <a class="stitch-nav-link" href="#">Tools</a>
+      <a class="stitch-nav-link" href="#">History</a>
+      <a class="stitch-nav-link" href="#">Community</a>
+    </div>
+  </div>
+  <div class="stitch-nav-right">
+    <button class="stitch-icon-btn"><span class="material-symbols-outlined">search</span></button>
+    <button class="stitch-icon-btn"><span class="material-symbols-outlined">notifications</span></button>
+    <button class="stitch-icon-btn"><span class="material-symbols-outlined">settings</span></button>
+    <button class="stitch-upgrade-btn">Upgrade</button>
+    <div class="stitch-avatar">U</div>
+  </div>
+</div>
+""", unsafe_allow_html=True)
+
+# ── Left Sidebar ──────────────────────────────────────────────────────────────
+_sidebar_items = "".join([
+    f'<button class="stitch-nav-item{"  active" if i==_tidx else ""}" onclick="window.parent.location.href=window.parent.location.pathname+\'?tool={i}\'"  style="width:100%;text-align:left;background:none;border:none;cursor:pointer;"><span class="material-symbols-outlined ms">{icon}</span>{label}</button>'
+    for i,(tk,icon,label) in enumerate(_TOOL_DATA)
 ])
 st.markdown(f"""
-<div class="apple-nav-bar">
-  <div class="apple-nav-brand">Career AI</div>
-  <nav class="apple-nav-links">{_links}</nav>
+<div class="stitch-sidebar">
+  <div class="stitch-sidebar-header">
+    <div class="stitch-sidebar-title">Career Suite</div>
+    <div class="stitch-sidebar-sub">AI-Powered Tools</div>
+  </div>
+  {_sidebar_items}
 </div>
 """, unsafe_allow_html=True)
 
@@ -278,23 +545,21 @@ with st.expander("⚙  Settings — Language & API Key", expanded=False):
         else:
             st.caption("Login as admin to set API key")
 
-tool = st.session_state["active_tool"]
+tool = tool_key
 
 
 
-# ── Hero (Apple style) ───────────────────────────────────────────────────────
+# ── Hero ─────────────────────────────────────────────────────────────────────
 pills = " ".join([f'<span class="lang-pill">{l.split("(")[0].strip()}</span>' for l in list(LANGUAGES.keys())[:6]])
 st.markdown(f"""
-<div class="apple-hero">
-  <div class="apple-inner">
-    <div class="apple-hero-eyebrow">AI-Powered &nbsp;·&nbsp; 12 Languages &nbsp;·&nbsp; All-in-one</div>
-    <h1>Your Career,<br>Elevated.</h1>
-    <div class="apple-hero-sub">Resume reviews. Mock interviews. Salary coaching.</div>
-    <div class="apple-hero-ctas">
-      <a class="apple-pill-cta">Choose your tool ›</a>
-    </div>
-    <div>{pills} <span class="lang-pill">+6 more</span></div>
-  </div>
+<div class="stitch-hero">
+  <h1 class="stitch-page-title" style="font-size:48px;font-weight:700;color:var(--on-surface);letter-spacing:-0.022em;line-height:1.1;margin-bottom:8px;font-family:Inter,sans-serif;">
+    Your Career,<br><span style="color:var(--primary-container);">Elevated.</span>
+  </h1>
+  <p style="font-size:17px;color:var(--secondary);letter-spacing:-0.022em;line-height:1.5;margin-bottom:16px;">
+    Resume reviews · Mock interviews · Salary coaching · 12 languages
+  </p>
+  <div style="display:flex;flex-wrap:wrap;gap:0;">{pills} <span class="lang-pill">+6 more</span></div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -304,7 +569,7 @@ st.markdown(f"""
 # TOOL: Resume Review
 # ─────────────────────────────────────────────────────────────────────────────
 if tool == "📄 Resume Review":
-    st.markdown('<div class="tool-header"><div class="tool-icon">📄</div><div class="tool-title">Resume Builder</div></div>', unsafe_allow_html=True)
+    st.markdown('<div style="margin-bottom:8px;"><div style="display:flex;align-items:center;gap:12px;margin-bottom:4px;"><div class="tool-icon">📄</div><div class="tool-title">Resume Builder</div></div>', unsafe_allow_html=True)
     st.caption("Upload or paste your resume and job description. Get a score, improved bullet points, and skill gap analysis.")
     c1,c2 = st.columns(2)
     with c1:
@@ -343,7 +608,7 @@ if tool == "📄 Resume Review":
 # TOOL: Mock Interview
 # ─────────────────────────────────────────────────────────────────────────────
 elif tool == "🎤 Mock Interview":
-    st.markdown('<div class="tool-header"><div class="tool-icon">🎤</div><div class="tool-title">Mock Interview</div></div>', unsafe_allow_html=True)
+    st.markdown('<div style="margin-bottom:8px;"><div style="display:flex;align-items:center;gap:12px;margin-bottom:4px;"><div class="tool-icon">🎤</div><div class="tool-title">Mock Interview</div></div>', unsafe_allow_html=True)
     st.caption("Practice real interview questions with AI feedback after every answer.")
     c1,c2,c3 = st.columns(3)
     with c1: role = st.text_input("Job role", placeholder="e.g. Data Analyst")
@@ -378,7 +643,7 @@ elif tool == "🎤 Mock Interview":
 # TOOL: Cover Letter
 # ─────────────────────────────────────────────────────────────────────────────
 elif tool == "✉️ Cover Letter":
-    st.markdown('<div class="tool-header"><div class="tool-icon">✉️</div><div class="tool-title">Cover Letter</div></div>', unsafe_allow_html=True)
+    st.markdown('<div style="margin-bottom:8px;"><div style="display:flex;align-items:center;gap:12px;margin-bottom:4px;"><div class="tool-icon">✉️</div><div class="tool-title">Cover Letter</div></div>', unsafe_allow_html=True)
     st.caption("Paste the job description and your details. Get a polished, human-sounding cover letter.")
     c1,c2 = st.columns(2)
     with c1:
@@ -402,7 +667,7 @@ elif tool == "✉️ Cover Letter":
 # TOOL: LinkedIn Post
 # ─────────────────────────────────────────────────────────────────────────────
 elif tool == "💼 LinkedIn Post":
-    st.markdown('<div class="tool-header"><div class="tool-icon">💼</div><div class="tool-title">LinkedIn Post</div></div>', unsafe_allow_html=True)
+    st.markdown('<div style="margin-bottom:8px;"><div style="display:flex;align-items:center;gap:12px;margin-bottom:4px;"><div class="tool-icon">💼</div><div class="tool-title">LinkedIn Post</div></div>', unsafe_allow_html=True)
     st.caption("Describe your achievement in rough words — get a polished post that sounds like you.")
     li=st.text_area("What do you want to post about?", height=150, placeholder="e.g. Just got promoted...")
     c1,c2=st.columns(2)
@@ -422,7 +687,7 @@ elif tool == "💼 LinkedIn Post":
 # TOOL: Job Decoder
 # ─────────────────────────────────────────────────────────────────────────────
 elif tool == "🔍 Job Decoder":
-    st.markdown('<div class="tool-header"><div class="tool-icon">🔍</div><div class="tool-title">Job Decoder</div></div>', unsafe_allow_html=True)
+    st.markdown('<div style="margin-bottom:8px;"><div style="display:flex;align-items:center;gap:12px;margin-bottom:4px;"><div class="tool-icon">🔍</div><div class="tool-title">Job Decoder</div></div>', unsafe_allow_html=True)
     st.caption("Paste any job posting. Understand what they really want, spot red flags, and know how to apply.")
     djd=st.text_area("Paste the full job description", height=300, placeholder="Paste job posting here...")
     if st.button("🔍 Decode This Job"):
@@ -439,7 +704,7 @@ elif tool == "🔍 Job Decoder":
 # TOOL: Apply in One Click
 # ─────────────────────────────────────────────────────────────────────────────
 elif tool == "🚀 Apply in One Click":
-    st.markdown('<div class="tool-header"><div class="tool-icon">🚀</div><div class="tool-title">Apply in One Click</div></div>', unsafe_allow_html=True)
+    st.markdown('<div style="margin-bottom:8px;"><div style="display:flex;align-items:center;gap:12px;margin-bottom:4px;"><div class="tool-icon">🚀</div><div class="tool-title">Apply in One Click</div></div>', unsafe_allow_html=True)
     st.caption("Get a complete application package — cover letter, email, and talking points — in one go.")
     c1,c2=st.columns(2)
     with c1:
@@ -481,7 +746,7 @@ elif tool == "🚀 Apply in One Click":
 # TOOL: Job Finder
 # ─────────────────────────────────────────────────────────────────────────────
 elif tool == "🔎 Job Finder":
-    st.markdown('<div class="tool-header"><div class="tool-icon">🔎</div><div class="tool-title">Job Finder</div></div>', unsafe_allow_html=True)
+    st.markdown('<div style="margin-bottom:8px;"><div style="display:flex;align-items:center;gap:12px;margin-bottom:4px;"><div class="tool-icon">🔎</div><div class="tool-title">Job Finder</div></div>', unsafe_allow_html=True)
     st.caption("Upload or paste your resume. AI finds the best matching jobs from Naukri, LinkedIn, Indeed and more.")
 
     c1, c2 = st.columns(2)
@@ -552,7 +817,7 @@ elif tool == "🔎 Job Finder":
 # TOOL: Career Path Advisor
 # ─────────────────────────────────────────────────────────────────────────────
 elif tool == "📈 Career Path":
-    st.markdown('<div class="tool-header"><div class="tool-icon">📈</div><div class="tool-title">Career Path Advisor</div></div>', unsafe_allow_html=True)
+    st.markdown('<div style="margin-bottom:8px;"><div style="display:flex;align-items:center;gap:12px;margin-bottom:4px;"><div class="tool-icon">📈</div><div class="tool-title">Career Path Advisor</div></div>', unsafe_allow_html=True)
     st.caption("Tell me where you are now. I'll show you exactly where to go next and how to get there.")
 
     c1, c2 = st.columns(2)
@@ -584,7 +849,7 @@ elif tool == "📈 Career Path":
 # TOOL: Salary Negotiation Coach
 # ─────────────────────────────────────────────────────────────────────────────
 elif tool == "💰 Salary Coach":
-    st.markdown('<div class="tool-header"><div class="tool-icon">💰</div><div class="tool-title">Salary Negotiation Coach</div></div>', unsafe_allow_html=True)
+    st.markdown('<div style="margin-bottom:8px;"><div style="display:flex;align-items:center;gap:12px;margin-bottom:4px;"><div class="tool-icon">💰</div><div class="tool-title">Salary Negotiation Coach</div></div>', unsafe_allow_html=True)
     st.caption("Got an offer? Let AI coach you to negotiate the best salary. Know your worth.")
 
     tabs = st.tabs(["💰 Know Your Worth", "🗣️ Negotiation Script", "📧 Counter Offer Email"])
@@ -669,7 +934,7 @@ elif tool == "💰 Salary Coach":
 # TOOL: My History
 # ─────────────────────────────────────────────────────────────────────────────
 elif tool == "📋 My History":
-    st.markdown('<div class="tool-header"><div class="tool-icon">📋</div><div class="tool-title">My History</div></div>', unsafe_allow_html=True)
+    st.markdown('<div style="margin-bottom:8px;"><div style="display:flex;align-items:center;gap:12px;margin-bottom:4px;"><div class="tool-icon">📋</div><div class="tool-title">My History</div></div>', unsafe_allow_html=True)
     st.caption("All your generated content saved in one place. Download or reuse anytime.")
 
     history = st.session_state.get("history_log", [])

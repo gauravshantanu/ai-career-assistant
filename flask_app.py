@@ -1368,7 +1368,6 @@ def server_error(e):
     return f'<div style="padding:2rem;font-family:sans-serif;"><h2>Error</h2><p>{str(e)}</p><a href="/">← Back</a></div>', 500
 
 if __name__ == "__main__":
-    print("\n🚀 CareerAI Flask App")
-    print("   Open: http://127.0.0.1:5000\n")
     port = int(os.environ.get("PORT", 5000))
-app.run(host="0.0.0.0", port=port, debug=False)
+    print(f"\n🚀 CareerAI — http://0.0.0.0:{port}\n")
+    app.run(host="0.0.0.0", port=port, debug=False)

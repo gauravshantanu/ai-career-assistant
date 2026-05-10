@@ -65,8 +65,8 @@ function LoadingOverlay({show}) {
     <div id="loading-overlay">
       <div className="glass card text-center" style={{minWidth:0,padding:"32px 28px"}}>
         <div className="loader-ring" style={{margin:"0 auto 16px"}}/>
-        <p className="font-mono" style={{fontSize:13,color:"var(--cyan)",marginBottom:4}}>AI Processing…</p>
-        <p style={{fontSize:12,color:"var(--muted)"}}>Generating your result</p>
+        <p className="font-mono" style={{fontSize:13,color:"var(--indigo)",marginBottom:4}}>AI Processing…</p>
+        <p style={{fontSize:12,color:"var(--text-secondary)"}}>Generating your result</p>
       </div>
     </div>
   );
@@ -112,16 +112,16 @@ function Sidebar({active, onNav, user, onLogout}) {
     {id:"history",   icon:"history",         label:"My History"},
   ];
   return (
-    <aside id="sidebar" className="glass-dark" style={{padding:"28px 18px",display:"flex",flexDirection:"column"}}>
+    <aside id="sidebar" className="glass-dark" style={{padding:"28px 18px",display:"flex",flexDirection:"column",background:"var(--bg-white)"}}>
       {/* Brand */}
       <div style={{marginBottom:28,padding:"0 6px"}}>
         <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:4}}>
-          <div className="glow" style={{width:32,height:32,borderRadius:8,background:"var(--cyan)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+          <div className="glow" style={{width:32,height:32,borderRadius:8,background:"var(--indigo)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
             <span className="ms" style={{fontSize:18,color:"#001f24"}}>rocket_launch</span>
           </div>
-          <h1 className="font-display glow-text" style={{fontSize:22,fontWeight:800,color:"var(--cyan)",letterSpacing:"-0.02em"}}>CareerAI</h1>
+          <h1 className="font-display glow-text" style={{fontSize:22,fontWeight:800,color:"var(--indigo)",letterSpacing:"-0.02em"}}>CareerAI</h1>
         </div>
-        <p className="font-mono" style={{fontSize:10,color:"rgba(186,201,204,0.5)",letterSpacing:"0.1em",paddingLeft:42}}>AI CAREER ENGINE</p>
+        <p className="font-mono" style={{fontSize:10,color:"var(--text-muted)",letterSpacing:"0.1em",paddingLeft:42}}>AI CAREER ENGINE</p>
       </div>
 
       {/* Nav items */}
@@ -136,24 +136,24 @@ function Sidebar({active, onNav, user, onLogout}) {
       </nav>
 
       {/* User section */}
-      <div style={{marginTop:20,paddingTop:16,borderTop:"1px solid rgba(59,73,76,0.4)"}}>
+      <div style={{marginTop:20,paddingTop:16,borderTop:"1px solid var(--border)"}}>
         <div
           className="hover-lift"
           onClick={()=>onNav("profile")}
           style={{display:"flex",alignItems:"center",gap:12,padding:"10px 10px",borderRadius:12,cursor:"pointer",marginBottom:6,transition:"background 0.2s"}}
-          onMouseEnter={e=>e.currentTarget.style.background="rgba(36,43,45,0.8)"}
-          onMouseLeave={e=>e.currentTarget.style.background=""}
+          onMouseEnter={e=>e.currentTarget.style.background="var(--bg-hover)"}
+          onMouseLeave={e=>e.currentTarget.style.background="transparent"}
         >
           <div className="avatar-ring" style={{width:38,height:38}}>
-            <div className="avatar-inner" style={{width:32,height:32,fontSize:15,fontWeight:700,color:"var(--cyan)",fontFamily:"Syne"}}>
+            <div className="avatar-inner" style={{width:32,height:32,fontSize:15,fontWeight:700,color:"var(--indigo)",fontFamily:"Syne"}}>
               {(user.name||"A").charAt(0).toUpperCase()}
             </div>
           </div>
           <div style={{flex:1,minWidth:0}}>
-            <p style={{fontSize:13,fontWeight:600,color:"var(--on)",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{user.name||"User"}</p>
+            <p style={{fontSize:13,fontWeight:600,color:"var(--text-primary)",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{user.name||"User"}</p>
             <span className="badge badge-gold" style={{fontSize:9,padding:"1px 7px"}}>PRO</span>
           </div>
-          <span className="ms" style={{fontSize:16,color:"var(--muted)"}}>chevron_right</span>
+          <span className="ms" style={{fontSize:16,color:"var(--text-secondary)"}}>chevron_right</span>
         </div>
         <a className="nav-link" onClick={()=>onNav("profile")}>
           <span className="ms">account_circle</span> Profile
@@ -182,8 +182,8 @@ function BottomNav({active, onNav}) {
           style={{
             display:"flex",flexDirection:"column",alignItems:"center",gap:2,
             padding:"6px 12px",borderRadius:10,border:"none",background:"none",cursor:"pointer",
-            color: active===it.id ? "var(--cyan)" : "var(--muted)",
-            background: active===it.id ? "rgba(0,218,243,0.08)" : "transparent",
+            color: active===it.id ? "var(--indigo)" : "var(--text-muted)",
+            background: active===it.id ? "var(--indigo-soft)" : "transparent",
             transition:"all 0.2s",
           }}>
           <span className="ms" style={{fontSize:22}}>{it.icon}</span>
@@ -208,8 +208,8 @@ function TopBar({onMenuClick, sidebarOpen, user, onNav}) {
           onClick={onMenuClick}
           style={{
             width:38, height:38, borderRadius:9,
-            background: sidebarOpen ? "rgba(0,218,243,0.15)" : "rgba(0,218,243,0.08)",
-            border:"1px solid rgba(0,218,243,0.25)",
+            background: sidebarOpen ? "rgba(0,218,243,0.15)" : "var(--indigo-soft)",
+            border:"1px solid var(--border)",
             display:"flex", flexDirection:"column", alignItems:"center",
             justifyContent:"center", gap:4, cursor:"pointer",
             transition:"all 0.2s", flexShrink:0,
@@ -219,29 +219,29 @@ function TopBar({onMenuClick, sidebarOpen, user, onNav}) {
         >
           <span style={{
             display:"block", width:16, height:2,
-            background:"var(--cyan)", borderRadius:2,
+            background:"var(--indigo)", borderRadius:2,
             transition:"all 0.25s",
             transform: sidebarOpen ? "rotate(45deg) translate(4px,4px)" : "none",
           }}/>
           <span style={{
             display:"block", width:16, height:2,
-            background:"var(--cyan)", borderRadius:2,
+            background:"var(--indigo)", borderRadius:2,
             transition:"all 0.25s",
             opacity: sidebarOpen ? 0 : 1,
             transform: sidebarOpen ? "translateX(-8px)" : "none",
           }}/>
           <span style={{
             display:"block", width:16, height:2,
-            background:"var(--cyan)", borderRadius:2,
+            background:"var(--indigo)", borderRadius:2,
             transition:"all 0.25s",
             transform: sidebarOpen ? "rotate(-45deg) translate(4px,-4px)" : "none",
           }}/>
         </button>
         <div style={{display:"flex",alignItems:"center",gap:6}}>
-          <div style={{width:26,height:26,borderRadius:7,background:"var(--cyan)",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 0 10px rgba(0,218,243,0.5)"}}>
+          <div style={{width:26,height:26,borderRadius:7,background:"var(--indigo)",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 0 10px rgba(0,218,243,0.5)"}}>
             <span className="ms" style={{fontSize:14,color:"#001f24"}}>rocket_launch</span>
           </div>
-          <span className="font-display glow-text" style={{fontSize:17,fontWeight:800,color:"var(--cyan)",letterSpacing:"-0.02em"}}>CareerAI</span>
+          <span className="font-display glow-text" style={{fontSize:17,fontWeight:800,color:"var(--indigo)",letterSpacing:"-0.02em"}}>CareerAI</span>
         </div>
       </div>
       {/* Right: notif + avatar */}
@@ -253,7 +253,7 @@ function TopBar({onMenuClick, sidebarOpen, user, onNav}) {
           <div className="notif-dot" style={{position:"absolute",top:4,right:4,width:6,height:6}}/>
         </div>
         <div className="avatar-ring" style={{width:32,height:32,cursor:"pointer"}} onClick={()=>onNav("profile")}>
-          <div className="avatar-inner" style={{width:26,height:26,fontSize:12,fontWeight:700,color:"var(--cyan)",fontFamily:"Syne"}}>
+          <div className="avatar-inner" style={{width:26,height:26,fontSize:12,fontWeight:700,color:"var(--indigo)",fontFamily:"Syne"}}>
             {(user.name||"A").charAt(0).toUpperCase()}
           </div>
         </div>
@@ -267,316 +267,255 @@ function LoginScreen({onLogin}) {
   const [view, setView]       = useState("login");
   const [loading, setLoading] = useState(false);
   const [showPass, setShowPass] = useState(false);
-  const canvasRef = useRef(null);
-
-  /* ── Particle canvas ── */
-  useEffect(()=>{
-    const canvas = canvasRef.current; if(!canvas) return;
-    const ctx = canvas.getContext("2d");
-    let particles = [], raf;
-    const N = 70, DIST = 110;
-    const resize = ()=>{ canvas.width=window.innerWidth; canvas.height=window.innerHeight; };
-    class P {
-      constructor(){ this.reset(); }
-      reset(){ this.x=Math.random()*canvas.width; this.y=Math.random()*canvas.height; this.vx=(Math.random()-.5)*.4; this.vy=(Math.random()-.5)*.4; this.r=Math.random()*1.5+.5; }
-      update(){ this.x+=this.vx; this.y+=this.vy; if(this.x<0||this.x>canvas.width) this.vx*=-1; if(this.y<0||this.y>canvas.height) this.vy*=-1; }
-    }
-    const init=()=>{ particles=[]; for(let i=0;i<N;i++) particles.push(new P()); };
-    const draw=()=>{
-      ctx.clearRect(0,0,canvas.width,canvas.height);
-      ctx.fillStyle="#00e5ff"; ctx.strokeStyle="rgba(0,229,255,0.12)";
-      for(let i=0;i<particles.length;i++){
-        const p=particles[i]; p.update();
-        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
-        for(let j=i+1;j<particles.length;j++){
-          const p2=particles[j], dx=p.x-p2.x, dy=p.y-p2.y, d=Math.sqrt(dx*dx+dy*dy);
-          if(d<DIST){ ctx.lineWidth=1-d/DIST; ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(p2.x,p2.y); ctx.stroke(); }
-        }
-      }
-      raf=requestAnimationFrame(draw);
-    };
-    resize(); init(); draw();
-    window.addEventListener("resize",()=>{ resize(); init(); });
-    return ()=>{ cancelAnimationFrame(raf); window.removeEventListener("resize",resize); };
-  },[]);
 
   function submit(){
     setLoading(true);
-    setTimeout(()=>{ setLoading(false); onLogin({name:"Alex Chen",email:"alex@careerai.io"}); }, 1200);
+    setTimeout(()=>{ setLoading(false); onLogin({name:"Alex Chen",email:"alex@careerai.io"}); }, 1100);
   }
 
+  const features = [
+    "AI-powered resume tailoring",
+    "Real-time job match scoring",
+    "Interview coaching & feedback",
+  ];
+
   return (
-    <div style={{position:"fixed",inset:0,zIndex:200,display:"flex",alignItems:"center",justifyContent:"center",background:"#080f11",overflow:"hidden"}}>
+    <div id="login-screen-wrap" style={{position:"fixed",inset:0,zIndex:200,background:"#fff",overflow:"hidden"}}>
 
-      {/* Particle canvas */}
-      <canvas ref={canvasRef} style={{position:"fixed",inset:0,width:"100%",height:"100%",opacity:0.55,pointerEvents:"none",zIndex:0}}/>
+      {/* ── LEFT PANEL ── */}
+      <div style={{
+        flex:"0 0 42%", display:"flex", flexDirection:"column",
+        justifyContent:"space-between", padding:"48px 52px",
+        background:"linear-gradient(135deg, #4f46e5 0%, #6366f1 50%, #7c3aed 100%)",
+        position:"relative", overflow:"hidden",
+      }} id="login-left">
+        {/* Background subtle circles */}
+        <div style={{position:"absolute",top:-80,right:-80,width:320,height:320,borderRadius:"50%",background:"rgba(255,255,255,0.06)",pointerEvents:"none"}}/>
+        <div style={{position:"absolute",bottom:-60,left:-60,width:260,height:260,borderRadius:"50%",background:"rgba(255,255,255,0.05)",pointerEvents:"none"}}/>
+        <div style={{position:"absolute",top:"40%",left:"60%",width:180,height:180,borderRadius:"50%",background:"rgba(255,255,255,0.04)",pointerEvents:"none"}}/>
 
-      {/* Data streams */}
-      <DataStreams/>
-
-      {/* Binary corner decoration */}
-      <div style={{position:"fixed",top:0,right:0,padding:28,fontFamily:"JetBrains Mono",fontSize:10,color:"rgba(0,218,243,0.15)",pointerEvents:"none",zIndex:1,lineHeight:1.8}}>
-        01001101 01000001 01010100 01010010<br/>
-        10110011 00110101 01011010 11100101<br/>
-        01010101 00001111 11001100 10101010
-      </div>
-
-      {/* Side labels desktop */}
-      <div style={{position:"fixed",left:32,top:"50%",transform:"translateY(-50%)",display:"flex",flexDirection:"column",gap:56,opacity:0.25,zIndex:1}}>
-        <span style={{fontFamily:"JetBrains Mono",fontSize:10,color:"#00daf3",letterSpacing:"0.5em",writingMode:"vertical-rl",transform:"rotate(180deg)",whiteSpace:"nowrap"}}>NODE_CLUSTER_WEST_02</span>
-        <span style={{fontFamily:"JetBrains Mono",fontSize:10,color:"#849396",letterSpacing:"0.5em",writingMode:"vertical-rl",transform:"rotate(180deg)",whiteSpace:"nowrap"}}>AUTH_CORE::STABLE</span>
-      </div>
-      <div style={{position:"fixed",right:32,top:"50%",transform:"translateY(-50%)",display:"flex",flexDirection:"column",gap:56,opacity:0.25,zIndex:1,alignItems:"flex-end"}}>
-        <span style={{fontFamily:"JetBrains Mono",fontSize:10,color:"#00daf3",letterSpacing:"0.5em",writingMode:"vertical-rl",whiteSpace:"nowrap"}}>ENCRYPTION_SHA512</span>
-        <span style={{fontFamily:"JetBrains Mono",fontSize:10,color:"#849396",letterSpacing:"0.5em",writingMode:"vertical-rl",whiteSpace:"nowrap"}}>UPTIME_99.999%</span>
-      </div>
-
-      {/* Main content */}
-      <div style={{position:"relative",zIndex:10,width:"100%",maxWidth:460,maxHeight:"100vh",overflowY:"auto",padding:"16px 20px",scrollbarWidth:"none"}}><style>{`[data-login-wrap]::-webkit-scrollbar{display:none}`}</style>
-
-        {/* Brand */}
-        <div style={{textAlign:"center",marginBottom:16,paddingTop:8}}>
-          <div style={{position:"relative",display:"inline-block",marginBottom:18}}>
-            <div style={{
-              width:48,height:48,borderRadius:14,
-              background:"#00daf3",
-              display:"flex",alignItems:"center",justifyContent:"center",
-              boxShadow:"0 0 30px rgba(0,218,243,0.6), 0 0 60px rgba(0,218,243,0.3)",
-              position:"relative",zIndex:1,
-            }}>
-              <span className="ms" style={{fontSize:26,color:"#001f24"}}>rocket_launch</span>
+        {/* Top: Logo */}
+        <div style={{position:"relative",zIndex:1}}>
+          <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:0}}>
+            <div style={{display:"flex",alignItems:"center",justifyContent:"center",width:36,height:36}}>
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <path d="M16 2L19.5 12.5L30 16L19.5 19.5L16 30L12.5 19.5L2 16L12.5 12.5L16 2Z" fill="white" fillOpacity="0.9"/>
+                <path d="M8 6L9.5 10.5L14 12L9.5 13.5L8 18L6.5 13.5L2 12L6.5 10.5L8 6Z" fill="white" fillOpacity="0.6"/>
+              </svg>
             </div>
-            {/* Ping ring */}
-            <div style={{position:"absolute",inset:0,borderRadius:16,border:"2px solid rgba(0,218,243,0.5)",animation:"pingRing 1.5s ease-out infinite"}}/>
-          </div>
-          <h1 style={{fontFamily:"Syne",fontSize:"clamp(22px,5vw,32px)",fontWeight:800,color:"#00daf3",letterSpacing:"-0.01em",textShadow:"0 0 20px rgba(0,218,243,0.7)",marginBottom:10,display:"block"}}>
-            CAREER_AI
-          </h1>
-          <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:12}}>
-            <div style={{height:1,width:28,background:"rgba(0,218,243,0.3)"}}/>
-            <span style={{fontFamily:"JetBrains Mono",fontSize:11,color:"rgba(0,218,243,0.65)",letterSpacing:"0.3em",textTransform:"uppercase"}}>Neural Engine v4.0</span>
-            <div style={{height:1,width:28,background:"rgba(0,218,243,0.3)"}}/>
+            <span style={{fontFamily:"Syne",fontSize:22,fontWeight:800,color:"#fff",letterSpacing:"-0.01em"}}>CareerAI</span>
           </div>
         </div>
 
-        {/* Card */}
-        {view === "login" ? (
-          <div style={{
-            background:"rgba(13,21,22,0.85)",
-            backdropFilter:"blur(28px)",WebkitBackdropFilter:"blur(28px)",
-            border:"1px solid rgba(0,229,255,0.22)",
-            borderTop:"1px solid rgba(0,229,255,0.4)",
-            borderLeft:"1px solid rgba(0,229,255,0.4)",
-            borderRadius:28,
-            padding:"clamp(18px,4vw,28px)",
-            boxShadow:"0 0 40px rgba(0,229,255,0.1), inset 0 0 20px rgba(0,229,255,0.04)",
-            position:"relative",overflow:"hidden",
-          }}>
-            {/* Corner decorations */}
-            <div style={{position:"absolute",top:0,left:0,width:28,height:28,borderTop:"2px solid rgba(0,218,243,0.6)",borderLeft:"2px solid rgba(0,218,243,0.6)",borderRadius:"24px 0 0 0"}}/>
-            <div style={{position:"absolute",bottom:0,right:0,width:28,height:28,borderBottom:"2px solid rgba(0,218,243,0.6)",borderRight:"2px solid rgba(0,218,243,0.6)",borderRadius:"0 0 24px 0"}}/>
-
-            {/* Header */}
-            <div style={{textAlign:"center",marginBottom:18}}>
-              <h2 style={{fontFamily:"Syne",fontSize:20,fontWeight:700,color:"#dce4e5",letterSpacing:"0.05em",marginBottom:6}}>IDENTITY_VERIFICATION</h2>
-              <p style={{fontFamily:"JetBrains Mono",fontSize:11,color:"rgba(186,201,204,0.6)",letterSpacing:"0.15em",textTransform:"uppercase"}}>Awaiting credential input...</p>
-            </div>
-
-            <div style={{display:"flex",flexDirection:"column",gap:14}}>
-              {/* Email */}
-              <div>
-                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8,padding:"0 2px"}}>
-                  <label style={{fontFamily:"JetBrains Mono",fontSize:11,color:"#00daf3",letterSpacing:"0.2em",textTransform:"uppercase",fontWeight:500}}>User_ID</label>
-                  <span style={{fontFamily:"JetBrains Mono",fontSize:10,color:"rgba(59,73,76,0.9)",letterSpacing:"0.05em"}}>[SECURE_CHANNEL]</span>
+        {/* Middle: tagline + features */}
+        <div className="left-middle" style={{position:"relative",zIndex:1}}>
+          <p style={{fontFamily:"DM Sans",fontSize:16,color:"rgba(255,255,255,0.85)",lineHeight:1.65,marginBottom:40,maxWidth:340}}>
+            Your intelligent career co-pilot. Navigate your professional journey with data-driven confidence and AI-powered precision.
+          </p>
+          <div style={{display:"flex",flexDirection:"column",gap:16}}>
+            {features.map((f,i)=>(
+              <div key={i} style={{display:"flex",alignItems:"center",gap:14}}>
+                <div style={{width:28,height:28,borderRadius:8,background:"rgba(255,255,255,0.2)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M2 7L5.5 10.5L12 3.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
                 </div>
-                <input
-                  className="login-input"
-                  type="email" defaultValue="demo@careerai.io"
-                  placeholder="ENTER EMAIL ADDRESS"
-                  style={{
-                    width:"100%",background:"rgba(8,15,17,0.6)",
-                    border:"1px solid rgba(59,73,76,0.4)",borderRadius:8,
-                    padding:"11px 14px",fontFamily:"DM Sans",fontSize:14,
-                    color:"#dce4e5",outline:"none",letterSpacing:"0.02em",
-                    transition:"all 0.3s",
-                  }}
-                  onFocus={e=>{ e.target.style.borderColor="rgba(0,229,255,0.8)"; e.target.style.boxShadow="0 0 0 1px rgba(0,229,255,0.2), 0 4px 12px rgba(0,218,243,0.1)"; }}
-                  onBlur={e=>{ e.target.style.borderColor="rgba(59,73,76,0.4)"; e.target.style.boxShadow="none"; }}
-                />
+                <span style={{fontFamily:"DM Sans",fontSize:14,color:"rgba(255,255,255,0.9)",fontWeight:400}}>{f}</span>
               </div>
-
-              {/* Password */}
-              <div>
-                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8,padding:"0 2px"}}>
-                  <label style={{fontFamily:"JetBrains Mono",fontSize:11,color:"#00daf3",letterSpacing:"0.2em",textTransform:"uppercase",fontWeight:500}}>Pass_Key</label>
-                  <a href="#" style={{fontFamily:"JetBrains Mono",fontSize:10,color:"rgba(0,218,243,0.55)",letterSpacing:"0.1em",textDecoration:"underline",textDecorationColor:"rgba(0,218,243,0.2)"}}>RECOVER?</a>
-                </div>
-                <div style={{position:"relative"}}>
-                  <input
-                    type={showPass?"text":"password"} defaultValue="demo1234"
-                    placeholder="••••••••"
-                    style={{
-                      width:"100%",background:"rgba(8,15,17,0.6)",
-                      border:"1px solid rgba(59,73,76,0.4)",borderRadius:8,
-                      padding:"11px 44px 11px 14px",fontFamily:"DM Sans",fontSize:14,
-                      color:"#dce4e5",outline:"none",letterSpacing:"0.05em",
-                      transition:"all 0.3s",
-                    }}
-                    onFocus={e=>{ e.target.style.borderColor="rgba(0,229,255,0.8)"; e.target.style.boxShadow="0 0 0 1px rgba(0,229,255,0.2), 0 4px 12px rgba(0,218,243,0.1)"; }}
-                    onBlur={e=>{ e.target.style.borderColor="rgba(59,73,76,0.4)"; e.target.style.boxShadow="none"; }}
-                  />
-                  <button onClick={()=>setShowPass(v=>!v)} style={{position:"absolute",right:12,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",cursor:"pointer",color:"rgba(186,201,204,0.5)",padding:4}}>
-                    <span className="ms" style={{fontSize:18}}>{showPass?"visibility_off":"visibility"}</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Submit */}
-              <button onClick={submit} disabled={loading} style={{
-                width:"100%",
-                background:"#00e5ff",
-                color:"#001f24",
-                border:"none",borderRadius:12,
-                padding:"13px 24px",
-                fontFamily:"Syne",fontSize:15,fontWeight:700,
-                letterSpacing:"0.12em",textTransform:"uppercase",
-                cursor:loading?"not-allowed":"pointer",
-                opacity:loading?0.7:1,
-                display:"flex",alignItems:"center",justifyContent:"center",gap:10,
-                boxShadow:"0 0 24px rgba(0,229,255,0.45), 0 4px 20px rgba(0,0,0,0.3)",
-                transition:"all 0.3s",
-                position:"relative",overflow:"hidden",
-                WebkitTapHighlightColor:"transparent",
-              }}
-              onMouseEnter={e=>{ if(!loading){ e.currentTarget.style.brightness="1.1"; e.currentTarget.style.boxShadow="0 0 40px rgba(0,229,255,0.65), 0 4px 20px rgba(0,0,0,0.3)"; } }}
-              onMouseLeave={e=>{ e.currentTarget.style.boxShadow="0 0 24px rgba(0,229,255,0.45), 0 4px 20px rgba(0,0,0,0.3)"; }}
-              >
-                {loading ? (
-                  <><div style={{width:18,height:18,border:"2px solid rgba(0,31,36,0.3)",borderTopColor:"#001f24",borderRadius:"50%",animation:"spin 0.6s linear infinite"}}/> INITIALIZING...</>
-                ) : (
-                  <><span style={{letterSpacing:"0.15em"}}>INITIALIZE SESSION</span><span className="ms" style={{fontSize:20}}>bolt</span></>
-                )}
-              </button>
-            </div>
-
-            {/* Divider */}
-            <div style={{display:"flex",alignItems:"center",margin:"16px 0"}}>
-              <div style={{flex:1,height:1,background:"linear-gradient(to right, transparent, rgba(59,73,76,0.35)"}}/>
-              <span style={{padding:"0 20px",fontFamily:"JetBrains Mono",fontSize:10,color:"rgba(132,147,150,0.8)",letterSpacing:"0.2em",textTransform:"uppercase"}}>External_Protocols</span>
-              <div style={{flex:1,height:1,background:"linear-gradient(to left, transparent, rgba(59,73,76,0.35)"}}/>
-            </div>
-
-            {/* Social */}
-            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14,marginBottom:28}}>
-              <button onClick={submit} style={{display:"flex",alignItems:"center",justifyContent:"center",gap:10,padding:"11px 14px",borderRadius:12,border:"1px solid rgba(59,73,76,0.35)",background:"rgba(21,29,30,0.45)",cursor:"pointer",color:"#dce4e5",transition:"all 0.2s",WebkitTapHighlightColor:"transparent"}}
-                onMouseEnter={e=>{e.currentTarget.style.borderColor="rgba(0,218,243,0.35)";e.currentTarget.style.background="rgba(36,43,45,0.6)";}}
-                onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(59,73,76,0.35)";e.currentTarget.style.background="rgba(21,29,30,0.45)";}}>
-                <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-                <span style={{fontFamily:"JetBrains Mono",fontSize:11,letterSpacing:"0.15em"}}>G_CLOUD</span>
-              </button>
-              <button onClick={submit} style={{display:"flex",alignItems:"center",justifyContent:"center",gap:10,padding:"11px 14px",borderRadius:12,border:"1px solid rgba(59,73,76,0.35)",background:"rgba(21,29,30,0.45)",cursor:"pointer",color:"#dce4e5",transition:"all 0.2s",WebkitTapHighlightColor:"transparent"}}
-                onMouseEnter={e=>{e.currentTarget.style.borderColor="rgba(0,218,243,0.35)";e.currentTarget.style.background="rgba(36,43,45,0.6)";}}
-                onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(59,73,76,0.35)";e.currentTarget.style.background="rgba(21,29,30,0.45)";}}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-                <span style={{fontFamily:"JetBrains Mono",fontSize:11,letterSpacing:"0.15em"}}>NET_IN</span>
-              </button>
-            </div>
-
-            {/* Footer */}
-            <p style={{textAlign:"center",fontFamily:"DM Sans",fontSize:12,color:"rgba(186,201,204,0.7)",marginTop:14}}>
-              New neural profile detected?{" "}
-              <a href="#" onClick={e=>{e.preventDefault();setView("signup");}} style={{color:"#00daf3",fontWeight:700,textDecoration:"underline",textDecorationColor:"rgba(0,218,243,0.3)",marginLeft:6}}>ESTABLISH_ID</a>
-            </p>
+            ))}
           </div>
-        ) : (
-          /* ── SIGNUP ── */
+        </div>
+
+        {/* Bottom: user testimonial skeleton */}
+        <div className="left-bottom" style={{position:"relative",zIndex:1,display:"flex",alignItems:"center",gap:12}}>
+          <div style={{width:42,height:42,borderRadius:10,background:"rgba(255,255,255,0.2)",flexShrink:0}}/>
+          <div style={{display:"flex",flexDirection:"column",gap:8}}>
+            <div style={{width:180,height:10,borderRadius:100,background:"rgba(255,255,255,0.25)"}}/>
+            <div style={{width:120,height:8,borderRadius:100,background:"rgba(255,255,255,0.15)"}}/>
+          </div>
+        </div>
+      </div>
+
+      {/* ── RIGHT PANEL ── */}
+      <div style={{
+        flex:1, display:"flex", alignItems:"center", justifyContent:"center",
+        background:"#f8f9fc", padding:"32px 24px", overflowY:"auto",
+      }} id="login-right">
+        <div style={{width:"100%",maxWidth:420}}>
+
+          {/* Toggle tabs */}
           <div style={{
-            background:"rgba(13,21,22,0.85)",backdropFilter:"blur(28px)",WebkitBackdropFilter:"blur(28px)",
-            border:"1px solid rgba(0,229,255,0.22)",borderTop:"1px solid rgba(0,229,255,0.4)",borderLeft:"1px solid rgba(0,229,255,0.4)",
-            borderRadius:28,padding:"clamp(28px,6vw,44px)",
-            boxShadow:"0 0 40px rgba(0,229,255,0.1), inset 0 0 20px rgba(0,229,255,0.04)",
-            position:"relative",overflow:"hidden",
+            display:"flex", background:"#eef0f6", borderRadius:12,
+            padding:4, marginBottom:32,
           }}>
-            <div style={{position:"absolute",top:0,left:0,width:28,height:28,borderTop:"2px solid rgba(0,218,243,0.6)",borderLeft:"2px solid rgba(0,218,243,0.6)",borderRadius:"24px 0 0 0"}}/>
-            <div style={{position:"absolute",bottom:0,right:0,width:28,height:28,borderBottom:"2px solid rgba(0,218,243,0.6)",borderRight:"2px solid rgba(0,218,243,0.6)",borderRadius:"0 0 24px 0"}}/>
+            {["Sign In","Create Account"].map((t,i)=>(
+              <button key={t} onClick={()=>setView(i===0?"login":"signup")}
+                style={{
+                  flex:1, padding:"10px 16px", border:"none", borderRadius:9,
+                  fontFamily:"DM Sans", fontSize:14, fontWeight:600, cursor:"pointer",
+                  transition:"all 0.2s",
+                  background: (view==="login"&&i===0)||(view==="signup"&&i===1) ? "#fff" : "transparent",
+                  color: (view==="login"&&i===0)||(view==="signup"&&i===1) ? "#4f46e5" : "#64748b",
+                  boxShadow: (view==="login"&&i===0)||(view==="signup"&&i===1) ? "0 1px 4px rgba(0,0,0,0.1)" : "none",
+                }}>
+                {t}
+              </button>
+            ))}
+          </div>
 
-            <div style={{textAlign:"center",marginBottom:28}}>
-              <h2 style={{fontFamily:"Syne",fontSize:20,fontWeight:700,color:"#dce4e5",letterSpacing:"0.05em",marginBottom:6}}>ESTABLISH_NEW_ID</h2>
-              <p style={{fontFamily:"JetBrains Mono",fontSize:11,color:"rgba(186,201,204,0.6)",letterSpacing:"0.12em",textTransform:"uppercase"}}>Initialize new neural profile...</p>
-            </div>
+          {view==="login" ? (
+            <>
+              <div style={{marginBottom:28}}>
+                <h2 style={{fontFamily:"Syne",fontSize:28,fontWeight:800,color:"#0f172a",marginBottom:6,letterSpacing:"-0.02em"}}>Welcome back</h2>
+                <p style={{fontFamily:"DM Sans",fontSize:14,color:"#64748b"}}>Access your AI career suite.</p>
+              </div>
 
-            <div style={{display:"flex",flexDirection:"column",gap:18}}>
-              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
-                {[["First Name","Alex"],["Last Name","Chen"]].map(([lbl,ph])=>(
-                  <div key={lbl}>
-                    <label style={{display:"block",fontFamily:"JetBrains Mono",fontSize:10,color:"#00daf3",letterSpacing:"0.18em",textTransform:"uppercase",marginBottom:6}}>{lbl.replace(" ","_")}</label>
-                    <input placeholder={ph} style={{width:"100%",background:"rgba(8,15,17,0.6)",border:"1px solid rgba(59,73,76,0.4)",borderRadius:8,padding:"12px 14px",fontFamily:"DM Sans",fontSize:14,color:"#dce4e5",outline:"none",transition:"border-color 0.3s"}}
-                      onFocus={e=>e.target.style.borderColor="rgba(0,229,255,0.7)"}
-                      onBlur={e=>e.target.style.borderColor="rgba(59,73,76,0.4)"}/>
+              <div style={{display:"flex",flexDirection:"column",gap:18,marginBottom:24}}>
+                {/* Email */}
+                <div>
+                  <label style={{display:"block",fontFamily:"DM Sans",fontSize:13,fontWeight:500,color:"#374151",marginBottom:7}}>Email address</label>
+                  <input type="email" defaultValue="demo@careerai.io" placeholder="name@company.com"
+                    style={{width:"100%",background:"#fff",border:"1.5px solid #e2e8f0",borderRadius:10,padding:"12px 16px",fontFamily:"DM Sans",fontSize:14,color:"#0f172a",outline:"none",transition:"border-color 0.2s",boxSizing:"border-box"}}
+                    onFocus={e=>e.target.style.borderColor="#4f46e5"}
+                    onBlur={e=>e.target.style.borderColor="#e2e8f0"}/>
+                </div>
+                {/* Password */}
+                <div>
+                  <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:7}}>
+                    <label style={{fontFamily:"DM Sans",fontSize:13,fontWeight:500,color:"#374151"}}>Password</label>
+                    <a href="#" style={{fontFamily:"DM Sans",fontSize:13,color:"#4f46e5",textDecoration:"none",fontWeight:500}}>Forgot password?</a>
+                  </div>
+                  <div style={{position:"relative"}}>
+                    <input type={showPass?"text":"password"} defaultValue="demo1234" placeholder="••••••••"
+                      style={{width:"100%",background:"#fff",border:"1.5px solid #e2e8f0",borderRadius:10,padding:"12px 48px 12px 16px",fontFamily:"DM Sans",fontSize:14,color:"#0f172a",outline:"none",transition:"border-color 0.2s",boxSizing:"border-box"}}
+                      onFocus={e=>e.target.style.borderColor="#4f46e5"}
+                      onBlur={e=>e.target.style.borderColor="#e2e8f0"}/>
+                    <button onClick={()=>setShowPass(v=>!v)} style={{position:"absolute",right:14,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",cursor:"pointer",color:"#94a3b8",padding:2,display:"flex"}}>
+                      <span className="ms" style={{fontSize:18,fontVariationSettings:"'FILL' 0, 'wght' 300"}}>{showPass?"visibility_off":"visibility"}</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Sign In button */}
+              <button onClick={submit} disabled={loading} style={{
+                width:"100%", background:"#4f46e5", color:"#fff", border:"none",
+                borderRadius:10, padding:"14px 24px",
+                fontFamily:"DM Sans", fontSize:15, fontWeight:600,
+                cursor:loading?"not-allowed":"pointer", opacity:loading?0.75:1,
+                display:"flex", alignItems:"center", justifyContent:"center", gap:8,
+                transition:"all 0.2s", marginBottom:24, boxSizing:"border-box",
+                boxShadow:"0 4px 14px rgba(79,70,229,0.35)",
+              }}
+              onMouseEnter={e=>{ if(!loading) e.currentTarget.style.background="#4338ca"; }}
+              onMouseLeave={e=>e.currentTarget.style.background="#4f46e5"}>
+                {loading ? <><div style={{width:16,height:16,border:"2px solid rgba(255,255,255,0.3)",borderTopColor:"#fff",borderRadius:"50%",animation:"spin 0.6s linear infinite"}}/> Signing in…</> : "Sign In"}
+              </button>
+
+              {/* Divider */}
+              <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:20}}>
+                <div style={{flex:1,height:1,background:"#e2e8f0"}}/>
+                <span style={{fontFamily:"DM Sans",fontSize:12,color:"#94a3b8",letterSpacing:"0.05em",textTransform:"uppercase",whiteSpace:"nowrap"}}>OR CONTINUE WITH</span>
+                <div style={{flex:1,height:1,background:"#e2e8f0"}}/>
+              </div>
+
+              {/* Social */}
+              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:24}}>
+                <button onClick={submit} style={{display:"flex",alignItems:"center",justifyContent:"center",gap:10,padding:"11px 16px",border:"1.5px solid #e2e8f0",borderRadius:10,background:"#fff",cursor:"pointer",fontFamily:"DM Sans",fontSize:14,fontWeight:500,color:"#374151",transition:"all 0.2s"}}
+                  onMouseEnter={e=>{e.currentTarget.style.borderColor="#4f46e5";e.currentTarget.style.background="#fafbff";}}
+                  onMouseLeave={e=>{e.currentTarget.style.borderColor="#e2e8f0";e.currentTarget.style.background="#fff";}}>
+                  <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                  Google
+                </button>
+                <button onClick={submit} style={{display:"flex",alignItems:"center",justifyContent:"center",gap:10,padding:"11px 16px",border:"1.5px solid #e2e8f0",borderRadius:10,background:"#fff",cursor:"pointer",fontFamily:"DM Sans",fontSize:14,fontWeight:500,color:"#374151",transition:"all 0.2s"}}
+                  onMouseEnter={e=>{e.currentTarget.style.borderColor="#4f46e5";e.currentTarget.style.background="#fafbff";}}
+                  onMouseLeave={e=>{e.currentTarget.style.borderColor="#e2e8f0";e.currentTarget.style.background="#fff";}}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="#0a66c2"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                  LinkedIn
+                </button>
+              </div>
+
+              {/* Terms */}
+              <p style={{fontFamily:"DM Sans",fontSize:12,color:"#94a3b8",textAlign:"center",lineHeight:1.6}}>
+                By signing in, you agree to our{" "}
+                <a href="#" style={{color:"#4f46e5",textDecoration:"none",fontWeight:500}}>Terms of Service</a>{" "}and{" "}
+                <a href="#" style={{color:"#4f46e5",textDecoration:"none",fontWeight:500}}>Privacy Policy</a>.
+              </p>
+            </>
+          ) : (
+            /* ── CREATE ACCOUNT ── */
+            <>
+              <div style={{marginBottom:28}}>
+                <h2 style={{fontFamily:"Syne",fontSize:28,fontWeight:800,color:"#0f172a",marginBottom:6,letterSpacing:"-0.02em"}}>Create account</h2>
+                <p style={{fontFamily:"DM Sans",fontSize:14,color:"#64748b"}}>Start your AI-powered career journey.</p>
+              </div>
+
+              <div style={{display:"flex",flexDirection:"column",gap:16,marginBottom:24}}>
+                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
+                  {[["First name","Alex"],["Last name","Chen"]].map(([l,p])=>(
+                    <div key={l}>
+                      <label style={{display:"block",fontFamily:"DM Sans",fontSize:13,fontWeight:500,color:"#374151",marginBottom:6}}>{l}</label>
+                      <input placeholder={p} style={{width:"100%",background:"#fff",border:"1.5px solid #e2e8f0",borderRadius:10,padding:"11px 14px",fontFamily:"DM Sans",fontSize:14,color:"#0f172a",outline:"none",boxSizing:"border-box"}}
+                        onFocus={e=>e.target.style.borderColor="#4f46e5"}
+                        onBlur={e=>e.target.style.borderColor="#e2e8f0"}/>
+                    </div>
+                  ))}
+                </div>
+                {[["Email address","name@company.com","email"],["Password","Min 8 characters","password"]].map(([l,p,t])=>(
+                  <div key={l}>
+                    <label style={{display:"block",fontFamily:"DM Sans",fontSize:13,fontWeight:500,color:"#374151",marginBottom:6}}>{l}</label>
+                    <input type={t} placeholder={p} style={{width:"100%",background:"#fff",border:"1.5px solid #e2e8f0",borderRadius:10,padding:"11px 14px",fontFamily:"DM Sans",fontSize:14,color:"#0f172a",outline:"none",boxSizing:"border-box"}}
+                      onFocus={e=>e.target.style.borderColor="#4f46e5"}
+                      onBlur={e=>e.target.style.borderColor="#e2e8f0"}/>
                   </div>
                 ))}
-              </div>
-              {[["Email_ID","your@email.com","email"],["Pass_Key","Min 8 characters","password"]].map(([lbl,ph,type])=>(
-                <div key={lbl}>
-                  <label style={{display:"block",fontFamily:"JetBrains Mono",fontSize:10,color:"#00daf3",letterSpacing:"0.18em",textTransform:"uppercase",marginBottom:6}}>{lbl}</label>
-                  <input type={type} placeholder={ph} style={{width:"100%",background:"rgba(8,15,17,0.6)",border:"1px solid rgba(59,73,76,0.4)",borderRadius:8,padding:"12px 14px",fontFamily:"DM Sans",fontSize:14,color:"#dce4e5",outline:"none",transition:"border-color 0.3s"}}
-                    onFocus={e=>e.target.style.borderColor="rgba(0,229,255,0.7)"}
-                    onBlur={e=>e.target.style.borderColor="rgba(59,73,76,0.4)"}/>
+                <div>
+                  <label style={{display:"block",fontFamily:"DM Sans",fontSize:13,fontWeight:500,color:"#374151",marginBottom:6}}>I am a…</label>
+                  <select style={{width:"100%",background:"#fff",border:"1.5px solid #e2e8f0",borderRadius:10,padding:"11px 14px",fontFamily:"DM Sans",fontSize:14,color:"#0f172a",outline:"none",boxSizing:"border-box",appearance:"none"}}>
+                    <option>Fresh Graduate</option><option>Working Professional</option><option>Career Switcher</option><option>Freelancer</option>
+                  </select>
                 </div>
-              ))}
-              <div>
-                <label style={{display:"block",fontFamily:"JetBrains Mono",fontSize:10,color:"#00daf3",letterSpacing:"0.18em",textTransform:"uppercase",marginBottom:6}}>Profile_Type</label>
-                <select style={{width:"100%",background:"rgba(8,15,17,0.8)",border:"1px solid rgba(59,73,76,0.4)",borderRadius:8,padding:"12px 14px",fontFamily:"JetBrains Mono",fontSize:12,color:"#dce4e5",outline:"none",appearance:"none"}}>
-                  <option>FRESH_GRADUATE</option><option>WORKING_PROFESSIONAL</option><option>CAREER_SWITCHER</option><option>FREELANCER</option>
-                </select>
               </div>
-              <button onClick={submit} disabled={loading} style={{width:"100%",background:"#00e5ff",color:"#001f24",border:"none",borderRadius:12,padding:"16px 24px",fontFamily:"Syne",fontSize:15,fontWeight:700,letterSpacing:"0.12em",cursor:"pointer",boxShadow:"0 0 24px rgba(0,229,255,0.45)",display:"flex",alignItems:"center",justifyContent:"center",gap:10,WebkitTapHighlightColor:"transparent"}}>
-                {loading?<><div style={{width:16,height:16,border:"2px solid rgba(0,31,36,0.3)",borderTopColor:"#001f24",borderRadius:"50%",animation:"spin 0.6s linear infinite"}}/> PROCESSING...</>:<><span>DEPLOY_PROFILE</span><span className="ms" style={{fontSize:18}}>rocket_launch</span></>}
+
+              <button onClick={submit} disabled={loading} style={{
+                width:"100%",background:"#4f46e5",color:"#fff",border:"none",
+                borderRadius:10,padding:"14px 24px",
+                fontFamily:"DM Sans",fontSize:15,fontWeight:600,
+                cursor:loading?"not-allowed":"pointer",opacity:loading?0.75:1,
+                display:"flex",alignItems:"center",justifyContent:"center",gap:8,
+                transition:"all 0.2s",marginBottom:20,boxSizing:"border-box",
+                boxShadow:"0 4px 14px rgba(79,70,229,0.35)",
+              }}
+              onMouseEnter={e=>{ if(!loading) e.currentTarget.style.background="#4338ca"; }}
+              onMouseLeave={e=>e.currentTarget.style.background="#4f46e5"}>
+                {loading ? <><div style={{width:16,height:16,border:"2px solid rgba(255,255,255,0.3)",borderTopColor:"#fff",borderRadius:"50%",animation:"spin 0.6s linear infinite"}}/> Creating…</> : "Create Account"}
               </button>
-            </div>
-            <p style={{textAlign:"center",fontFamily:"DM Sans",fontSize:13,color:"rgba(186,201,204,0.7)",marginTop:20}}>
-              Existing node?{" "}
-              <a href="#" onClick={e=>{e.preventDefault();setView("login");}} style={{color:"#00daf3",fontWeight:700,textDecoration:"underline",textDecorationColor:"rgba(0,218,243,0.3)",marginLeft:4}}>RECONNECT</a>
-            </p>
-          </div>
-        )}
 
-        {/* System status bar */}
-        <div style={{marginTop:12,padding:"10px 16px",borderRadius:14,background:"rgba(21,29,30,0.4)",border:"1px solid rgba(59,73,76,0.25)",backdropFilter:"blur(12px)"}}>
-          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
-            <div style={{display:"flex",alignItems:"center",gap:10}}>
-              <div style={{position:"relative",width:10,height:10}}>
-                <div style={{position:"absolute",inset:0,borderRadius:"50%",background:"#00daf3",opacity:0.7,animation:"pingRing 1.2s ease-out infinite"}}/>
-                <div style={{position:"relative",width:10,height:10,borderRadius:"50%",background:"#00daf3"}}/>
-              </div>
-              <div>
-                <div style={{fontFamily:"JetBrains Mono",fontSize:11,color:"#00daf3",letterSpacing:"0.15em",lineHeight:1}}>SYSTEM_ACTIVE</div>
-                <div style={{fontFamily:"JetBrains Mono",fontSize:9,color:"rgba(132,147,150,0.7)",marginTop:3,letterSpacing:"0.05em"}}>LATENCY: 12ms | LOAD: 24.5%</div>
-              </div>
-            </div>
-            <div style={{display:"flex",gap:14}}>
-              <span className="ms" style={{fontSize:18,color:"rgba(132,147,150,0.6)",cursor:"pointer"}}>language</span>
-              <span className="ms" style={{fontSize:18,color:"rgba(132,147,150,0.6)",cursor:"pointer"}}>terminal</span>
-            </div>
-          </div>
-          {/* Progress bar */}
-          <div style={{height:2,background:"rgba(46,54,56,0.6)",borderRadius:100,overflow:"hidden"}}>
-            <div style={{height:"100%",width:"78%",background:"rgba(0,218,243,0.6)",borderRadius:100,animation:"progressBar 3s ease-in-out infinite"}}/>
-          </div>
+              <p style={{fontFamily:"DM Sans",fontSize:12,color:"#94a3b8",textAlign:"center",lineHeight:1.6}}>
+                By creating an account, you agree to our{" "}
+                <a href="#" style={{color:"#4f46e5",textDecoration:"none",fontWeight:500}}>Terms of Service</a>{" "}and{" "}
+                <a href="#" style={{color:"#4f46e5",textDecoration:"none",fontWeight:500}}>Privacy Policy</a>.
+              </p>
+            </>
+          )}
         </div>
-
       </div>
 
+      {/* Mobile: hide left panel below md */}
       <style>{`
-        @keyframes pingRing { 0%{transform:scale(1);opacity:0.7;} 100%{transform:scale(2.5);opacity:0;} }
-        @keyframes progressBar { 0%,100%{width:68%;} 50%{width:85%;} }
-        @keyframes slideUp { from{opacity:0;transform:translateY(24px);} to{opacity:1;transform:translateY(0);} }
         @keyframes spin { to{transform:rotate(360deg);} }
+        #login-screen-wrap { display:flex; flex-direction:row; }
+        @media(max-width:767px){
+          #login-screen-wrap { flex-direction: column !important; height: 100vh; overflow-y: auto; }
+          #login-left { flex: 0 0 auto !important; width: 100% !important; padding: 24px 20px 20px !important; min-height: auto !important; }
+          #login-left .left-middle, #login-left .left-bottom { display: none !important; }
+          #login-right { flex: 1 1 auto !important; width: 100% !important; min-height: 0 !important; overflow-y: auto !important; align-items: flex-start !important; justify-content: flex-start !important; padding: 24px 20px 48px !important; background: #f8f9fc !important; }
+          #login-right > div { width: 100% !important; max-width: 100% !important; }
+        }
       `}</style>
     </div>
   );
 }
-
 /* ─── Data Streams ───────────────────────────────────────── */
 function DataStreams() {
   useEffect(()=>{
@@ -602,161 +541,232 @@ function DataStreams() {
 }
 /* ─── HOME ───────────────────────────────────────────────── */
 function HomePage({onNav}) {
+  const tools = [
+    {id:"resume",    icon:"description",    label:"Resume Review",    desc:"AI feedback, match score & improved bullets.",      badge:"POPULAR", badgeColor:"#4f46e5"},
+    {id:"interview", icon:"psychology",     label:"Mock Interview",   desc:"Live AI interview practice with real-time scoring.", badge:"HOT",     badgeColor:"#ef4444"},
+    {id:"cover",     icon:"mail_outline",   label:"Cover Letter",     desc:"Polished, human-sounding cover letters i...",       badge:"",        badgeColor:""},
+    {id:"linkedin",  icon:"share",          label:"LinkedIn Post",    desc:"Turn your wins into viral professional content.",   badge:"",        badgeColor:""},
+    {id:"decoder",   icon:"analytics",      label:"Job Decoder",      desc:"Understand what any job posting really wants.",     badge:"NEW",     badgeColor:"#10b981"},
+    {id:"apply",     icon:"touch_app",      label:"One-Click Apply",  desc:"Full application package generated in one shot.",   badge:"",        badgeColor:""},
+    {id:"career",    icon:"map",            label:"Career Path",      desc:"Detailed roadmap from where you are to your...",    badge:"",        badgeColor:""},
+    {id:"salary",    icon:"payments",       label:"Salary Coach",     desc:"Know your worth, negotiate with real data.",        badge:"",        badgeColor:""},
+  ];
+
   return (
-    <div>
-      {/* Hero */}
-      <div className="animate-slideup delay-1" style={{marginBottom:32}}>
-        <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:12}}>
-          <div className="notif-dot"/>
-          <span className="font-mono" style={{fontSize:11,color:"var(--cyan)",letterSpacing:"0.1em",textTransform:"uppercase"}}>AI Status: Online</span>
-        </div>
-        <h1 className="font-display" style={{fontSize:"clamp(32px,6vw,58px)",fontWeight:800,letterSpacing:"-0.025em",lineHeight:1.05,marginBottom:14}}>
-          Your Career,<br/>
-          <span className="glow-text" style={{color:"var(--cyan)"}}>Supercharged</span>
-        </h1>
-        <p style={{fontSize:16,color:"var(--muted)",maxWidth:520,lineHeight:1.7,marginBottom:22}}>
-          The AI engine that turns your potential into opportunity. From resume to dream job — all in one platform.
-        </p>
-        <div style={{display:"flex",flexWrap:"wrap",gap:12}}>
-          <button className="btn btn-primary btn-lg" onClick={()=>onNav("resume")}>
-            <span className="ms">auto_fix_high</span> Get Started
-          </button>
-          <button className="btn btn-ghost btn-lg" onClick={()=>onNav("career")}>
-            <span className="ms">map</span> My Career Path
-          </button>
+    <div style={{fontFamily:"DM Sans, sans-serif"}}>
+
+      {/* ── HERO BANNER ── */}
+      <div style={{
+        background:"linear-gradient(135deg, #4f46e5 0%, #6366f1 45%, #7c3aed 100%)",
+        backgroundSize:"200% 200%",
+        borderRadius:20, padding:"clamp(24px,4vw,40px) clamp(24px,4vw,44px)",
+        marginBottom:24, position:"relative", overflow:"hidden",
+        animation:"heroGradient 8s ease infinite",
+      }}>
+        {/* BG circles */}
+        <div style={{position:"absolute",top:-60,right:-60,width:280,height:280,borderRadius:"50%",background:"rgba(255,255,255,0.06)",pointerEvents:"none"}}/>
+        <div style={{position:"absolute",bottom:-40,left:"40%",width:200,height:200,borderRadius:"50%",background:"rgba(255,255,255,0.04)",pointerEvents:"none"}}/>
+
+        <div style={{position:"relative",zIndex:1}}>
+          <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:14}}>
+            <div style={{width:8,height:8,borderRadius:"50%",background:"#4ade80",boxShadow:"0 0 8px #4ade80"}}/>
+            <span style={{fontFamily:"JetBrains Mono, monospace",fontSize:11,color:"rgba(255,255,255,0.8)",letterSpacing:"0.12em",textTransform:"uppercase"}}>AI Status: Online</span>
+          </div>
+          <h1 style={{fontFamily:"Syne, sans-serif",fontSize:"clamp(28px,5vw,48px)",fontWeight:800,color:"#fff",lineHeight:1.1,letterSpacing:"-0.02em",marginBottom:14}}>
+            Your Career,<br/>
+            <span className="typing" style={{color:"#a5f3fc"}}>Supercharged</span>
+          </h1>
+          <p style={{fontSize:15,color:"rgba(255,255,255,0.75)",maxWidth:500,lineHeight:1.65,marginBottom:24}}>
+            The AI engine that turns your potential into opportunity. From resume to dream job — all in one platform.
+          </p>
+          <div style={{display:"flex",flexWrap:"wrap",gap:12}}>
+            <button onClick={()=>onNav("resume")} style={{
+              display:"flex",alignItems:"center",gap:8,
+              background:"#fff",color:"#4f46e5",border:"none",
+              borderRadius:10,padding:"12px 24px",fontFamily:"DM Sans",
+              fontSize:14,fontWeight:700,cursor:"pointer",
+              boxShadow:"0 4px 14px rgba(0,0,0,0.15)",transition:"all 0.2s",
+            }}
+            onMouseEnter={e=>e.currentTarget.style.transform="translateY(-2px)"}
+            onMouseLeave={e=>e.currentTarget.style.transform=""}>
+              <span className="ms" style={{fontSize:18,color:"#4f46e5"}}>auto_fix_high</span> Get Started
+            </button>
+            <button onClick={()=>onNav("career")} style={{
+              display:"flex",alignItems:"center",gap:8,
+              background:"rgba(255,255,255,0.15)",color:"#fff",
+              border:"1.5px solid rgba(255,255,255,0.4)",
+              borderRadius:10,padding:"12px 24px",fontFamily:"DM Sans",
+              fontSize:14,fontWeight:600,cursor:"pointer",
+              backdropFilter:"blur(8px)",transition:"all 0.2s",
+            }}
+            onMouseEnter={e=>e.currentTarget.style.background="rgba(255,255,255,0.22)"}
+            onMouseLeave={e=>e.currentTarget.style.background="rgba(255,255,255,0.15)"}>
+              <span className="ms" style={{fontSize:18}}>map</span> My Career Path
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Stats */}
-      <div className="grid-stats animate-slideup delay-2" style={{marginBottom:32}}>
+      {/* ── STATS ── */}
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:14,marginBottom:24}}>
         {[
-          {val:"94%",label:"Match Rate",   color:"var(--cyan)"},
-          {val:"2.4x",label:"More Interviews",color:"var(--purple)"},
-          {val:"50K+",label:"Jobs Matched",color:"var(--gold)"},
+          {val:"94%",  label:"Match Rate",      color:"#4f46e5"},
+          {val:"2.4x", label:"More Interviews", color:"#7c3aed"},
+          {val:"50K+", label:"Jobs Matched",    color:"#0891b2"},
         ].map((s,i)=>(
-          <div key={i} className="glass glass-subtle hover-lift" style={{borderRadius:14,padding:"20px 14px",textAlign:"center"}}>
-            <div className="font-display" style={{fontSize:"clamp(24px,5vw,32px)",fontWeight:800,color:s.color,marginBottom:4}}>{s.val}</div>
-            <div className="font-mono" style={{fontSize:11,color:"var(--muted)"}}>{s.label}</div>
+          <div key={i} className="hover-lift scroll-reveal stat-value" style={{
+            background:"#fff",border:"1px solid #e8eaf0",borderRadius:14,
+            padding:"clamp(14px,3vw,22px) 12px",textAlign:"center",
+            boxShadow:"0 2px 8px rgba(0,0,0,0.05)",
+            transitionDelay:`${i*0.1}s`,
+          }}>
+            <div style={{fontFamily:"Syne",fontSize:"clamp(22px,4vw,32px)",fontWeight:800,color:s.color,marginBottom:4}}>{s.val}</div>
+            <div style={{fontSize:12,color:"#64748b",fontWeight:500}}>{s.label}</div>
           </div>
         ))}
       </div>
 
-      {/* ── Job Finder Feature Highlight ── */}
-      <div className="animate-slideup delay-3" style={{marginBottom:32}}>
+      {/* ── JOB FINDER HIGHLIGHT ── */}
+      <div style={{marginBottom:28}}>
         <div onClick={()=>onNav("jobs")} style={{
-          position:"relative", overflow:"hidden", borderRadius:20, cursor:"pointer",
-          padding:"clamp(16px,4vw,28px) clamp(16px,4vw,32px)",
-          background:"linear-gradient(135deg, rgba(0,218,243,0.12) 0%, rgba(79,49,156,0.18) 50%, rgba(0,218,243,0.08) 100%)",
-          border:"1px solid rgba(0,218,243,0.35)",
-          boxShadow:"0 0 40px rgba(0,218,243,0.15)",
+          background:"#fff",border:"1px solid #e8eaf0",borderRadius:18,
+          padding:"clamp(18px,3vw,28px) clamp(18px,3vw,28px)",
+          boxShadow:"0 4px 16px rgba(79,70,229,0.08)",
+          cursor:"pointer",position:"relative",overflow:"hidden",
+          borderLeft:"4px solid #4f46e5",
           transition:"all 0.3s cubic-bezier(0.16,1,0.3,1)",
+          animation:"borderShimmer 3s ease-in-out infinite",
         }}
-        onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-3px)";e.currentTarget.style.boxShadow="0 0 60px rgba(0,218,243,0.3)";e.currentTarget.style.borderColor="rgba(0,218,243,0.7)";}}
-        onMouseLeave={e=>{e.currentTarget.style.transform="";e.currentTarget.style.boxShadow="0 0 40px rgba(0,218,243,0.15)";e.currentTarget.style.borderColor="rgba(0,218,243,0.35)";}}>
-
-          {/* Animated scan line */}
-          <div style={{position:"absolute",left:0,right:0,height:2,background:"linear-gradient(90deg,transparent,rgba(0,218,243,0.6),transparent)",animation:"scanDown 3s linear infinite",pointerEvents:"none"}}/>
-
-          {/* Background glow orb */}
-          <div style={{position:"absolute",right:-40,top:-40,width:220,height:220,borderRadius:"50%",background:"rgba(0,218,243,0.06)",filter:"blur(40px)",pointerEvents:"none"}}/>
-          <div style={{position:"absolute",left:"30%",bottom:-30,width:160,height:160,borderRadius:"50%",background:"rgba(79,49,156,0.1)",filter:"blur(40px)",pointerEvents:"none"}}/>
-
-          <div style={{position:"relative",zIndex:1,display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:20}}>
+        onMouseEnter={e=>{e.currentTarget.style.boxShadow="0 8px 32px rgba(79,70,229,0.15)";e.currentTarget.style.transform="translateY(-2px)";}}
+        onMouseLeave={e=>{e.currentTarget.style.boxShadow="0 4px 16px rgba(79,70,229,0.08)";e.currentTarget.style.transform="";}}>
+          <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",flexWrap:"wrap",gap:20,position:"relative",zIndex:1}}>
             {/* Left */}
             <div style={{flex:1,minWidth:0}}>
-              <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:12}}>
-                <div style={{
-                  width:48,height:48,borderRadius:14,
-                  background:"linear-gradient(135deg,var(--cyan),rgba(0,218,243,0.5))",
-                  display:"flex",alignItems:"center",justifyContent:"center",
-                  boxShadow:"0 0 20px rgba(0,218,243,0.5)",
-                  animation:"floatOrb 4s ease-in-out infinite",
-                  flexShrink:0,
-                }}>
-                  <span className="ms" style={{fontSize:26,color:"#001f24"}}>travel_explore</span>
+              <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8}}>
+                <div style={{width:44,height:44,borderRadius:12,background:"linear-gradient(135deg,#4f46e5,#7c3aed)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+                  <span className="ms" style={{fontSize:22,color:"#fff"}}>travel_explore</span>
                 </div>
                 <div>
                   <div style={{display:"flex",alignItems:"center",gap:8}}>
-                    <span className="font-display" style={{fontSize:20,fontWeight:800,color:"var(--on)",letterSpacing:"-0.02em"}}>Job Finder</span>
-                    <span className="badge badge-cyan" style={{animation:"pulseDot 2s ease-in-out infinite"}}>✦ Featured</span>
+                    <span style={{fontFamily:"Syne",fontSize:18,fontWeight:700,color:"#0f172a"}}>Job Finder</span>
+                    <span style={{background:"#4f46e5",color:"#fff",fontSize:10,fontWeight:600,padding:"2px 8px",borderRadius:100,fontFamily:"JetBrains Mono",letterSpacing:"0.05em"}}>FEATURED</span>
                   </div>
-                  <p className="font-mono" style={{fontSize:10,color:"rgba(0,218,243,0.7)",letterSpacing:"0.1em",textTransform:"uppercase",marginTop:2}}>AI-Powered · Real-Time</p>
+                  <p style={{fontFamily:"JetBrains Mono",fontSize:10,color:"#4f46e5",letterSpacing:"0.08em",marginTop:2}}>AI-POWERED · REAL-TIME</p>
                 </div>
               </div>
-              <p style={{fontSize:15,color:"var(--muted)",lineHeight:1.65,marginBottom:16,maxWidth:460}}>
-                Upload your resume and let AI match you to the <strong style={{color:"var(--on)"}}>perfect roles</strong> across Naukri, LinkedIn, Indeed, Glassdoor and more — all in one click.
+              <p style={{fontSize:14,color:"#475569",lineHeight:1.65,marginBottom:14,maxWidth:480}}>
+                Upload your resume and let AI match you to the <strong style={{color:"#0f172a"}}>perfect roles</strong> across Naukri, LinkedIn, Indeed, Glassdoor and more — all in one click.
               </p>
-              {/* Feature pills */}
-              <div className="jf-pills" style={{display:"flex",flexWrap:"wrap",gap:8}}>
-                {["🇮🇳 Naukri","💼 LinkedIn","🔍 Indeed","✨ Shine","🎓 Internshala","🚀 Wellfound"].map(p=>(
-                  <span key={p} style={{
-                    fontSize:12,padding:"4px 12px",borderRadius:100,
-                    background:"rgba(0,218,243,0.08)",
-                    border:"1px solid rgba(0,218,243,0.2)",
-                    color:"var(--muted)",fontWeight:500,
-                  }}>{p}</span>
+              <div style={{display:"flex",flexWrap:"wrap",gap:7}}>
+                {["🇮🇳 Naukri","💼 LinkedIn","🔍 Indeed","✨ Shine","🎓 Wellfound"].map(p=>(
+                  <span key={p} style={{fontSize:12,padding:"4px 11px",borderRadius:100,background:"#f1f5f9",border:"1px solid #e2e8f0",color:"#475569",fontWeight:500}}>{p}</span>
                 ))}
               </div>
             </div>
-
-            {/* Right CTA */}
-            <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:12,flexShrink:0}}>
-              {/* Animated ring stat */}
-              <div style={{position:"relative",width:96,height:96}}>
-                <svg width="96" height="96" viewBox="0 0 96 96" style={{transform:"rotate(-90deg)"}}>
-                  <circle cx="48" cy="48" r="40" fill="none" stroke="rgba(0,218,243,0.1)" strokeWidth="6"/>
-                  <circle cx="48" cy="48" r="40" fill="none" stroke="var(--cyan)" strokeWidth="6"
-                    strokeLinecap="round"
-                    style={{strokeDasharray:"251.2",strokeDashoffset:"62.8",transition:"stroke-dashoffset 1.5s ease"}}/>
+            {/* Right */}
+            <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:10,flexShrink:0}}>
+              <div style={{position:"relative",width:86,height:86}}>
+                <svg width="86" height="86" viewBox="0 0 86 86" style={{transform:"rotate(-90deg)"}}>
+                  <circle cx="43" cy="43" r="36" fill="none" stroke="#e8eaf0" strokeWidth="5"/>
+                  <circle cx="43" cy="43" r="36" fill="none" stroke="#4f46e5" strokeWidth="5" strokeLinecap="round"
+                    style={{strokeDasharray:"226",strokeDashoffset:"56",transition:"stroke-dashoffset 1.5s ease"}}/>
                 </svg>
                 <div style={{position:"absolute",inset:0,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
-                  <span className="font-display" style={{fontSize:22,fontWeight:800,color:"var(--cyan)",lineHeight:1}}>50K+</span>
-                  <span className="font-mono" style={{fontSize:9,color:"var(--muted)",letterSpacing:"0.05em",textTransform:"uppercase"}}>Jobs</span>
+                  <span style={{fontFamily:"Syne",fontSize:18,fontWeight:800,color:"#4f46e5",lineHeight:1}}>50K+</span>
+                  <span style={{fontFamily:"JetBrains Mono",fontSize:9,color:"#64748b",textTransform:"uppercase",letterSpacing:"0.05em"}}>Jobs</span>
                 </div>
               </div>
-              <button className="btn btn-primary" style={{
-                padding:"12px 28px",fontSize:14,borderRadius:12,
-                boxShadow:"0 0 24px rgba(0,218,243,0.4)",
-                display:"flex",alignItems:"center",gap:8,
+              <button style={{
+                background:"#4f46e5",color:"#fff",border:"none",borderRadius:10,
+                padding:"11px 22px",fontFamily:"DM Sans",fontSize:13,fontWeight:600,
+                cursor:"pointer",display:"flex",alignItems:"center",gap:6,
+                boxShadow:"0 4px 12px rgba(79,70,229,0.35)",whiteSpace:"nowrap",
               }}>
-                <span className="ms" style={{fontSize:18}}>travel_explore</span>
-                Find My Jobs
-                <span className="ms" style={{fontSize:16}}>arrow_forward</span>
+                Find My Jobs <span className="ms" style={{fontSize:16}}>arrow_forward</span>
               </button>
-              <p className="font-mono" style={{fontSize:10,color:"rgba(186,201,204,0.45)",letterSpacing:"0.06em"}}>FREE · No signup needed</p>
+              <p style={{fontFamily:"JetBrains Mono",fontSize:10,color:"#94a3b8",letterSpacing:"0.05em"}}>FREE · No signup needed</p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Tools Grid */}
-      <div className="animate-slideup delay-3">
-        <div className="section-head">
-          <h2 className="section-title">AI Tools Suite</h2>
-          <span className="badge badge-cyan">10 Tools</span>
+      {/* ── AI TOOLS SUITE ── */}
+      <div>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:18,flexWrap:"wrap",gap:10}}>
+          <div style={{display:"flex",alignItems:"center",gap:10}}>
+            <h2 style={{fontFamily:"Syne",fontSize:"clamp(18px,3vw,24px)",fontWeight:800,color:"#0f172a"}}>AI Tools Suite</h2>
+            <span style={{background:"#4f46e5",color:"#fff",fontSize:11,fontWeight:600,padding:"3px 10px",borderRadius:100,fontFamily:"JetBrains Mono"}}>10 Tools</span>
+          </div>
+          <button onClick={()=>{}} style={{display:"flex",alignItems:"center",gap:4,background:"none",border:"none",color:"#4f46e5",fontSize:13,fontWeight:600,cursor:"pointer",fontFamily:"DM Sans"}}>
+            View All <span className="ms" style={{fontSize:16}}>chevron_right</span>
+          </button>
         </div>
-        <div className="grid-tools">
-          {TOOLS.map((t,i)=>(
-            <div key={t.id} className="tool-card glass animate-slideup" style={{border:"1px solid rgba(0,229,255,0.12)",animationDelay:`${0.05+i*0.04}s`,opacity:0}} onClick={()=>onNav(t.id)}>
+
+        {/* Tools grid - 4 columns desktop */}
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))",gap:14}}>
+          {tools.map((t,i)=>(
+            <div key={t.id} onClick={()=>onNav(t.id)}
+              className="hover-lift"
+              style={{
+                background:"#fff",border:"1px solid #e8eaf0",borderRadius:14,
+                padding:"20px 18px",cursor:"pointer",
+                boxShadow:"0 2px 8px rgba(0,0,0,0.04)",
+                transition:"all 0.25s cubic-bezier(0.16,1,0.3,1)",
+                animationDelay:`${i*0.04}s`,
+              }}
+              onMouseEnter={e=>{e.currentTarget.style.boxShadow="0 8px 24px rgba(79,70,229,0.12)";e.currentTarget.style.borderColor="#c7d2fe";}}
+              onMouseLeave={e=>{e.currentTarget.style.boxShadow="0 2px 8px rgba(0,0,0,0.04)";e.currentTarget.style.borderColor="#e8eaf0";}}>
               <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",marginBottom:14}}>
-                <div style={{width:42,height:42,borderRadius:10,background:"rgba(0,218,243,0.1)",border:"1px solid rgba(0,218,243,0.2)",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 0 12px rgba(0,218,243,0.15)"}}>
-                  <span className="ms" style={{color:"var(--cyan)"}}>{t.icon}</span>
+                <div style={{width:40,height:40,borderRadius:10,background:"#eef2ff",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                  <span className="ms" style={{fontSize:20,color:"#4f46e5"}}>{t.icon}</span>
                 </div>
-                {t.badge && <span className={`badge badge-${t.badgeType}`}>{t.badge}</span>}
+                {t.badge && (
+                  <span style={{background:t.badgeColor,color:"#fff",fontSize:9,fontWeight:700,padding:"2px 7px",borderRadius:100,fontFamily:"JetBrains Mono",letterSpacing:"0.05em"}}>{t.badge}</span>
+                )}
               </div>
-              <h3 className="font-display" style={{fontSize:14,fontWeight:700,marginBottom:6,color:"var(--on)"}}>{t.label}</h3>
-              <p style={{fontSize:12.5,color:"var(--muted)",lineHeight:1.55}}>{t.desc}</p>
-              <div style={{marginTop:14,display:"flex",alignItems:"center",gap:4,color:"var(--cyan)",opacity:0.65,fontSize:12,fontFamily:"JetBrains Mono"}}>
+              <h3 style={{fontFamily:"Syne",fontSize:14,fontWeight:700,color:"#0f172a",marginBottom:6}}>{t.label}</h3>
+              <p style={{fontSize:12,color:"#64748b",lineHeight:1.55,marginBottom:14}}>{t.desc}</p>
+              <div style={{display:"flex",alignItems:"center",gap:4,color:"#4f46e5",fontSize:12,fontFamily:"DM Sans",fontWeight:600}}>
                 Open <span className="ms" style={{fontSize:14}}>arrow_forward</span>
               </div>
             </div>
           ))}
         </div>
       </div>
+
+      {/* ── BOTTOM CTA ── */}
+      <div className="animate-slideup scroll-reveal" style={{
+        marginTop:40, borderRadius:20, overflow:"hidden",
+        background:"#0f172a", padding:"clamp(28px,5vw,48px) clamp(24px,5vw,48px)",
+        textAlign:"center", position:"relative",
+      }}>
+        <div style={{position:"absolute",top:0,left:0,right:0,bottom:0,background:"linear-gradient(135deg,rgba(79,70,229,0.3),rgba(124,58,237,0.2))",pointerEvents:"none"}}/>
+        <div style={{position:"relative",zIndex:1}}>
+          <div style={{width:80,height:80,margin:"0 auto 20px",borderRadius:16,background:"linear-gradient(135deg,#4f46e5,#7c3aed)",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 8px 32px rgba(79,70,229,0.4)"}}>
+            <span className="ms" style={{fontSize:36,color:"#fff"}}>rocket_launch</span>
+          </div>
+          <h2 style={{fontFamily:"Syne",fontSize:"clamp(22px,4vw,32px)",fontWeight:800,color:"#fff",marginBottom:12,letterSpacing:"-0.02em"}}>Ready to land your dream job?</h2>
+          <p style={{fontSize:15,color:"rgba(255,255,255,0.65)",marginBottom:28,maxWidth:480,margin:"0 auto 28px",lineHeight:1.65}}>
+            Join over 250,000 professionals using CareerAI to secure interviews at top tech companies worldwide.
+          </p>
+          <div style={{display:"flex",flexWrap:"wrap",gap:12,justifyContent:"center"}}>
+            <button onClick={()=>onNav("resume")} style={{background:"#4f46e5",color:"#fff",border:"none",borderRadius:10,padding:"13px 28px",fontFamily:"DM Sans",fontSize:15,fontWeight:700,cursor:"pointer",boxShadow:"0 4px 14px rgba(79,70,229,0.5)",transition:"all 0.2s"}}
+              onMouseEnter={e=>e.currentTarget.style.background="#4338ca"}
+              onMouseLeave={e=>e.currentTarget.style.background="#4f46e5"}>
+              Join for Free
+            </button>
+            <button style={{background:"transparent",color:"#fff",border:"1.5px solid rgba(255,255,255,0.3)",borderRadius:10,padding:"13px 28px",fontFamily:"DM Sans",fontSize:15,fontWeight:600,cursor:"pointer",transition:"all 0.2s"}}
+              onMouseEnter={e=>e.currentTarget.style.borderColor="rgba(255,255,255,0.6)"}
+              onMouseLeave={e=>e.currentTarget.style.borderColor="rgba(255,255,255,0.3)"}>
+              Enterprise Solutions
+            </button>
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 }
-
 /* ─── RESUME ─────────────────────────────────────────────── */
 function ResumePage({callAI, loading}) {
   const [resume, setResume] = useState("");
@@ -770,15 +780,15 @@ function ResumePage({callAI, loading}) {
   }
 
   return (
-    <div className="animate-slideup">
+    <div className="page-enter">
       <PageHeader title="Resume Review" desc="Upload your resume and get AI-powered feedback, match score, and improvements."/>
       <div className="grid-2">
         <div className="glass card">
-          <div className="section-head"><span className="ms" style={{color:"var(--cyan)"}}>description</span><h3 className="section-title" style={{fontSize:15}}>Your Resume</h3></div>
+          <div className="section-head"><span className="ms" style={{color:"var(--indigo)"}}>description</span><h3 className="section-title" style={{fontSize:15}}>Your Resume</h3></div>
           <div className="upload-zone" style={{marginBottom:14}} onClick={()=>document.getElementById("res-file").click()}>
             <span className="ms" style={{animation:"floatOrb 4s ease-in-out infinite"}}>upload_file</span>
             <p style={{fontWeight:600,fontSize:14,marginBottom:4}}>Drop or click to upload</p>
-            <p style={{fontSize:12,color:"var(--muted)"}}>PDF, DOCX, TXT up to 10MB</p>
+            <p style={{fontSize:12,color:"var(--text-secondary)"}}>PDF, DOCX, TXT up to 10MB</p>
             <input id="res-file" type="file" accept=".pdf,.docx,.txt" style={{display:"none"}} onChange={e=>{
               const f=e.target.files[0]; if(!f) return;
               const r=new FileReader(); r.onload=ev=>setResume(ev.target.result.slice(0,8000)); r.readAsText(f);
@@ -790,7 +800,7 @@ function ResumePage({callAI, loading}) {
           </div>
         </div>
         <div className="glass card">
-          <div className="section-head"><span className="ms" style={{color:"var(--cyan)"}}>work</span><h3 className="section-title" style={{fontSize:15}}>Job Description</h3></div>
+          <div className="section-head"><span className="ms" style={{color:"var(--indigo)"}}>work</span><h3 className="section-title" style={{fontSize:15}}>Job Description</h3></div>
           <div><label className="ai-label">Paste the full job posting</label>
             <textarea className="ai-input" rows={9} value={jd} onChange={e=>setJd(e.target.value)} placeholder="Paste the job description here…"/>
           </div>
@@ -834,7 +844,7 @@ function InterviewPage({callAI, loading}) {
       <PageHeader title="Mock Interview" desc="Practice with live AI — get real-time feedback and a final performance score."/>
       {!started ? (
         <div className="glass card border-pulse">
-          <div className="section-head"><span className="ms" style={{color:"var(--cyan)"}}>settings</span><h3 className="section-title" style={{fontSize:15}}>Setup Your Interview</h3></div>
+          <div className="section-head"><span className="ms" style={{color:"var(--indigo)"}}>settings</span><h3 className="section-title" style={{fontSize:15}}>Setup Your Interview</h3></div>
           <div className="grid-3" style={{marginBottom:20}}>
             <div><label className="ai-label">Job Role</label><input className="ai-input" value={role} onChange={e=>setRole(e.target.value)} placeholder="e.g. Data Analyst"/></div>
             <div>
@@ -884,9 +894,9 @@ function InterviewPage({callAI, loading}) {
             ))}
             {loading && (
               <div className="bubble-ai" style={{display:"flex",alignItems:"center",gap:8}}>
-                <div style={{width:6,height:6,borderRadius:"50%",background:"var(--cyan)",animation:"pulseDot 0.6s ease infinite"}}/>
-                <div style={{width:6,height:6,borderRadius:"50%",background:"var(--cyan)",animation:"pulseDot 0.6s 0.2s ease infinite"}}/>
-                <div style={{width:6,height:6,borderRadius:"50%",background:"var(--cyan)",animation:"pulseDot 0.6s 0.4s ease infinite"}}/>
+                <div style={{width:6,height:6,borderRadius:"50%",background:"var(--indigo)",animation:"pulseDot 0.6s ease infinite"}}/>
+                <div style={{width:6,height:6,borderRadius:"50%",background:"var(--indigo)",animation:"pulseDot 0.6s 0.2s ease infinite"}}/>
+                <div style={{width:6,height:6,borderRadius:"50%",background:"var(--indigo)",animation:"pulseDot 0.6s 0.4s ease infinite"}}/>
               </div>
             )}
           </div>
@@ -913,11 +923,11 @@ function CoverPage({callAI, loading}) {
   const [result,setResult]=useState("");
   async function run(){ const r=await callAI("cover",{jd,name,email,company,about,tone,summary:"Cover letter"}); if(r) setResult(r); }
   return (
-    <div className="animate-slideup">
+    <div className="page-enter">
       <PageHeader title="Cover Letter" desc="Generate a polished, human-sounding cover letter instantly."/>
       <div className="grid-2">
         <div className="glass card">
-          <div className="section-head"><span className="ms" style={{color:"var(--cyan)"}}>work</span><h3 className="section-title" style={{fontSize:15}}>Job Details</h3></div>
+          <div className="section-head"><span className="ms" style={{color:"var(--indigo)"}}>work</span><h3 className="section-title" style={{fontSize:15}}>Job Details</h3></div>
           <div style={{display:"flex",flexDirection:"column",gap:14}}>
             <div><label className="ai-label">Job Description</label><textarea className="ai-input" rows={7} value={jd} onChange={e=>setJd(e.target.value)} placeholder="Paste the full job posting…"/></div>
             <div><label className="ai-label">Company Name</label><input className="ai-input" value={company} onChange={e=>setCompany(e.target.value)} placeholder="e.g. Google, Amazon…"/></div>
@@ -930,7 +940,7 @@ function CoverPage({callAI, loading}) {
           </div>
         </div>
         <div className="glass card">
-          <div className="section-head"><span className="ms" style={{color:"var(--cyan)"}}>person</span><h3 className="section-title" style={{fontSize:15}}>About You</h3></div>
+          <div className="section-head"><span className="ms" style={{color:"var(--indigo)"}}>person</span><h3 className="section-title" style={{fontSize:15}}>About You</h3></div>
           <div style={{display:"flex",flexDirection:"column",gap:14}}>
             <div><label className="ai-label">Full Name</label><input className="ai-input" value={name} onChange={e=>setName(e.target.value)} placeholder="Your name"/></div>
             <div><label className="ai-label">Email Address</label><input className="ai-input" type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="your@email.com"/></div>
@@ -1004,7 +1014,7 @@ function DecoderPage({callAI, loading}) {
     <div className="animate-slideup" style={{maxWidth:760}}>
       <PageHeader title="Job Decoder" desc="Understand what any job posting really wants — decoded by AI."/>
       <div className="glass card">
-        <div className="section-head"><span className="ms" style={{color:"var(--cyan)"}}>analytics</span><h3 className="section-title" style={{fontSize:15}}>Paste Job Posting</h3></div>
+        <div className="section-head"><span className="ms" style={{color:"var(--indigo)"}}>analytics</span><h3 className="section-title" style={{fontSize:15}}>Paste Job Posting</h3></div>
         <textarea className="ai-input" rows={10} value={jd} onChange={e=>setJd(e.target.value)} placeholder="Paste the full job description here…"/>
         <button className="btn btn-primary btn-full" style={{marginTop:16,padding:13}} onClick={run} disabled={loading||!jd}>
           {loading?<span className="spinner"/>:"🔍"} Decode This Job
@@ -1028,11 +1038,11 @@ function ApplyPage({callAI, loading, showToast}) {
     if(r){ try{ setPkg(JSON.parse(r)); }catch{ showToast("Parse error","error"); } }
   }
   return (
-    <div className="animate-slideup">
+    <div className="page-enter">
       <PageHeader title="One-Click Apply" desc="Get a complete application package — cover letter, email, and talking points."/>
       <div className="grid-2">
         <div className="glass card">
-          <div className="section-head"><span className="ms" style={{color:"var(--cyan)"}}>work</span><h3 className="section-title" style={{fontSize:15}}>Job Details</h3></div>
+          <div className="section-head"><span className="ms" style={{color:"var(--indigo)"}}>work</span><h3 className="section-title" style={{fontSize:15}}>Job Details</h3></div>
           <div style={{display:"flex",flexDirection:"column",gap:14}}>
             <div><label className="ai-label">Job Description</label><textarea className="ai-input" rows={7} value={jd} onChange={e=>setJd(e.target.value)} placeholder="Paste the job posting…"/></div>
             <div><label className="ai-label">Job URL (optional)</label><input className="ai-input" value={url} onChange={e=>setUrl(e.target.value)} placeholder="https://…"/></div>
@@ -1040,7 +1050,7 @@ function ApplyPage({callAI, loading, showToast}) {
           </div>
         </div>
         <div className="glass card">
-          <div className="section-head"><span className="ms" style={{color:"var(--cyan)"}}>person</span><h3 className="section-title" style={{fontSize:15}}>Your Details</h3></div>
+          <div className="section-head"><span className="ms" style={{color:"var(--indigo)"}}>person</span><h3 className="section-title" style={{fontSize:15}}>Your Details</h3></div>
           <div style={{display:"flex",flexDirection:"column",gap:14}}>
             <div><label className="ai-label">Resume / Key Info</label><textarea className="ai-input" rows={5} value={resume} onChange={e=>setResume(e.target.value)} placeholder="Paste your resume highlights…"/></div>
             <div><label className="ai-label">Full Name</label><input className="ai-input" value={name} onChange={e=>setName(e.target.value)} placeholder="Your full name"/></div>
@@ -1080,18 +1090,76 @@ function JobsPage({callAI, loading}) {
   const [resume,setResume]=useState(""); const [role,setRole]=useState("");
   const [loc,setLoc]=useState(""); const [exp,setExp]=useState("Mid (3-6 yrs)");
   const [result,setResult]=useState("");
+  const [fileName,setFileName]=useState("");
+  const [dragOver,setDragOver]=useState(false);
   const rQ=encodeURIComponent(role||"software engineer"); const lQ=encodeURIComponent(loc||"India");
   async function run(){ const r=await callAI("jobs",{resume,role,location:loc,exp,summary:"Job search"}); if(r) setResult(r); }
+
+  function readFile(file){
+    if(!file) return;
+    setFileName(file.name);
+    const reader = new FileReader();
+    reader.onload = e => setResume(e.target.result.slice(0,8000));
+    reader.readAsText(file);
+  }
+
   return (
-    <div className="animate-slideup">
+    <div className="page-enter">
       <PageHeader title="Job Finder" desc="AI maps your profile to matching roles and guides you to the best job portals."/>
       <div className="grid-2">
         <div className="glass card">
-          <div className="section-head"><span className="ms" style={{color:"var(--cyan)"}}>description</span><h3 className="section-title" style={{fontSize:15}}>Your Resume</h3></div>
-          <textarea className="ai-input" rows={9} value={resume} onChange={e=>setResume(e.target.value)} placeholder="Paste your resume or key skills…"/>
+          <div className="section-head"><span className="ms" style={{color:"var(--indigo)"}}>description</span><h3 className="section-title" style={{fontSize:15}}>Your Resume</h3></div>
+
+          {/* Upload Zone */}
+          <div
+            onClick={()=>document.getElementById("jobs-file-input").click()}
+            onDragOver={e=>{e.preventDefault();setDragOver(true);}}
+            onDragLeave={()=>setDragOver(false)}
+            onDrop={e=>{e.preventDefault();setDragOver(false);readFile(e.dataTransfer.files[0]);}}
+            style={{
+              border:`2px dashed ${dragOver?"var(--indigo)":resume?"var(--indigo)":"var(--border-mid)"}`,
+              borderRadius:12, padding:"28px 20px", textAlign:"center",
+              cursor:"pointer", transition:"all 0.2s",
+              background: dragOver ? "var(--indigo-soft)" : resume ? "#f0fdf4" : "var(--bg-subtle)",
+              marginBottom: resume ? 12 : 0,
+            }}
+          >
+            <input id="jobs-file-input" type="file" accept=".pdf,.docx,.txt" style={{display:"none"}}
+              onChange={e=>readFile(e.target.files[0])}/>
+            {resume ? (
+              <>
+                <div style={{width:48,height:48,borderRadius:12,background:"#dcfce7",display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 10px"}}>
+                  <span className="ms" style={{fontSize:26,color:"#16a34a"}}>check_circle</span>
+                </div>
+                <p style={{fontWeight:600,fontSize:14,color:"#15803d",marginBottom:4}}>Resume loaded!</p>
+                <p style={{fontSize:12,color:"#64748b"}}>{fileName || "File ready"} · <span style={{color:"var(--indigo)",cursor:"pointer",fontWeight:500}} onClick={e=>{e.stopPropagation();setResume("");setFileName("");}}>Remove</span></p>
+              </>
+            ) : (
+              <>
+                <div style={{width:52,height:52,borderRadius:14,background:"var(--indigo-soft)",display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 12px",animation:"floatOrb 3s ease-in-out infinite"}}>
+                  <span className="ms" style={{fontSize:28,color:"var(--indigo)"}}>upload_file</span>
+                </div>
+                <p style={{fontWeight:600,fontSize:14,color:"var(--text-primary)",marginBottom:4}}>Drop your resume here</p>
+                <p style={{fontSize:12,color:"var(--text-muted)",marginBottom:10}}>PDF, DOCX or TXT · up to 10MB</p>
+                <span style={{display:"inline-block",background:"var(--indigo)",color:"#fff",fontSize:12,fontWeight:600,padding:"7px 18px",borderRadius:8,cursor:"pointer"}}>Browse File</span>
+              </>
+            )}
+          </div>
+
+          {/* OR paste */}
+          {!resume && (
+            <div>
+              <div style={{display:"flex",alignItems:"center",gap:10,margin:"14px 0 10px"}}>
+                <div style={{flex:1,height:1,background:"var(--border)"}}/>
+                <span style={{fontSize:12,color:"var(--text-muted)",fontWeight:500}}>or paste text</span>
+                <div style={{flex:1,height:1,background:"var(--border)"}}/>
+              </div>
+              <textarea className="ai-input" rows={4} value={resume} onChange={e=>setResume(e.target.value)} placeholder="Paste your resume or key skills…"/>
+            </div>
+          )}
         </div>
         <div className="glass card">
-          <div className="section-head"><span className="ms" style={{color:"var(--cyan)"}}>tune</span><h3 className="section-title" style={{fontSize:15}}>Preferences</h3></div>
+          <div className="section-head"><span className="ms" style={{color:"var(--indigo)"}}>tune</span><h3 className="section-title" style={{fontSize:15}}>Preferences</h3></div>
           <div style={{display:"flex",flexDirection:"column",gap:14}}>
             <div><label className="ai-label">Target Role</label><input className="ai-input" value={role} onChange={e=>setRole(e.target.value)} placeholder="e.g. Software Engineer"/></div>
             <div><label className="ai-label">Location</label><input className="ai-input" value={loc} onChange={e=>setLoc(e.target.value)} placeholder="e.g. Bangalore, Remote"/></div>
@@ -1136,11 +1204,11 @@ function CareerPage({callAI, loading}) {
   const [result,setResult]=useState("");
   async function run(){ const r=await callAI("career",{role,exp,skills,goal,industry,timeline,summary:`Career path`}); if(r) setResult(r); }
   return (
-    <div className="animate-slideup">
+    <div className="page-enter">
       <PageHeader title="Career Path" desc="Get a detailed roadmap from where you are to where you want to be."/>
       <div className="grid-2">
         <div className="glass card">
-          <div className="section-head"><span className="ms" style={{color:"var(--cyan)"}}>person</span><h3 className="section-title" style={{fontSize:15}}>Where You Are Now</h3></div>
+          <div className="section-head"><span className="ms" style={{color:"var(--indigo)"}}>person</span><h3 className="section-title" style={{fontSize:15}}>Where You Are Now</h3></div>
           <div style={{display:"flex",flexDirection:"column",gap:14}}>
             <div><label className="ai-label">Current Role</label><input className="ai-input" value={role} onChange={e=>setRole(e.target.value)} placeholder="e.g. Junior Software Engineer"/></div>
             <div><label className="ai-label">Years of Experience</label><input className="ai-input" value={exp} onChange={e=>setExp(e.target.value)} placeholder="e.g. 2 years"/></div>
@@ -1148,7 +1216,7 @@ function CareerPage({callAI, loading}) {
           </div>
         </div>
         <div className="glass card">
-          <div className="section-head"><span className="ms" style={{color:"var(--cyan)"}}>flag</span><h3 className="section-title" style={{fontSize:15}}>Where You Want to Go</h3></div>
+          <div className="section-head"><span className="ms" style={{color:"var(--indigo)"}}>flag</span><h3 className="section-title" style={{fontSize:15}}>Where You Want to Go</h3></div>
           <div style={{display:"flex",flexDirection:"column",gap:14}}>
             <div><label className="ai-label">Dream Job / Goal</label><input className="ai-input" value={goal} onChange={e=>setGoal(e.target.value)} placeholder="e.g. CTO, Data Scientist, Indie Founder"/></div>
             <div>
@@ -1192,7 +1260,7 @@ function SalaryPage({callAI, loading}) {
   const [seResult,setSeResult]=useState("");
 
   return (
-    <div className="animate-slideup">
+    <div className="page-enter">
       <PageHeader title="Salary Coach" desc="Know your worth, negotiate confidently, write counter offers."/>
       <div className="tabs-bar" style={{marginBottom:22}}>
         {["💰 Know Your Worth","🗣 Negotiation Script","📧 Counter Offer Email"].map((t,i)=>(
@@ -1277,21 +1345,21 @@ function SalaryPage({callAI, loading}) {
 function HistoryPage({history, onClear}) {
   const [open, setOpen] = useState({});
   if(history.length===0) return (
-    <div className="animate-slideup">
+    <div className="page-enter">
       <PageHeader title="My History" desc="0 saved results"/>
       <div style={{textAlign:"center",padding:"80px 20px"}}>
-        <span className="ms" style={{fontSize:52,color:"rgba(59,73,76,0.6)",display:"block",marginBottom:16}}>history</span>
-        <p className="font-display" style={{fontSize:18,fontWeight:700,color:"rgba(220,228,229,0.35)",marginBottom:8}}>No history yet</p>
-        <p style={{fontSize:13,color:"var(--muted)"}}>Use any tool and your AI results will be saved here.</p>
+        <span className="ms" style={{fontSize:52,color:"var(--border-mid)",display:"block",marginBottom:16}}>history</span>
+        <p className="font-display" style={{fontSize:18,fontWeight:700,color:"var(--text-disabled)",marginBottom:8}}>No history yet</p>
+        <p style={{fontSize:13,color:"var(--text-secondary)"}}>Use any tool and your AI results will be saved here.</p>
       </div>
     </div>
   );
   return (
-    <div className="animate-slideup">
+    <div className="page-enter">
       <div style={{display:"flex",alignItems:"flex-end",justifyContent:"space-between",marginBottom:28}}>
         <div>
           <h1 className="font-display" style={{fontSize:"clamp(28px,5vw,42px)",fontWeight:800,letterSpacing:"-0.02em",marginBottom:4}}>My History</h1>
-          <p style={{fontSize:13,color:"var(--muted)"}}>{history.length} saved results</p>
+          <p style={{fontSize:13,color:"var(--text-secondary)"}}>{history.length} saved results</p>
         </div>
         <button className="btn btn-ghost btn-sm" onClick={onClear}>
           <span className="ms" style={{fontSize:16}}>delete_sweep</span> Clear All
@@ -1299,15 +1367,15 @@ function HistoryPage({history, onClear}) {
       </div>
       <div style={{display:"flex",flexDirection:"column",gap:10}}>
         {history.map((h,i)=>(
-          <div key={i} className="glass animate-slideup" style={{border:"1px solid rgba(59,73,76,0.4)",borderRadius:14,animationDelay:`${i*0.03}s`,opacity:0,overflow:"hidden"}}>
+          <div key={i} className="glass animate-slideup" style={{border:"1px solid var(--border)",borderRadius:14,animationDelay:`${i*0.03}s`,opacity:0,overflow:"hidden"}}>
             <div className="hist-head" onClick={()=>setOpen(o=>({...o,[i]:!o[i]}))}>
               <div style={{display:"flex",alignItems:"center",gap:10,minWidth:0,flex:1}}>
                 <span className="badge badge-cyan" style={{flexShrink:0}}>{h.tool}</span>
-                <span style={{fontSize:13,color:"var(--on)",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{h.summary?.slice(0,55)}…</span>
+                <span style={{fontSize:13,color:"var(--text-primary)",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{h.summary?.slice(0,55)}…</span>
               </div>
               <div style={{display:"flex",alignItems:"center",gap:12,flexShrink:0}}>
-                <span className="font-mono" style={{fontSize:11,color:"var(--muted)",display:"none"}}>{h.time}</span>
-                <span className="ms" style={{fontSize:18,color:"var(--muted)",transition:"transform 0.2s",transform:open[i]?"rotate(180deg)":""}}>expand_more</span>
+                <span className="font-mono" style={{fontSize:11,color:"var(--text-secondary)",display:"none"}}>{h.time}</span>
+                <span className="ms" style={{fontSize:18,color:"var(--text-secondary)",transition:"transform 0.2s",transform:open[i]?"rotate(180deg)":""}}>expand_more</span>
               </div>
             </div>
             {open[i] && (
@@ -1344,7 +1412,7 @@ function ProfilePage({user, onSave, lang, onLangChange, onLogout}) {
   function save() { onSave({name:`${first} ${last}`.trim(), email}); }
 
   return (
-    <div className="animate-slideup">
+    <div className="page-enter">
       <h1 className="font-display" style={{fontSize:"clamp(28px,5vw,42px)",fontWeight:800,letterSpacing:"-0.02em",marginBottom:28}}>My Profile</h1>
 
       {/* Header card */}
@@ -1352,11 +1420,11 @@ function ProfilePage({user, onSave, lang, onLangChange, onLogout}) {
         <div style={{display:"flex",flexWrap:"wrap",alignItems:"flex-start",gap:20}}>
           <div style={{position:"relative",flexShrink:0}}>
             <div className="avatar-ring" style={{width:72,height:72}}>
-              <div className="avatar-inner" style={{width:66,height:66,fontSize:28,fontWeight:800,color:"var(--cyan)",fontFamily:"Syne"}}>
+              <div className="avatar-inner" style={{width:66,height:66,fontSize:28,fontWeight:800,color:"var(--indigo)",fontFamily:"Syne"}}>
                 {first.charAt(0).toUpperCase()}
               </div>
             </div>
-            <div style={{position:"absolute",bottom:-2,right:-2,width:22,height:22,borderRadius:"50%",background:"var(--cyan)",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 0 10px rgba(0,218,243,0.5)",cursor:"pointer"}}>
+            <div style={{position:"absolute",bottom:-2,right:-2,width:22,height:22,borderRadius:"50%",background:"var(--indigo)",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 0 10px rgba(0,218,243,0.5)",cursor:"pointer"}}>
               <span className="ms" style={{fontSize:13,color:"#001f24"}}>edit</span>
             </div>
           </div>
@@ -1366,7 +1434,7 @@ function ProfilePage({user, onSave, lang, onLangChange, onLogout}) {
               <span className="badge badge-gold">PRO PLAN</span>
               <span className="badge badge-cyan">AI Score: 87</span>
             </div>
-            <p style={{fontSize:13,color:"var(--muted)",marginBottom:10}}>{email}</p>
+            <p style={{fontSize:13,color:"var(--text-secondary)",marginBottom:10}}>{email}</p>
             <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
               {(skills||"").split(",").filter(Boolean).slice(0,5).map(s=>(
                 <span key={s} className="badge badge-purple">{s.trim()}</span>
@@ -1376,13 +1444,13 @@ function ProfilePage({user, onSave, lang, onLangChange, onLogout}) {
           {/* Completion ring */}
           <div className="ring-container" style={{width:72,height:72,flexShrink:0}}>
             <svg width="72" height="72" viewBox="0 0 72 72" style={{transform:"rotate(-90deg)"}}>
-              <circle cx="36" cy="36" r="30" fill="none" stroke="rgba(59,73,76,0.5)" strokeWidth="5"/>
-              <circle cx="36" cy="36" r="30" fill="none" stroke="var(--cyan)" strokeWidth="5" strokeLinecap="round"
+              <circle cx="36" cy="36" r="30" fill="none" stroke="var(--border)" strokeWidth="5"/>
+              <circle cx="36" cy="36" r="30" fill="none" stroke="var(--indigo)" strokeWidth="5" strokeLinecap="round"
                 style={{strokeDasharray:circ,strokeDashoffset:offset,transition:"stroke-dashoffset 1.5s cubic-bezier(0.16,1,0.3,1)"}}/>
             </svg>
             <div className="ring-text">
-              <span className="font-display" style={{fontSize:14,fontWeight:700,color:"var(--cyan)"}}>{completionPct}%</span>
-              <span className="font-mono" style={{fontSize:9,color:"var(--muted)",display:"block"}}>done</span>
+              <span className="font-display" style={{fontSize:14,fontWeight:700,color:"var(--indigo)"}}>{completionPct}%</span>
+              <span className="font-mono" style={{fontSize:9,color:"var(--text-secondary)",display:"block"}}>done</span>
             </div>
           </div>
         </div>
@@ -1391,7 +1459,7 @@ function ProfilePage({user, onSave, lang, onLangChange, onLogout}) {
       {/* Edit form */}
       <div className="grid-2" style={{marginBottom:16}}>
         <div className="glass card">
-          <div className="section-head"><span className="ms" style={{color:"var(--cyan)"}}>badge</span><h3 className="section-title" style={{fontSize:15}}>Personal Info</h3></div>
+          <div className="section-head"><span className="ms" style={{color:"var(--indigo)"}}>badge</span><h3 className="section-title" style={{fontSize:15}}>Personal Info</h3></div>
           <div style={{display:"flex",flexDirection:"column",gap:14}}>
             <div className="grid-2" style={{gap:12}}>
               <div><label className="ai-label">First Name</label><input className="ai-input" value={first} onChange={e=>setFirst(e.target.value)}/></div>
@@ -1403,7 +1471,7 @@ function ProfilePage({user, onSave, lang, onLangChange, onLogout}) {
           </div>
         </div>
         <div className="glass card">
-          <div className="section-head"><span className="ms" style={{color:"var(--cyan)"}}>work</span><h3 className="section-title" style={{fontSize:15}}>Career Profile</h3></div>
+          <div className="section-head"><span className="ms" style={{color:"var(--indigo)"}}>work</span><h3 className="section-title" style={{fontSize:15}}>Career Profile</h3></div>
           <div style={{display:"flex",flexDirection:"column",gap:14}}>
             <div><label className="ai-label">Current Role</label><input className="ai-input" value={role} onChange={e=>setRole(e.target.value)} placeholder="e.g. Software Engineer"/></div>
             <div><label className="ai-label">Company</label><input className="ai-input" value={company} onChange={e=>setCompany(e.target.value)} placeholder="e.g. Google, Startup…"/></div>
@@ -1419,7 +1487,7 @@ function ProfilePage({user, onSave, lang, onLangChange, onLogout}) {
       </div>
 
       <div className="glass card" style={{marginBottom:16}}>
-        <div className="section-head"><span className="ms" style={{color:"var(--cyan)"}}>psychology</span><h3 className="section-title" style={{fontSize:15}}>Skills & Goals</h3></div>
+        <div className="section-head"><span className="ms" style={{color:"var(--indigo)"}}>psychology</span><h3 className="section-title" style={{fontSize:15}}>Skills & Goals</h3></div>
         <div className="grid-2">
           <div><label className="ai-label">Skills (comma separated)</label><textarea className="ai-input" rows={3} value={skills} onChange={e=>setSkills(e.target.value)} placeholder="React, Python, SQL, AWS…"/></div>
           <div><label className="ai-label">Career Goal</label><textarea className="ai-input" rows={3} value={goal} onChange={e=>setGoal(e.target.value)} placeholder="e.g. Become a CTO, launch my startup…"/></div>
@@ -1428,7 +1496,7 @@ function ProfilePage({user, onSave, lang, onLangChange, onLogout}) {
 
       {/* Language */}
       <div className="glass card" style={{marginBottom:20}}>
-        <div className="section-head"><span className="ms" style={{color:"var(--cyan)"}}>language</span><h3 className="section-title" style={{fontSize:15}}>Language Preference</h3></div>
+        <div className="section-head"><span className="ms" style={{color:"var(--indigo)"}}>language</span><h3 className="section-title" style={{fontSize:15}}>Language Preference</h3></div>
         <div style={{display:"flex",flexWrap:"wrap",gap:8}}>
           {LANGS.map(l=>(
             <button key={l} className={`btn ${lang===l?"btn-primary":"btn-subtle"} btn-sm`} onClick={()=>onLangChange(l)}>
@@ -1455,7 +1523,7 @@ function PageHeader({title, desc}) {
   return (
     <div style={{marginBottom:24}}>
       <h1 className="font-display" style={{fontSize:"clamp(26px,5vw,42px)",fontWeight:800,letterSpacing:"-0.02em",marginBottom:6}}>{title}</h1>
-      <p style={{fontSize:14,color:"var(--muted)",lineHeight:1.6}}>{desc}</p>
+      <p style={{fontSize:14,color:"var(--text-secondary)",lineHeight:1.6}}>{desc}</p>
     </div>
   );
 }
@@ -1464,6 +1532,7 @@ function PageHeader({title, desc}) {
    ROOT APP
 ════════════════════════════════════════════════════════════ */
 export default function App() {
+  const [mounted, setMounted] = useState(false);
   const [loggedIn, setLoggedIn]   = useState(false);
   const [user, setUser]           = useState({name:"Alex Chen",email:"alex@careerai.io"});
   const [page, setPage]           = useState("home");
@@ -1473,26 +1542,52 @@ export default function App() {
   const [toast, setToast]         = useState(null);
   const [history, setHistory]     = useState([]);
 
-  /* Load history from localStorage on mount */
+  /* Load history + setup scroll reveal observer */
   useEffect(()=>{
+    setMounted(true);
     try{ const h=JSON.parse(localStorage.getItem("careerai-history")||"[]"); setHistory(h); }catch{}
     const li = localStorage.getItem("careerai-loggedin");
     if(li) { try{ setUser(JSON.parse(li)); setLoggedIn(true); }catch{ setLoggedIn(true); } }
+
+    // Intersection observer for scroll reveals
+    const obs = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add("in-view"); });
+    },{ threshold:0.1, rootMargin:"0px 0px -40px 0px" });
+    const observe = ()=>{
+      document.querySelectorAll(".scroll-reveal").forEach(el=>obs.observe(el));
+    };
+    observe();
+    const mutObs = new MutationObserver(observe);
+    mutObs.observe(document.body,{childList:true,subtree:true});
+    return ()=>{ obs.disconnect(); mutObs.disconnect(); };
   },[]);
 
-  /* Layout manager — CSS handles all visual rules, JS only toggles .open class */
+  /* Layout manager */
   useEffect(()=>{
     if(typeof window==="undefined") return;
     const sidebar = document.getElementById("sidebar");
-    if(!sidebar) return;
-    if(window.innerWidth < 768){
-      // Mobile: toggle .open class, CSS does the rest
-      if(sidebarOpen){ sidebar.classList.add("open"); }
-      else { sidebar.classList.remove("open"); }
-    } else {
-      // Desktop: always open, no class needed (CSS handles via media query)
-      sidebar.classList.remove("open");
+    const content = document.getElementById("main-content");
+    const topbar  = document.getElementById("topbar-wrap");
+    const bnav    = document.getElementById("bottom-nav");
+    const sidebarW = getComputedStyle(document.documentElement).getPropertyValue("--sidebar-w").trim() || "280px";
+
+    function applyLayout(){
+      const isDesktop = window.innerWidth >= 768;
+      if(isDesktop){
+        if(sidebar){ sidebar.style.transform = "translateX(0)"; }
+        if(content){ content.style.marginLeft = sidebarW; }
+        if(topbar)  { topbar.style.display = "none"; }
+        if(bnav)    { bnav.style.display = "none"; }
+      } else {
+        if(sidebar){ sidebar.style.transform = sidebarOpen ? "translateX(0)" : "translateX(-100%)"; }
+        if(content){ content.style.marginLeft = "0"; content.style.paddingTop = "var(--topbar-h)"; }
+        if(topbar)  { topbar.style.display = "block"; }
+        if(bnav)    { bnav.style.display = "flex"; }
+      }
     }
+    applyLayout();
+    window.addEventListener("resize", applyLayout);
+    return () => window.removeEventListener("resize", applyLayout);
   },[sidebarOpen, loggedIn]);
 
   const showToast = useCallback((msg,type="success")=>{ setToast({msg,type}); },[]);
@@ -1527,7 +1622,15 @@ export default function App() {
   function navigate(p){
     setPage(p);
     setSidebar(false);
-    if(typeof window!=="undefined") window.scrollTo({top:0,behavior:"smooth"});
+    if(typeof window!=="undefined"){
+      window.scrollTo({top:0,behavior:"smooth"});
+      // Trigger scroll reveal on new page
+      setTimeout(()=>{
+        document.querySelectorAll(".scroll-reveal").forEach(el=>{
+          el.classList.add("in-view");
+        });
+      }, 100);
+    }
   }
 
   function handleLogin(u){ setUser(u); setLoggedIn(true); localStorage.setItem("careerai-loggedin",JSON.stringify(u)); }
@@ -1536,6 +1639,7 @@ export default function App() {
   /* Desktop topbar hidden; mobile topbar shown */
   const isMobile = typeof window!=="undefined" && window.innerWidth < 768;
 
+  if(!mounted) return null;
   if(!loggedIn) return (
     <>
       <Head><title>CareerAI — AI Career Engine</title></Head>
@@ -1566,7 +1670,7 @@ export default function App() {
 
       {/* Main */}
       <main id="main-content" style={{minHeight:"100vh",position:"relative",zIndex:1}}>
-        <div style={{maxWidth:1100,margin:"0 auto",padding:"clamp(16px,4vw,40px) clamp(16px,4vw,40px)"}}>
+        <div style={{maxWidth:1100,margin:"0 auto",padding:"clamp(24px,4vw,44px) clamp(24px,4vw,48px)"}}>
           {page==="home"      && <HomePage onNav={navigate}/>}
           {page==="resume"    && <ResumePage callAI={callAI} loading={loading}/>}
           {page==="interview" && <InterviewPage callAI={callAI} loading={loading}/>}

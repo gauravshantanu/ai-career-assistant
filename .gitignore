@@ -7,3 +7,6 @@ __pycache__/
 .DS_Store
 *.zip
 node_modules/
+.next/
+.env.local
+node_modules/

@@ -264,122 +264,342 @@ function TopBar({onMenuClick, sidebarOpen, user, onNav}) {
 
 /* ─── Login ──────────────────────────────────────────────── */
 function LoginScreen({onLogin}) {
-  const [view, setView] = useState("login");
+  const [view, setView]       = useState("login");
   const [loading, setLoading] = useState(false);
   const [showPass, setShowPass] = useState(false);
+  const canvasRef = useRef(null);
 
-  function submit() {
+  /* ── Particle canvas ── */
+  useEffect(()=>{
+    const canvas = canvasRef.current; if(!canvas) return;
+    const ctx = canvas.getContext("2d");
+    let particles = [], raf;
+    const N = 70, DIST = 110;
+    const resize = ()=>{ canvas.width=window.innerWidth; canvas.height=window.innerHeight; };
+    class P {
+      constructor(){ this.reset(); }
+      reset(){ this.x=Math.random()*canvas.width; this.y=Math.random()*canvas.height; this.vx=(Math.random()-.5)*.4; this.vy=(Math.random()-.5)*.4; this.r=Math.random()*1.5+.5; }
+      update(){ this.x+=this.vx; this.y+=this.vy; if(this.x<0||this.x>canvas.width) this.vx*=-1; if(this.y<0||this.y>canvas.height) this.vy*=-1; }
+    }
+    const init=()=>{ particles=[]; for(let i=0;i<N;i++) particles.push(new P()); };
+    const draw=()=>{
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.fillStyle="#00e5ff"; ctx.strokeStyle="rgba(0,229,255,0.12)";
+      for(let i=0;i<particles.length;i++){
+        const p=particles[i]; p.update();
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
+        for(let j=i+1;j<particles.length;j++){
+          const p2=particles[j], dx=p.x-p2.x, dy=p.y-p2.y, d=Math.sqrt(dx*dx+dy*dy);
+          if(d<DIST){ ctx.lineWidth=1-d/DIST; ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(p2.x,p2.y); ctx.stroke(); }
+        }
+      }
+      raf=requestAnimationFrame(draw);
+    };
+    resize(); init(); draw();
+    window.addEventListener("resize",()=>{ resize(); init(); });
+    return ()=>{ cancelAnimationFrame(raf); window.removeEventListener("resize",resize); };
+  },[]);
+
+  function submit(){
     setLoading(true);
-    setTimeout(()=>{ setLoading(false); onLogin({name:"Alex Chen",email:"alex@careerai.io"}); }, 1100);
+    setTimeout(()=>{ setLoading(false); onLogin({name:"Alex Chen",email:"alex@careerai.io"}); }, 1200);
   }
 
   return (
-    <div id="screen-login">
-      <Orbs/>
-      <Particles/>
-      <div className="animate-slideup" style={{position:"relative",zIndex:10,width:"100%",maxWidth:460,padding:"0 20px"}}>
+    <div style={{position:"fixed",inset:0,zIndex:200,display:"flex",alignItems:"center",justifyContent:"center",background:"#080f11",overflow:"hidden"}}>
+
+      {/* Particle canvas */}
+      <canvas ref={canvasRef} style={{position:"fixed",inset:0,width:"100%",height:"100%",opacity:0.55,pointerEvents:"none",zIndex:0}}/>
+
+      {/* Data streams */}
+      <DataStreams/>
+
+      {/* Binary corner decoration */}
+      <div style={{position:"fixed",top:0,right:0,padding:28,fontFamily:"JetBrains Mono",fontSize:10,color:"rgba(0,218,243,0.15)",pointerEvents:"none",zIndex:1,lineHeight:1.8}}>
+        01001101 01000001 01010100 01010010<br/>
+        10110011 00110101 01011010 11100101<br/>
+        01010101 00001111 11001100 10101010
+      </div>
+
+      {/* Side labels desktop */}
+      <div style={{position:"fixed",left:32,top:"50%",transform:"translateY(-50%)",display:"flex",flexDirection:"column",gap:56,opacity:0.25,zIndex:1}}>
+        <span style={{fontFamily:"JetBrains Mono",fontSize:10,color:"#00daf3",letterSpacing:"0.5em",writingMode:"vertical-rl",transform:"rotate(180deg)",whiteSpace:"nowrap"}}>NODE_CLUSTER_WEST_02</span>
+        <span style={{fontFamily:"JetBrains Mono",fontSize:10,color:"#849396",letterSpacing:"0.5em",writingMode:"vertical-rl",transform:"rotate(180deg)",whiteSpace:"nowrap"}}>AUTH_CORE::STABLE</span>
+      </div>
+      <div style={{position:"fixed",right:32,top:"50%",transform:"translateY(-50%)",display:"flex",flexDirection:"column",gap:56,opacity:0.25,zIndex:1,alignItems:"flex-end"}}>
+        <span style={{fontFamily:"JetBrains Mono",fontSize:10,color:"#00daf3",letterSpacing:"0.5em",writingMode:"vertical-rl",whiteSpace:"nowrap"}}>ENCRYPTION_SHA512</span>
+        <span style={{fontFamily:"JetBrains Mono",fontSize:10,color:"#849396",letterSpacing:"0.5em",writingMode:"vertical-rl",whiteSpace:"nowrap"}}>UPTIME_99.999%</span>
+      </div>
+
+      {/* Main content */}
+      <div style={{position:"relative",zIndex:10,width:"100%",maxWidth:460,maxHeight:"100vh",overflowY:"auto",padding:"16px 20px",scrollbarWidth:"none"}}><style>{`[data-login-wrap]::-webkit-scrollbar{display:none}`}</style>
+
         {/* Brand */}
-        <div style={{textAlign:"center",marginBottom:32}}>
-          <div className="glow-lg" style={{
-            width:56,height:56,borderRadius:14,background:"var(--cyan)",
-            display:"inline-flex",alignItems:"center",justifyContent:"center",
-            marginBottom:18,animation:"floatOrb 5s ease-in-out infinite",
-          }}>
-            <span className="ms" style={{fontSize:30,color:"#001f24"}}>rocket_launch</span>
+        <div style={{textAlign:"center",marginBottom:16,paddingTop:8}}>
+          <div style={{position:"relative",display:"inline-block",marginBottom:18}}>
+            <div style={{
+              width:48,height:48,borderRadius:14,
+              background:"#00daf3",
+              display:"flex",alignItems:"center",justifyContent:"center",
+              boxShadow:"0 0 30px rgba(0,218,243,0.6), 0 0 60px rgba(0,218,243,0.3)",
+              position:"relative",zIndex:1,
+            }}>
+              <span className="ms" style={{fontSize:26,color:"#001f24"}}>rocket_launch</span>
+            </div>
+            {/* Ping ring */}
+            <div style={{position:"absolute",inset:0,borderRadius:16,border:"2px solid rgba(0,218,243,0.5)",animation:"pingRing 1.5s ease-out infinite"}}/>
           </div>
-          <h1 className="font-display glow-text" style={{fontSize:38,fontWeight:800,color:"var(--cyan)",letterSpacing:"-0.025em",display:"block",marginBottom:6}}>CareerAI</h1>
-          <p className="font-mono" style={{fontSize:11,color:"rgba(186,201,204,0.55)",letterSpacing:"0.12em",textTransform:"uppercase"}}>AI Career Engine · v2.0</p>
+          <h1 style={{fontFamily:"Syne",fontSize:"clamp(22px,5vw,32px)",fontWeight:800,color:"#00daf3",letterSpacing:"-0.01em",textShadow:"0 0 20px rgba(0,218,243,0.7)",marginBottom:10,display:"block"}}>
+            CAREER_AI
+          </h1>
+          <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:12}}>
+            <div style={{height:1,width:28,background:"rgba(0,218,243,0.3)"}}/>
+            <span style={{fontFamily:"JetBrains Mono",fontSize:11,color:"rgba(0,218,243,0.65)",letterSpacing:"0.3em",textTransform:"uppercase"}}>Neural Engine v4.0</span>
+            <div style={{height:1,width:28,background:"rgba(0,218,243,0.3)"}}/>
+          </div>
         </div>
 
         {/* Card */}
-        <div className="glass glow" style={{borderRadius:28,padding:"36px 32px"}}>
-          {view==="login" ? (
-            <>
-              <h2 className="font-display" style={{fontSize:22,fontWeight:700,marginBottom:4}}>Welcome Back</h2>
-              <p style={{fontSize:13,color:"var(--muted)",marginBottom:28}}>Access your professional future.</p>
-              <div style={{display:"flex",flexDirection:"column",gap:18}}>
-                <div>
-                  <label className="ai-label">Email Address</label>
-                  <input className="ai-input" type="email" defaultValue="demo@careerai.io" placeholder="you@example.com"/>
+        {view === "login" ? (
+          <div style={{
+            background:"rgba(13,21,22,0.85)",
+            backdropFilter:"blur(28px)",WebkitBackdropFilter:"blur(28px)",
+            border:"1px solid rgba(0,229,255,0.22)",
+            borderTop:"1px solid rgba(0,229,255,0.4)",
+            borderLeft:"1px solid rgba(0,229,255,0.4)",
+            borderRadius:28,
+            padding:"clamp(18px,4vw,28px)",
+            boxShadow:"0 0 40px rgba(0,229,255,0.1), inset 0 0 20px rgba(0,229,255,0.04)",
+            position:"relative",overflow:"hidden",
+          }}>
+            {/* Corner decorations */}
+            <div style={{position:"absolute",top:0,left:0,width:28,height:28,borderTop:"2px solid rgba(0,218,243,0.6)",borderLeft:"2px solid rgba(0,218,243,0.6)",borderRadius:"24px 0 0 0"}}/>
+            <div style={{position:"absolute",bottom:0,right:0,width:28,height:28,borderBottom:"2px solid rgba(0,218,243,0.6)",borderRight:"2px solid rgba(0,218,243,0.6)",borderRadius:"0 0 24px 0"}}/>
+
+            {/* Header */}
+            <div style={{textAlign:"center",marginBottom:18}}>
+              <h2 style={{fontFamily:"Syne",fontSize:20,fontWeight:700,color:"#dce4e5",letterSpacing:"0.05em",marginBottom:6}}>IDENTITY_VERIFICATION</h2>
+              <p style={{fontFamily:"JetBrains Mono",fontSize:11,color:"rgba(186,201,204,0.6)",letterSpacing:"0.15em",textTransform:"uppercase"}}>Awaiting credential input...</p>
+            </div>
+
+            <div style={{display:"flex",flexDirection:"column",gap:14}}>
+              {/* Email */}
+              <div>
+                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8,padding:"0 2px"}}>
+                  <label style={{fontFamily:"JetBrains Mono",fontSize:11,color:"#00daf3",letterSpacing:"0.2em",textTransform:"uppercase",fontWeight:500}}>User_ID</label>
+                  <span style={{fontFamily:"JetBrains Mono",fontSize:10,color:"rgba(59,73,76,0.9)",letterSpacing:"0.05em"}}>[SECURE_CHANNEL]</span>
+                </div>
+                <input
+                  className="login-input"
+                  type="email" defaultValue="demo@careerai.io"
+                  placeholder="ENTER EMAIL ADDRESS"
+                  style={{
+                    width:"100%",background:"rgba(8,15,17,0.6)",
+                    border:"1px solid rgba(59,73,76,0.4)",borderRadius:8,
+                    padding:"11px 14px",fontFamily:"DM Sans",fontSize:14,
+                    color:"#dce4e5",outline:"none",letterSpacing:"0.02em",
+                    transition:"all 0.3s",
+                  }}
+                  onFocus={e=>{ e.target.style.borderColor="rgba(0,229,255,0.8)"; e.target.style.boxShadow="0 0 0 1px rgba(0,229,255,0.2), 0 4px 12px rgba(0,218,243,0.1)"; }}
+                  onBlur={e=>{ e.target.style.borderColor="rgba(59,73,76,0.4)"; e.target.style.boxShadow="none"; }}
+                />
+              </div>
+
+              {/* Password */}
+              <div>
+                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8,padding:"0 2px"}}>
+                  <label style={{fontFamily:"JetBrains Mono",fontSize:11,color:"#00daf3",letterSpacing:"0.2em",textTransform:"uppercase",fontWeight:500}}>Pass_Key</label>
+                  <a href="#" style={{fontFamily:"JetBrains Mono",fontSize:10,color:"rgba(0,218,243,0.55)",letterSpacing:"0.1em",textDecoration:"underline",textDecorationColor:"rgba(0,218,243,0.2)"}}>RECOVER?</a>
                 </div>
                 <div style={{position:"relative"}}>
-                  <label className="ai-label">Password</label>
-                  <input className="ai-input" type={showPass?"text":"password"} defaultValue="demo1234" placeholder="••••••••"/>
-                  <button onClick={()=>setShowPass(v=>!v)} style={{position:"absolute",right:12,bottom:11,background:"none",border:"none",cursor:"pointer",color:"var(--muted)"}}>
+                  <input
+                    type={showPass?"text":"password"} defaultValue="demo1234"
+                    placeholder="••••••••"
+                    style={{
+                      width:"100%",background:"rgba(8,15,17,0.6)",
+                      border:"1px solid rgba(59,73,76,0.4)",borderRadius:8,
+                      padding:"11px 44px 11px 14px",fontFamily:"DM Sans",fontSize:14,
+                      color:"#dce4e5",outline:"none",letterSpacing:"0.05em",
+                      transition:"all 0.3s",
+                    }}
+                    onFocus={e=>{ e.target.style.borderColor="rgba(0,229,255,0.8)"; e.target.style.boxShadow="0 0 0 1px rgba(0,229,255,0.2), 0 4px 12px rgba(0,218,243,0.1)"; }}
+                    onBlur={e=>{ e.target.style.borderColor="rgba(59,73,76,0.4)"; e.target.style.boxShadow="none"; }}
+                  />
+                  <button onClick={()=>setShowPass(v=>!v)} style={{position:"absolute",right:12,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",cursor:"pointer",color:"rgba(186,201,204,0.5)",padding:4}}>
                     <span className="ms" style={{fontSize:18}}>{showPass?"visibility_off":"visibility"}</span>
                   </button>
                 </div>
-                <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-                  <label style={{display:"flex",alignItems:"center",gap:8,cursor:"pointer",fontSize:13,color:"var(--muted)"}}>
-                    <input type="checkbox" defaultChecked style={{accentColor:"var(--cyan)"}}/>
-                    Remember me
-                  </label>
-                  <a href="#" style={{fontSize:12,color:"var(--cyan)",textDecoration:"none",fontFamily:"JetBrains Mono"}}>Forgot password?</a>
-                </div>
-                <button className="btn btn-primary btn-full btn-lg" onClick={submit} disabled={loading}>
-                  {loading ? <span className="spinner"/> : <span className="ms" style={{fontSize:18}}>login</span>}
-                  {loading ? "Signing in…" : "Sign In"}
-                </button>
               </div>
 
-              <div style={{display:"flex",alignItems:"center",gap:12,margin:"22px 0"}}>
-                <div style={{flex:1,height:1,background:"rgba(59,73,76,0.4)"}}/>
-                <span className="font-mono" style={{fontSize:11,color:"var(--muted)"}}>OR</span>
-                <div style={{flex:1,height:1,background:"rgba(59,73,76,0.4)"}}/>
-              </div>
+              {/* Submit */}
+              <button onClick={submit} disabled={loading} style={{
+                width:"100%",
+                background:"#00e5ff",
+                color:"#001f24",
+                border:"none",borderRadius:12,
+                padding:"13px 24px",
+                fontFamily:"Syne",fontSize:15,fontWeight:700,
+                letterSpacing:"0.12em",textTransform:"uppercase",
+                cursor:loading?"not-allowed":"pointer",
+                opacity:loading?0.7:1,
+                display:"flex",alignItems:"center",justifyContent:"center",gap:10,
+                boxShadow:"0 0 24px rgba(0,229,255,0.45), 0 4px 20px rgba(0,0,0,0.3)",
+                transition:"all 0.3s",
+                position:"relative",overflow:"hidden",
+                WebkitTapHighlightColor:"transparent",
+              }}
+              onMouseEnter={e=>{ if(!loading){ e.currentTarget.style.brightness="1.1"; e.currentTarget.style.boxShadow="0 0 40px rgba(0,229,255,0.65), 0 4px 20px rgba(0,0,0,0.3)"; } }}
+              onMouseLeave={e=>{ e.currentTarget.style.boxShadow="0 0 24px rgba(0,229,255,0.45), 0 4px 20px rgba(0,0,0,0.3)"; }}
+              >
+                {loading ? (
+                  <><div style={{width:18,height:18,border:"2px solid rgba(0,31,36,0.3)",borderTopColor:"#001f24",borderRadius:"50%",animation:"spin 0.6s linear infinite"}}/> INITIALIZING...</>
+                ) : (
+                  <><span style={{letterSpacing:"0.15em"}}>INITIALIZE SESSION</span><span className="ms" style={{fontSize:20}}>bolt</span></>
+                )}
+              </button>
+            </div>
 
-              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:20}}>
-                <button className="btn btn-ghost" onClick={submit} style={{justifyContent:"center",padding:"10px 16px"}}>
-                  <svg width="15" height="15" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-                  Google
-                </button>
-                <button className="btn btn-ghost" onClick={submit} style={{justifyContent:"center",padding:"10px 16px"}}>
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-                  LinkedIn
-                </button>
+            {/* Divider */}
+            <div style={{display:"flex",alignItems:"center",margin:"16px 0"}}>
+              <div style={{flex:1,height:1,background:"linear-gradient(to right, transparent, rgba(59,73,76,0.35)"}}/>
+              <span style={{padding:"0 20px",fontFamily:"JetBrains Mono",fontSize:10,color:"rgba(132,147,150,0.8)",letterSpacing:"0.2em",textTransform:"uppercase"}}>External_Protocols</span>
+              <div style={{flex:1,height:1,background:"linear-gradient(to left, transparent, rgba(59,73,76,0.35)"}}/>
+            </div>
+
+            {/* Social */}
+            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14,marginBottom:28}}>
+              <button onClick={submit} style={{display:"flex",alignItems:"center",justifyContent:"center",gap:10,padding:"11px 14px",borderRadius:12,border:"1px solid rgba(59,73,76,0.35)",background:"rgba(21,29,30,0.45)",cursor:"pointer",color:"#dce4e5",transition:"all 0.2s",WebkitTapHighlightColor:"transparent"}}
+                onMouseEnter={e=>{e.currentTarget.style.borderColor="rgba(0,218,243,0.35)";e.currentTarget.style.background="rgba(36,43,45,0.6)";}}
+                onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(59,73,76,0.35)";e.currentTarget.style.background="rgba(21,29,30,0.45)";}}>
+                <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                <span style={{fontFamily:"JetBrains Mono",fontSize:11,letterSpacing:"0.15em"}}>G_CLOUD</span>
+              </button>
+              <button onClick={submit} style={{display:"flex",alignItems:"center",justifyContent:"center",gap:10,padding:"11px 14px",borderRadius:12,border:"1px solid rgba(59,73,76,0.35)",background:"rgba(21,29,30,0.45)",cursor:"pointer",color:"#dce4e5",transition:"all 0.2s",WebkitTapHighlightColor:"transparent"}}
+                onMouseEnter={e=>{e.currentTarget.style.borderColor="rgba(0,218,243,0.35)";e.currentTarget.style.background="rgba(36,43,45,0.6)";}}
+                onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(59,73,76,0.35)";e.currentTarget.style.background="rgba(21,29,30,0.45)";}}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                <span style={{fontFamily:"JetBrains Mono",fontSize:11,letterSpacing:"0.15em"}}>NET_IN</span>
+              </button>
+            </div>
+
+            {/* Footer */}
+            <p style={{textAlign:"center",fontFamily:"DM Sans",fontSize:12,color:"rgba(186,201,204,0.7)",marginTop:14}}>
+              New neural profile detected?{" "}
+              <a href="#" onClick={e=>{e.preventDefault();setView("signup");}} style={{color:"#00daf3",fontWeight:700,textDecoration:"underline",textDecorationColor:"rgba(0,218,243,0.3)",marginLeft:6}}>ESTABLISH_ID</a>
+            </p>
+          </div>
+        ) : (
+          /* ── SIGNUP ── */
+          <div style={{
+            background:"rgba(13,21,22,0.85)",backdropFilter:"blur(28px)",WebkitBackdropFilter:"blur(28px)",
+            border:"1px solid rgba(0,229,255,0.22)",borderTop:"1px solid rgba(0,229,255,0.4)",borderLeft:"1px solid rgba(0,229,255,0.4)",
+            borderRadius:28,padding:"clamp(28px,6vw,44px)",
+            boxShadow:"0 0 40px rgba(0,229,255,0.1), inset 0 0 20px rgba(0,229,255,0.04)",
+            position:"relative",overflow:"hidden",
+          }}>
+            <div style={{position:"absolute",top:0,left:0,width:28,height:28,borderTop:"2px solid rgba(0,218,243,0.6)",borderLeft:"2px solid rgba(0,218,243,0.6)",borderRadius:"24px 0 0 0"}}/>
+            <div style={{position:"absolute",bottom:0,right:0,width:28,height:28,borderBottom:"2px solid rgba(0,218,243,0.6)",borderRight:"2px solid rgba(0,218,243,0.6)",borderRadius:"0 0 24px 0"}}/>
+
+            <div style={{textAlign:"center",marginBottom:28}}>
+              <h2 style={{fontFamily:"Syne",fontSize:20,fontWeight:700,color:"#dce4e5",letterSpacing:"0.05em",marginBottom:6}}>ESTABLISH_NEW_ID</h2>
+              <p style={{fontFamily:"JetBrains Mono",fontSize:11,color:"rgba(186,201,204,0.6)",letterSpacing:"0.12em",textTransform:"uppercase"}}>Initialize new neural profile...</p>
+            </div>
+
+            <div style={{display:"flex",flexDirection:"column",gap:18}}>
+              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
+                {[["First Name","Alex"],["Last Name","Chen"]].map(([lbl,ph])=>(
+                  <div key={lbl}>
+                    <label style={{display:"block",fontFamily:"JetBrains Mono",fontSize:10,color:"#00daf3",letterSpacing:"0.18em",textTransform:"uppercase",marginBottom:6}}>{lbl.replace(" ","_")}</label>
+                    <input placeholder={ph} style={{width:"100%",background:"rgba(8,15,17,0.6)",border:"1px solid rgba(59,73,76,0.4)",borderRadius:8,padding:"12px 14px",fontFamily:"DM Sans",fontSize:14,color:"#dce4e5",outline:"none",transition:"border-color 0.3s"}}
+                      onFocus={e=>e.target.style.borderColor="rgba(0,229,255,0.7)"}
+                      onBlur={e=>e.target.style.borderColor="rgba(59,73,76,0.4)"}/>
+                  </div>
+                ))}
               </div>
-              <p style={{textAlign:"center",fontSize:13,color:"var(--muted)"}}>
-                No account?{" "}
-                <a href="#" onClick={e=>{e.preventDefault();setView("signup");}} style={{color:"var(--cyan)",textDecoration:"none",fontWeight:600}}>Create one</a>
-              </p>
-            </>
-          ) : (
-            <>
-              <h2 className="font-display" style={{fontSize:22,fontWeight:700,marginBottom:4}}>Create Account</h2>
-              <p style={{fontSize:13,color:"var(--muted)",marginBottom:24}}>Start your AI-powered career journey.</p>
-              <div style={{display:"flex",flexDirection:"column",gap:16}}>
-                <div className="grid-2" style={{gap:12}}>
-                  <div><label className="ai-label">First Name</label><input className="ai-input" placeholder="Alex"/></div>
-                  <div><label className="ai-label">Last Name</label><input className="ai-input" placeholder="Chen"/></div>
+              {[["Email_ID","your@email.com","email"],["Pass_Key","Min 8 characters","password"]].map(([lbl,ph,type])=>(
+                <div key={lbl}>
+                  <label style={{display:"block",fontFamily:"JetBrains Mono",fontSize:10,color:"#00daf3",letterSpacing:"0.18em",textTransform:"uppercase",marginBottom:6}}>{lbl}</label>
+                  <input type={type} placeholder={ph} style={{width:"100%",background:"rgba(8,15,17,0.6)",border:"1px solid rgba(59,73,76,0.4)",borderRadius:8,padding:"12px 14px",fontFamily:"DM Sans",fontSize:14,color:"#dce4e5",outline:"none",transition:"border-color 0.3s"}}
+                    onFocus={e=>e.target.style.borderColor="rgba(0,229,255,0.7)"}
+                    onBlur={e=>e.target.style.borderColor="rgba(59,73,76,0.4)"}/>
                 </div>
-                <div><label className="ai-label">Email</label><input className="ai-input" type="email" placeholder="you@example.com"/></div>
-                <div><label className="ai-label">Password</label><input className="ai-input" type="password" placeholder="Min 8 characters"/></div>
-                <div>
-                  <label className="ai-label">I am a…</label>
-                  <select className="ai-input">
-                    <option>Fresh Graduate</option><option>Working Professional</option><option>Career Switcher</option><option>Freelancer</option>
-                  </select>
-                </div>
-                <button className="btn btn-primary btn-full btn-lg" onClick={submit} disabled={loading}>
-                  {loading ? <span className="spinner"/> : <span className="ms">person_add</span>}
-                  {loading ? "Creating…" : "Create Account"}
-                </button>
+              ))}
+              <div>
+                <label style={{display:"block",fontFamily:"JetBrains Mono",fontSize:10,color:"#00daf3",letterSpacing:"0.18em",textTransform:"uppercase",marginBottom:6}}>Profile_Type</label>
+                <select style={{width:"100%",background:"rgba(8,15,17,0.8)",border:"1px solid rgba(59,73,76,0.4)",borderRadius:8,padding:"12px 14px",fontFamily:"JetBrains Mono",fontSize:12,color:"#dce4e5",outline:"none",appearance:"none"}}>
+                  <option>FRESH_GRADUATE</option><option>WORKING_PROFESSIONAL</option><option>CAREER_SWITCHER</option><option>FREELANCER</option>
+                </select>
               </div>
-              <p style={{textAlign:"center",fontSize:13,color:"var(--muted)",marginTop:18}}>
-                Already have an account?{" "}
-                <a href="#" onClick={e=>{e.preventDefault();setView("login");}} style={{color:"var(--cyan)",textDecoration:"none",fontWeight:600}}>Sign In</a>
-              </p>
-            </>
-          )}
+              <button onClick={submit} disabled={loading} style={{width:"100%",background:"#00e5ff",color:"#001f24",border:"none",borderRadius:12,padding:"16px 24px",fontFamily:"Syne",fontSize:15,fontWeight:700,letterSpacing:"0.12em",cursor:"pointer",boxShadow:"0 0 24px rgba(0,229,255,0.45)",display:"flex",alignItems:"center",justifyContent:"center",gap:10,WebkitTapHighlightColor:"transparent"}}>
+                {loading?<><div style={{width:16,height:16,border:"2px solid rgba(0,31,36,0.3)",borderTopColor:"#001f24",borderRadius:"50%",animation:"spin 0.6s linear infinite"}}/> PROCESSING...</>:<><span>DEPLOY_PROFILE</span><span className="ms" style={{fontSize:18}}>rocket_launch</span></>}
+              </button>
+            </div>
+            <p style={{textAlign:"center",fontFamily:"DM Sans",fontSize:13,color:"rgba(186,201,204,0.7)",marginTop:20}}>
+              Existing node?{" "}
+              <a href="#" onClick={e=>{e.preventDefault();setView("login");}} style={{color:"#00daf3",fontWeight:700,textDecoration:"underline",textDecorationColor:"rgba(0,218,243,0.3)",marginLeft:4}}>RECONNECT</a>
+            </p>
+          </div>
+        )}
+
+        {/* System status bar */}
+        <div style={{marginTop:12,padding:"10px 16px",borderRadius:14,background:"rgba(21,29,30,0.4)",border:"1px solid rgba(59,73,76,0.25)",backdropFilter:"blur(12px)"}}>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
+            <div style={{display:"flex",alignItems:"center",gap:10}}>
+              <div style={{position:"relative",width:10,height:10}}>
+                <div style={{position:"absolute",inset:0,borderRadius:"50%",background:"#00daf3",opacity:0.7,animation:"pingRing 1.2s ease-out infinite"}}/>
+                <div style={{position:"relative",width:10,height:10,borderRadius:"50%",background:"#00daf3"}}/>
+              </div>
+              <div>
+                <div style={{fontFamily:"JetBrains Mono",fontSize:11,color:"#00daf3",letterSpacing:"0.15em",lineHeight:1}}>SYSTEM_ACTIVE</div>
+                <div style={{fontFamily:"JetBrains Mono",fontSize:9,color:"rgba(132,147,150,0.7)",marginTop:3,letterSpacing:"0.05em"}}>LATENCY: 12ms | LOAD: 24.5%</div>
+              </div>
+            </div>
+            <div style={{display:"flex",gap:14}}>
+              <span className="ms" style={{fontSize:18,color:"rgba(132,147,150,0.6)",cursor:"pointer"}}>language</span>
+              <span className="ms" style={{fontSize:18,color:"rgba(132,147,150,0.6)",cursor:"pointer"}}>terminal</span>
+            </div>
+          </div>
+          {/* Progress bar */}
+          <div style={{height:2,background:"rgba(46,54,56,0.6)",borderRadius:100,overflow:"hidden"}}>
+            <div style={{height:"100%",width:"78%",background:"rgba(0,218,243,0.6)",borderRadius:100,animation:"progressBar 3s ease-in-out infinite"}}/>
+          </div>
         </div>
-        <p className="font-mono" style={{textAlign:"center",fontSize:10,color:"rgba(186,201,204,0.3)",marginTop:16,letterSpacing:"0.05em"}}>
-          By continuing you agree to our Terms &amp; Privacy Policy
-        </p>
+
       </div>
+
+      <style>{`
+        @keyframes pingRing { 0%{transform:scale(1);opacity:0.7;} 100%{transform:scale(2.5);opacity:0;} }
+        @keyframes progressBar { 0%,100%{width:68%;} 50%{width:85%;} }
+        @keyframes slideUp { from{opacity:0;transform:translateY(24px);} to{opacity:1;transform:translateY(0);} }
+        @keyframes spin { to{transform:rotate(360deg);} }
+      `}</style>
     </div>
   );
 }
 
+/* ─── Data Streams ───────────────────────────────────────── */
+function DataStreams() {
+  useEffect(()=>{
+    const container = document.getElementById("login-data-streams");
+    if(!container) return;
+    const frags = ["010110","ENCRYPT_v4","NEURAL_LINK","AUTH_TOKEN","0xFF2A","SYS_SYNC","DATA_FLOW","INIT_01","CORE::RUN"];
+    const create=()=>{
+      const el=document.createElement("div");
+      el.style.cssText=`position:absolute;font-family:JetBrains Mono,monospace;font-size:10px;color:#00e5ff;pointer-events:none;white-space:nowrap;left:${Math.random()*100}%;animation:driftUp ${10+Math.random()*12}s linear forwards;opacity:0;`;
+      el.textContent=frags[Math.floor(Math.random()*frags.length)];
+      container.appendChild(el);
+      setTimeout(()=>el.remove(),22000);
+    };
+    const id=setInterval(create,1800);
+    return ()=>clearInterval(id);
+  },[]);
+  return (
+    <>
+      <div id="login-data-streams" style={{position:"fixed",inset:0,pointerEvents:"none",zIndex:1,overflow:"hidden"}}/>
+      <style>{`@keyframes driftUp{from{transform:translateY(110vh);opacity:0;}20%{opacity:0.18;}80%{opacity:0.14;}to{transform:translateY(-10vh);opacity:0;}}`}</style>
+    </>
+  );
+}
 /* ─── HOME ───────────────────────────────────────────────── */
 function HomePage({onNav}) {
   return (

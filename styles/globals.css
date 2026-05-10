@@ -472,3 +472,31 @@ html, body {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
   .orb, .particle { display: none !important; }
 }
+
+/* ── Login screen viewport fit ── */
+#screen-login {
+  position: fixed !important;
+  inset: 0 !important;
+  overflow: hidden !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Login inner scroll container (hidden scrollbar) */
+#screen-login > div[style*="overflowY"] {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+#screen-login > div[style*="overflowY"]::-webkit-scrollbar { display: none !important; }
+
+/* On very short screens compress login further */
+@media (max-height: 700px) {
+  #screen-login .login-brand   { margin-bottom: 10px !important; padding-top: 4px !important; }
+  #screen-login .login-card    { padding: 16px !important; }
+  #screen-login .login-header  { margin-bottom: 12px !important; }
+  #screen-login .login-status  { display: none !important; }
+}
+@media (max-height: 580px) {
+  #screen-login .login-neural-text { display: none !important; }
+}
